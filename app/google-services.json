@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "634089548127",
+    "firebase_url": "https://ecommerce-1-28620.firebaseio.com",
+    "project_id": "ecommerce-1-28620",
+    "storage_bucket": "ecommerce-1-28620.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:634089548127:android:6fb6ab29206fb8a4",
+        "android_client_info": {
+          "package_name": "com.ecommerce.bitirme.ecommerce"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "634089548127-miqdkept8o935ps9keh31e811rlupk0k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ecommerce.bitirme.ecommerce",
+            "certificate_hash": "a45874eb4a9658d073980c2da931cbd915639b34"
+          }
+        },
+        {
+          "client_id": "634089548127-u24tk7uk415drbl2qnaq7280r2tv1d35.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOX8ZKOyAUjJfIxjLbu8MvGNHfAbPuMFA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "634089548127-u24tk7uk415drbl2qnaq7280r2tv1d35.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

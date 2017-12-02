@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.ecommerce.bitirme.ecommerce.Activity.Giris">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/house"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Şirâ Uygulamasına Hoşgeldiniz"
+            android:layout_gravity="center"
+            android:textColor="@color/black"
+            android:textStyle="bold|italic"
+            android:textSize="20dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.1"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/uyeliksiz"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Üye Olmadan Gir"
+            android:layout_weight="1"
+            android:background="@color/colorAccent"/>
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/signIn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Giriş Yap"
+            android:layout_weight="1"
+            android:background="@color/selected_color"
+            android:visibility="visible"/>
+    </LinearLayout>
+
+
+</LinearLayout>

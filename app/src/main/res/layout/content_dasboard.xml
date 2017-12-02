@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.ecommerce.bitirme.ecommerce.Activity.DasboardActivity"
+    tools:showIn="@layout/app_bar_dasboard"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:text="Vitrindekiler"
+        android:textSize="18dp"
+        android:gravity="center"
+        android:textStyle="italic|bold"
+        android:textColor="@color/black"
+        android:background="@color/colorAccent"
+        android:layout_marginBottom="2dp"/>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:orientation="vertical"
+    android:background="@color/unselected_color"
+    android:gravity="center_vertical"
+    android:layout_marginBottom="2dp">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="      Ev"
+        android:textColor="@color/black"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="    Fiyat Aralığı 100.000-150.000 ,m2 Aralığı 80m2-90m2"/>
+</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="vertical"
+        android:background="@color/unselected_color"
+        android:gravity="center_vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="      Araba"
+            android:textColor="@color/black"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="    Model Aralığı 2012-2015 ,Marka BMW , Yakıt Dizel"/>
+    </LinearLayout>
+
+
+
+</LinearLayout>

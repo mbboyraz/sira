@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+
+                <item android:title="Profilim"
+                    android:id="@+id/profil"
+                    android:icon="@drawable/ic_person_black_24dp"/>
+        <item android:title="İlan Ver"
+            android:id="@+id/ilanver"
+            android:icon="@drawable/ic_control_point_black_24dp"/>
+
+
+       <item android:title="Kategoriler">
+           <menu>
+        <item
+            android:id="@+id/nav_camera"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="Ev" />
+        <item
+            android:id="@+id/nav_gallery"
+            android:icon="@drawable/ic_drive_eta_black_24dp"
+            android:title="Araba" />
+        <item
+            android:id="@+id/nav_slideshow"
+            android:icon="@drawable/ic_fitness_center_black_24dp"
+            android:title="Spor" />
+        <item
+            android:id="@+id/nav_teknoloji"
+            android:icon="@drawable/ic_phone_iphone_black_24dp"
+            android:title="Teknoloji" />
+
+               <item
+                   android:id="@+id/nav_tasit"
+                   android:icon="@drawable/ic_motorcycle_black_24dp"
+                   android:title="Taşıtlar" />
+
+           </menu>
+       </item>
+    </group>
+
+
+</menu>
