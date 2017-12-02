@@ -12,20 +12,29 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.ecommerce.bitirme.ecommerce.R;
 
 public class DasboardActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
+    ImageView img_left_menu_photo;
+    TextView txt_left_menu_user_name;
+    TextView txt_left_menu_user_email;
+    NavigationView nav_drawer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dasboard);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        navi();
+        Bundle extras = getIntent().getExtras();
+        txt_left_menu_user_name.setText(extras.getString("kullaniciadi"));
+        txt_left_menu_user_email.setText(extras.getString("email"));
+        //img_left_menu_photo.setImageURI(Uri.parse(extras.getString("photo")));
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -36,58 +45,26 @@ public class DasboardActivity extends AppCompatActivity
             }
         });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-       // navigationView.getMenu().getItem(1).setTitle("burak");
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-//------------------------------
-     /*   TextView textView1 = (TextView) findViewById(R.id.tv_first);
-        TextView textView2 = (TextView) findViewById(R.id.tv_second);
-    /*  TextView textView3 = (TextView) findViewById(R.id.tv_third);
-        TextView textView4 = (TextView) findViewById(R.id.tv_four);
-        TextView textView5 = (TextView) findViewById(R.id.tv_five);*/
 
-
-     /*   ImageView imageView = (ImageView) findViewById(R.id.imageView_cursor);
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
-
-        TextView[] textViews = {textView1, textView2};
-
-        View view1 = View.inflate(this, R.layout.view_1, null);
-        View view2 = View.inflate(this, R.layout.view_2, null);
-       /* View view3 = View.inflate(this, R.layout.view_3, null);
-        View view4 = View.inflate(this, R.layout.view_4, null);
-        View view5 = View.inflate(this, R.layout.view_5, null);*/
-
-    /*    List<View> listViews = new ArrayList<>();
-        listViews.add(view1);
-        listViews.add(view2);
-     /*   listViews.add(view3);
-        listViews.add(view4);
-        listViews.add(view5);*/
-
-       /* ViewPagerSwitch
-                .getInstance()
-                .init(this)
-                .addViewPager(viewPager)
-                .addTabs(textViews)
-                .addChildViews(listViews)
-                .setSelectedColor(R.color.colorAccent1)
-                .setUnSelectedColor(R.color.colorAccent2)
-                .addCursor(imageView)
-                .build();*/
-   //     Intent launchIntent = getPackageManager().getLaunchIntentForPackage("cn.scbbc.easyviewpagerslide");
-    //    startActivity(launchIntent);
     }
 
+    public void navi() {
+
+        txt_left_menu_user_email = findViewById(R.id.left_menu_useremail_textview);
+        txt_left_menu_user_name = findViewById(R.id.left_menu_username_textview);
+        img_left_menu_photo = findViewById(R.id.left_menu_profil_imageview);
+    }
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -169,7 +146,7 @@ public class DasboardActivity extends AppCompatActivity
      /*   gec1.putExtra("session", sayfaad);
         startActivity(gec1);*/
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
