@@ -27,14 +27,14 @@ public class DasboardActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dasboard);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         navi();
         Bundle extras = getIntent().getExtras();
-        txt_left_menu_user_name.setText(extras.getString("kullaniciadi"));
+        txt_left_menu_user_name.setText(extras.getString("name"));
         txt_left_menu_user_email.setText(extras.getString("email"));
         //img_left_menu_photo.setImageURI(Uri.parse(extras.getString("photo")));
-        FloatingActionButton fab = findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -45,26 +45,26 @@ public class DasboardActivity extends AppCompatActivity
             }
         });
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
     }
 
     public void navi() {
 
-        txt_left_menu_user_email = findViewById(R.id.left_menu_useremail_textview);
-        txt_left_menu_user_name = findViewById(R.id.left_menu_username_textview);
-        img_left_menu_photo = findViewById(R.id.left_menu_profil_imageview);
+        txt_left_menu_user_email = (TextView) findViewById(R.id.left_menu_useremail_textview);
+        txt_left_menu_user_name = (TextView) findViewById(R.id.left_menu_username_textview);
+        img_left_menu_photo = (ImageView) findViewById(R.id.left_menu_profil_imageview);
     }
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -146,7 +146,7 @@ public class DasboardActivity extends AppCompatActivity
      /*   gec1.putExtra("session", sayfaad);
         startActivity(gec1);*/
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

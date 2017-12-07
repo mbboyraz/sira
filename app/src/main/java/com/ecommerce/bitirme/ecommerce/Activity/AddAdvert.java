@@ -6,38 +6,95 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.ecommerce.bitirme.ecommerce.Activity.Classes.House;
 import com.ecommerce.bitirme.ecommerce.R;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
 public class AddAdvert extends AppCompatActivity {
+    Firebase mRef;
     Spinner spinner;
    // TextView ilan;
     TextView ilanadi;
     String[] ilantipi = new String[]{"Satılık", "Kiralık", "Günlük Kiralık", "Devren Satılık"};
+    String[] odasayi = new String[]{"1+0", "1+1", "2+1", "2+2", "3+1", "3+2", "4+1", "4+2"};
+    String[] sehirler = new String[]{"Adana", "Adıyaman", "Afyon", "Ağrı", "Amasya", "Ankara", "Antalya", "Artvin",
+            "Aydın", "Balıkesir", "Bilecik", "Bingöl", "Bitlis", "Bolu", "Burdur", "Bursa", "Çanakkale",
+            "Çankırı", "Çorum", "Denizli", "Diyarbakır", "Edirne", "Elazığ", "Erzincan", "Erzurum", "Eskişehir",
+            "Gaziantep", "Giresun", "Gümüşhane", "Hakkari", "Hatay", "Isparta", "Mersin", "İstanbul", "İzmir",
+            "Kars", "Kastamonu", "Kayseri", "Kırklareli", "Kırşehir", "Kocaeli", "Konya", "Kütahya", "Malatya",
+            "Manisa", "Kahramanmaraş", "Mardin", "Muğla", "Muş", "Nevşehir", "Niğde", "Ordu", "Rize", "Sakarya",
+            "Samsun", "Siirt", "Sinop", "Sivas", "Tekirdağ", "Tokat", "Trabzon", "Tunceli", "Şanlıurfa", "Uşak",
+            "Van", "Yozgat", "Zonguldak", "Aksaray", "Bayburt", "Karaman", "Kırıkkale", "Batman", "Şırnak",
+            "Bartın", "Ardahan", "Iğdır", "Yalova", "Karabük", "Kilis", "Osmaniye", "Düzce"};
+    EditText minfiyat, maxfiyat;
+    EditText minm2, maxm2;
+    Spinner odasayisi, sehir, semt;
+    RadioButton uygun, uygundegil;
+    EditText aciklama;
+    Button kaydet;
+
+    int i;
+
+
+    String sayi, tipi, sehiradi, ilanyazi;
+    String minfiy, maxfiy, minmetre, maxmetre;
+    boolean yes;
+
+
+//    FirebaseDatabase database = FirebaseDatabase.getInstance();
+//    DatabaseReference myRef = database.getReference();
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mRef = new Firebase("https://ecommerce-1-28620.firebaseio.com/");
+        mRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                String last = dataSnapshot.child("lastadvert").getValue().toString();
+                i = Integer.parseInt(last);
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_advert);
-        ilanadi = (TextView) findViewById(R.id.ilanadi);
+        Firebase.setAndroidContext(this);
+        degiskenHazirla();
         Bundle extras = getIntent().getExtras();
         ilanadi.setText(extras.getString("session"));
         ilanadi.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
-        spinner = (Spinner) findViewById(R.id.advert_type_spinner);
+
 
        // ilan=(TextView) findViewById(R.id.ilan);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item, ilantipi);
+        ArrayAdapter<String> arrayAdapter1 = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, ilantipi);
        // arrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
 
-        spinner.setAdapter(arrayAdapter);
+        spinner.setAdapter(arrayAdapter1);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
                  // ilan.setText(adapterView.getSelectedItem().toString());
-
+                tipi = adapterView.getSelectedItem().toString();
 
             }
 
@@ -46,6 +103,84 @@ public class AddAdvert extends AppCompatActivity {
 
             }
         });
+
+        ArrayAdapter<String> arrayAdapter2 = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, sehirler);
+        sehir.setAdapter(arrayAdapter2);
+        sehir.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                sehiradi = parent.getSelectedItem().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        ArrayAdapter<String> arrayAdapter3 = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, odasayi);
+        odasayisi.setAdapter(arrayAdapter3);
+        odasayisi.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                sayi = parent.getSelectedItem().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+        uygun.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                yes = true;
+
+            }
+        });
+
+
+        kaydet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ilanyazi = aciklama.getText().toString();
+                minfiy = minfiyat.getText().toString();
+                maxfiy = maxfiyat.getText().toString();
+                maxmetre = maxm2.getText().toString();
+                minmetre = minm2.getText().toString();
+                i++;
+                firebaseEvEkle(tipi, sayi, minmetre, maxmetre, yes, ilanyazi, sehiradi, minfiy, maxfiy);
+            }
+        });
+    }
+
+    public void degiskenHazirla() {
+        ilanadi = (TextView) findViewById(R.id.ilanadi);
+        spinner = (Spinner) findViewById(R.id.advert_type_spinner);
+        minfiyat = (EditText) findViewById(R.id.min_price_edttxt);
+        maxfiyat = (EditText) findViewById(R.id.max_price_edttxt);
+        minm2 = (EditText) findViewById(R.id.sizes_min_edttxt);
+        maxm2 = (EditText) findViewById(R.id.sizes_max_edttxt);
+        odasayisi = (Spinner) findViewById(R.id.numberOf_spinner);
+        sehir = (Spinner) findViewById(R.id.city_spinner);
+        semt = (Spinner) findViewById(R.id.district_spinner);
+        uygun = (RadioButton) findViewById(R.id.yes);
+        uygundegil = (RadioButton) findViewById(R.id.no);
+        aciklama = (EditText) findViewById(R.id.explanation_edttxt);
+        kaydet = (Button) findViewById(R.id.save_advert_btn);
+    }
+
+
+    public void firebaseEvEkle(String tipi, String sayi, String minmetre, String maxmetre, boolean yes, String ilanyazi, String sehiradi, String minfiy, String maxfiy) {
+
+
+        House house = new House(tipi, sayi, minmetre, maxmetre, yes, ilanyazi, sehiradi, minfiy, maxfiy);
+        mRef.child("lastadvert").setValue(String.valueOf(i));
+        mRef.child("ilanlar").child("ev").child(String.valueOf(i)).setValue(house);
+
+
 
     }
 }

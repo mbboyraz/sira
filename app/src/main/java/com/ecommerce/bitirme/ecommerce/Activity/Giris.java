@@ -39,13 +39,15 @@ public class Giris extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_giris);
+        // uyeliksiz=(Button)findViewById(R.id.uyeliksiz);
         navi();
         // Views
         //mStatusTextView = findViewById(R.id.status);
-
+        uyeliksiz.setOnClickListener(this);
         // Button listeners
         findViewById(R.id.signIn).setOnClickListener(this);
-        findViewById(R.id.uyeliksiz).setOnClickListener(this);
+        //   findViewById(R.id.uyeliksiz).setOnClickListener(this);
+
         // findViewById(R.id.disconnect_button).setOnClickListener(this);
 
         // [START configure_signin]
@@ -64,14 +66,14 @@ public class Giris extends AppCompatActivity implements
 
         // [START customize_button]
         // Set the dimensions of the sign-in button.
-        SignInButton signInButton = findViewById(R.id.signIn);
+        SignInButton signInButton = (SignInButton) findViewById(R.id.signIn);
         signInButton.setSize(SignInButton.SIZE_STANDARD);
         signInButton.setColorScheme(SignInButton.COLOR_LIGHT);
         // [END customize_button]
     }
 
     public void navi() {
-        uyeliksiz = findViewById(R.id.uyeliksiz);
+        uyeliksiz = (Button) findViewById(R.id.uyeliksiz);
     }
 
     @Override
@@ -110,11 +112,12 @@ public class Giris extends AppCompatActivity implements
             Toast.makeText(this, account.getDisplayName(), Toast.LENGTH_LONG).show();
             updateUI(account);
 
-            Intent intent = new Intent(this, DasboardActivity.class);
-            intent.putExtra("kullaniciadi", account.getDisplayName());
-            intent.putExtra("email", account.getEmail());
-            intent.putExtra("photo", account.getPhotoUrl());
-            startActivity(intent);
+            Intent intent1 = new Intent(Giris.this, DasboardActivity.class);
+            intent1.putExtra("name", account.getDisplayName());
+            intent1.putExtra("email", account.getEmail());
+
+            // intent.putExtra("photo", account.getPhotoUrl());
+            startActivity(intent1);
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
@@ -123,7 +126,12 @@ public class Giris extends AppCompatActivity implements
         }
     }
     // [END handleSignInResult]
-
+    private void uyeliksizGiris() {
+        Intent intent2 = new Intent(this, DasboardActivity.class);
+        intent2.putExtra("name", "Misafir Girişi");
+        intent2.putExtra("email", "");
+        startActivity(intent2);
+    }
     // [START signIn]
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
@@ -164,7 +172,7 @@ public class Giris extends AppCompatActivity implements
             // mStatusTextView.setText(getString(R.string.signed_in_fmt, account.getDisplayName()));
 
             //findViewById(R.id.signIn).setVisibility(View.GONE);
-            findViewById(R.id.uyeliksiz).setVisibility(View.VISIBLE);
+            // findViewById(R.id.uyeliksiz).setVisibility(View.VISIBLE);
         } else {
             //mStatusTextView.setText(R.string.signed_out);
 
@@ -175,15 +183,11 @@ public class Giris extends AppCompatActivity implements
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.signIn:
-                signIn();
-                break;
-            case R.id.uyeliksiz:
-                Intent intent = new Intent(this, DasboardActivity.class);
-                startActivity(intent);
-                break;
+        if (v.getId() == R.id.signIn) {
 
+            signIn();
+        } else if (v.getId() == R.id.uyeliksiz) {
+            uyeliksizGiris();
         }
     }
 }

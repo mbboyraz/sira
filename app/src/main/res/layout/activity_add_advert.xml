@@ -43,13 +43,15 @@
         android:id="@+id/min_price_edttxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="min"/>
+        android:hint="min"
+        android:inputType="number" />
 
         <EditText
             android:id="@+id/max_price_edttxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="max" />
+            android:hint="max"
+            android:inputType="number" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
@@ -65,12 +67,14 @@
             android:id="@+id/sizes_min_edttxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="min"/>
+            android:hint="min"
+            android:inputType="number" />
         <EditText
             android:id="@+id/sizes_max_edttxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="max"/>
+            android:hint="max"
+            android:inputType="number" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
@@ -132,10 +136,12 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <RadioButton
+                android:id="@+id/yes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Evet"/>
             <RadioButton
+                android:id="@+id/no"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Hayır"/>

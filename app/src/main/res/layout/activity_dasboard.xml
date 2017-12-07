@@ -43,7 +43,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@+id/left_menu_useremail_textview"
                 android:layout_alignStart="@+id/left_menu_useremail_textview"
-                android:layout_below="@+id/left_menu_profil_imageview" />
+                android:layout_below="@+id/left_menu_profil_imageview"
+                android:text="Misafir Girişi" />
 
 
             <TextView
@@ -54,7 +55,8 @@
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/left_menu_username_textview"
                 android:layout_marginLeft="37dp"
-                android:layout_marginStart="37dp" />
+                android:layout_marginStart="37dp"
+                android:text="E-mail" />
         </RelativeLayout>
 
     </android.support.design.widget.NavigationView>

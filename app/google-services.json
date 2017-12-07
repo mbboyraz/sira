@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "634089548127-ttmsiqc26qbj36tqs23ohrn0e00nmqch.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ecommerce.bitirme.ecommerce",
+            "certificate_hash": "5ed0b2a160e8b8e94a6ef644234913be447367d5"
+          }
+        },
+        {
           "client_id": "634089548127-kffntfkesq47ks4ih3eunid1pe80l71s.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
