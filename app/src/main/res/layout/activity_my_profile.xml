@@ -31,12 +31,18 @@
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:background="@color/unselected_color"
-            android:gravity="center">
+            android:gravity="center"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/person_placeholder" />
+            <com.github.siyamed.shapeimageview.CircularImageView
+                android:id="@+id/profilphoto"
+                android:layout_width="100dp"
+                android:layout_height="100dp" />
+            <!--       <ImageView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:src="@drawable/person_placeholder" /> -->
         </LinearLayout>
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"

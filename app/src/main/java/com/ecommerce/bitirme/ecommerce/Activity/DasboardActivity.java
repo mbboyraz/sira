@@ -24,6 +24,9 @@ public class DasboardActivity extends AppCompatActivity
     TextView txt_left_menu_user_name;
     TextView txt_left_menu_user_email;
     NavigationView nav_drawer;
+
+    String photourl;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,8 +38,9 @@ public class DasboardActivity extends AppCompatActivity
         txt_left_menu_user_name.setText(extras.getString("name"));
         txt_left_menu_user_email.setText(extras.getString("email"));
 
+        photourl = extras.getString("photourl");
         // Picasso.with(this).load(Uri.parse(extras.getString("photourl")).into(img_left_menu_photo);
-        Picasso.with(DasboardActivity.this).load(extras.getString("photourl")).into(img_left_menu_photo);
+        Picasso.with(DasboardActivity.this).load(photourl).into(img_left_menu_photo);
 //        img_left_menu_photo.setImageURI(Uri.parse(extras.getString("photourl")));
         //img_left_menu_photo.setImageURI(Uri.parse(extras.getString("photo")));
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -141,6 +145,7 @@ public class DasboardActivity extends AppCompatActivity
             gec1.putExtra("session", sayfaad);
             startActivity(gec1);
         } else if (id == R.id.profil) {
+            gec2.putExtra("profilephoto", photourl);
             startActivity(gec2);
         }
         else if (id == R.id.ilanver) {
