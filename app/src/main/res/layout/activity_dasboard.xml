@@ -24,16 +24,16 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">7
+            android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/left_menu_profil_imageview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_alignParentTop="true"
-                android:layout_marginLeft="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="66dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginStart="110dp"
+                android:layout_marginTop="65dp"
                 android:layout_toEndOf="@+id/left_menu_username_textview"
                 android:layout_toRightOf="@+id/left_menu_username_textview" />
 
@@ -44,6 +44,7 @@
                 android:layout_alignLeft="@+id/left_menu_useremail_textview"
                 android:layout_alignStart="@+id/left_menu_useremail_textview"
                 android:layout_below="@+id/left_menu_profil_imageview"
+
                 android:text="Misafir Girişi" />
 
 

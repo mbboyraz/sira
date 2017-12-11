@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ecommerce.bitirme.ecommerce.R;
+import com.squareup.picasso.Picasso;
 
 public class DasboardActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -33,6 +34,10 @@ public class DasboardActivity extends AppCompatActivity
         Bundle extras = getIntent().getExtras();
         txt_left_menu_user_name.setText(extras.getString("name"));
         txt_left_menu_user_email.setText(extras.getString("email"));
+
+        // Picasso.with(this).load(Uri.parse(extras.getString("photourl")).into(img_left_menu_photo);
+        Picasso.with(DasboardActivity.this).load(extras.getString("photourl")).into(img_left_menu_photo);
+//        img_left_menu_photo.setImageURI(Uri.parse(extras.getString("photourl")));
         //img_left_menu_photo.setImageURI(Uri.parse(extras.getString("photo")));
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -55,6 +60,7 @@ public class DasboardActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
     }
+
 
     public void navi() {
 

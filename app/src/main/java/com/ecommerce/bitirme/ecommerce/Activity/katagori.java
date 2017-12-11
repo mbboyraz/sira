@@ -6,13 +6,14 @@ package com.ecommerce.bitirme.ecommerce.Activity;
 
 
 public class katagori {
-    private String KatagoriName;
+    public String KatagoriName;
+    public String KatagoriAltName;
 
-
-    public katagori(String KatagoriName){
+    public katagori(String KatagoriName, String KatagoriAltName) {
         this.KatagoriName=KatagoriName;
-
+        this.KatagoriAltName = KatagoriAltName;
     }
+
 
     public String getKatagoriName() {
         return KatagoriName;
@@ -23,4 +24,11 @@ public class katagori {
     }
 
 
+    public String getKatagoriAltName() {
+        return KatagoriAltName;
+    }
+
+    public void setKatagoriAltName(String katagoriAltName) {
+        KatagoriAltName = katagoriAltName;
+    }
 }

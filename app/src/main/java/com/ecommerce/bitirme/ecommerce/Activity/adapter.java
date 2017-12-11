@@ -44,13 +44,13 @@ public class adapter extends BaseAdapter{
     public View getView(int i, View view, ViewGroup viewGroup) {
         View lineView;
         lineView = userInflater.inflate(R.layout.satir_layout, null);
-        TextView kategori = (TextView) lineView.findViewById(R.id.kategori);
-      //  TextView altkategori = (TextView) lineView.findViewById(R.id.altkategori);
-        ImageView simge = (ImageView) lineView.findViewById(R.id.simge);
+        TextView kategori = lineView.findViewById(R.id.kategori);
+        TextView altkategori = lineView.findViewById(R.id.altkategori);
+        ImageView simge = lineView.findViewById(R.id.simge);
 
         katagori user = userList.get(i);
         kategori.setText(user.getKatagoriName());
-      //  altkategori.setText(user.getAltName());
+        altkategori.setText(user.getKatagoriAltName());
         if (user.getKatagoriName().equals("Ev")) {
             simge.setImageResource(R.drawable.ic_home_black_24dp);
         }

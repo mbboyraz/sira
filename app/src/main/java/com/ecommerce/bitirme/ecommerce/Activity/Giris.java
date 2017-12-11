@@ -115,6 +115,12 @@ public class Giris extends AppCompatActivity implements
             Intent intent1 = new Intent(Giris.this, DasboardActivity.class);
             intent1.putExtra("name", account.getDisplayName());
             intent1.putExtra("email", account.getEmail());
+            intent1.putExtra("photourl", account.getPhotoUrl().toString());
+
+
+
+
+
 
             // intent.putExtra("photo", account.getPhotoUrl());
             startActivity(intent1);

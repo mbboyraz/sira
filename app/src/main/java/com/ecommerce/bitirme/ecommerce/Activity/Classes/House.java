@@ -31,7 +31,7 @@ public class House {
         this.maxFiyat = maxFiyat;
 
 
-        mapDondur();
+        //   mapDondur();
     }
 
     public House() {
