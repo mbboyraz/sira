@@ -31,9 +31,10 @@ public class AdvertActivity extends AppCompatActivity implements ValueEventListe
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
         DataSnapshot ucanlar = dataSnapshot.child("ilanlar").child("ev").child(bundle.getString("id"));
+        ucanlar.getValue(House.class).getSehir();
 
-        ucanlar.getValue(House.class);
-        Toast.makeText(this, house.getSehir().toString(), Toast.LENGTH_SHORT).show();
+
+        Toast.makeText(this, ucanlar.getValue(House.class).getSehir(), Toast.LENGTH_SHORT).show();
 
     }
 
