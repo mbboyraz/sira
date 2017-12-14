@@ -25,6 +25,8 @@ public class adapter extends BaseAdapter{
     public adapter(Activity activity,List<katagori> userList){
         userInflater=(LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.userList=userList;
+
+
     }
 
     @Override

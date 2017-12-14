@@ -12,9 +12,7 @@
         <activity
             android:name=".Activity.DasboardActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".Activity.OfferActivity" />
         <activity android:name=".Activity.AllAdvertsActivity" />
         <activity android:name=".Activity.MakeOfferActivity" />
@@ -25,16 +23,19 @@
         <activity
             android:name=".Activity.katagoriactivity"
             android:label="İlan Ver" />
-        <activity android:name=".Activity.AddAdvert"
-            android:label="İlan Ver"></activity>
-
-        <activity android:name=".Activity.Giris"
+        <activity
+            android:name=".Activity.AddAdvert"
+            android:label="İlan Ver" />
+        <activity
+            android:name=".Activity.Giris"
             android:label="Şirâ">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Activity.AdvertActivity"></activity>
     </application>
 
 </manifest>

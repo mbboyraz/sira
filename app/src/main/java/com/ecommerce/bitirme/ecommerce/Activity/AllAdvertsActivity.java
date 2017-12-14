@@ -1,5 +1,6 @@
 package com.ecommerce.bitirme.ecommerce.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ecommerce.bitirme.ecommerce.Activity.Classes.House;
 import com.ecommerce.bitirme.ecommerce.R;
@@ -58,7 +60,7 @@ setTitle(extras.getString("session"));*/
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
         final ListView ilanlarliste = (ListView) findViewById(R.id.ilanlarliste);
-        House house = new House();
+        final House house = new House();
         //house.ilanAciklama = dataSnapshot.child("ilanlar").child("ev").child("3").child("ilanAciklama").getValue().toString();
         //     Toast.makeText(this, dataSnapshot.child("ilanlar").child("ev").child("14").child("ilanAciklama").getValue().toString(), Toast.LENGTH_SHORT).show();
 //        for(DataSnapshot gelenler:dataSnapshot.child("ilanlar").child("ev").getChildren()){
@@ -66,16 +68,19 @@ setTitle(extras.getString("session"));*/
 //        }
         for (DataSnapshot gelenler : dataSnapshot.child("ilanlar").child("ev").getChildren()) {
             ilanlar.add(new katagori("Ev",
-                    gelenler.getValue(House.class).getSehir() + " , " + gelenler.getValue(House.class).getIlanTipi() + "->" + gelenler.getValue(House.class).getOdaSayisi()));
+                    gelenler.getValue(House.class).getSehir() + " , " + gelenler.getValue(House.class).getIlanTipi() + "->" + gelenler.getValue(House.class).getOdaSayisi(), gelenler.getKey()));
         }
 
-        adapter ilanadapter = new adapter(this, ilanlar);
+        final adapter ilanadapter = new adapter(this, ilanlar);
         ilanlarliste.setAdapter(ilanadapter);
         ilanlarliste.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-
+                Intent intent = new Intent(AllAdvertsActivity.this, AdvertActivity.class);
+                intent.putExtra("id", ilanlar.get(position).getId());
+                startActivity(intent);
+                Toast.makeText(view.getContext(), "Uçuyozz", Toast.LENGTH_LONG).show();
             }
         });
     }

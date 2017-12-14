@@ -26,11 +26,11 @@ public class katagoriactivity extends AppCompatActivity {
         /* mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);*/
-        categories.add(new katagori("Ev", ""));
-        categories.add(new katagori("Araba", ""));
-        categories.add(new katagori("Spor", ""));
-        categories.add(new katagori("Teknoloji", ""));
-        categories.add(new katagori("Taşıtlar", ""));
+        categories.add(new katagori("Ev", "", ""));
+        categories.add(new katagori("Araba", "", ""));
+        categories.add(new katagori("Spor", "", ""));
+        categories.add(new katagori("Teknoloji", "", ""));
+        categories.add(new katagori("Taşıtlar", "", ""));
       /*  categories.add(new katagori("Ustalar ve Hizmetler"));
         categories.add(new katagori("Özel Ders Verenler"));
         categories.add(new katagori("İş İlanları"));

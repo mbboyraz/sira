@@ -151,6 +151,7 @@ public class AddAdvert extends AppCompatActivity {
                 maxmetre = maxm2.getText().toString();
                 minmetre = minm2.getText().toString();
                 i++;
+                
                 firebaseEvEkle(tipi, sayi, minmetre, maxmetre, yes, ilanyazi, sehiradi, minfiy, maxfiy);
             }
         });
