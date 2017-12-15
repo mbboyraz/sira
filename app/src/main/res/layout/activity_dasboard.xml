@@ -30,12 +30,12 @@
                 android:id="@+id/left_menu_profil_imageview"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginLeft="50dp"
-                android:layout_marginStart="110dp"
-                android:layout_marginTop="65dp"
-                android:layout_toEndOf="@+id/left_menu_username_textview"
-                android:layout_toRightOf="@+id/left_menu_username_textview" />
+                android:layout_marginEnd="18dp"
+                android:layout_marginRight="18dp"
+                android:layout_marginTop="61dp" />
             <!--  <ImageView
                   android:id="@+id/left_menu_profil_imageview"
                   android:layout_width="50dp"
@@ -51,10 +51,13 @@
                 android:id="@+id/left_menu_username_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/left_menu_useremail_textview"
-                android:layout_alignStart="@+id/left_menu_useremail_textview"
-                android:layout_below="@+id/left_menu_profil_imageview"
 
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/left_menu_profil_imageview"
+                android:layout_marginLeft="14dp"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="12dp"
                 android:text="Misafir Girişi" />
 
 
@@ -62,11 +65,9 @@
                 android:id="@+id/left_menu_useremail_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
+                android:layout_alignLeft="@+id/left_menu_username_textview"
+                android:layout_alignStart="@+id/left_menu_username_textview"
                 android:layout_below="@+id/left_menu_username_textview"
-                android:layout_marginLeft="37dp"
-                android:layout_marginStart="37dp"
                 android:text="E-mail" />
         </RelativeLayout>
 
