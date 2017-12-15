@@ -7,27 +7,154 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginBottom="2dp"
+        android:layout_height="wrap_content"
         android:background="@color/unselected_color"
-        android:gravity="center_vertical"
-        android:orientation="vertical">
-        <TextView
-            android:id="@+id/baslik"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/imgbtn"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="      Ev"
-            android:textColor="@color/black"/>
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_call_black_24dp" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:background="@color/black" />
         <TextView
-            android:id="@+id/altbaslik"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="    Fiyat Aralığı 100.000-150.000 ,m2 Aralığı 80m2-90m2"/>
+            android:id="@+id/aliciadi"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+
     </LinearLayout>
 
-    <Button
-        android:id="@+id/button2"
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black" />
+
+    <TextView
+        android:id="@+id/ilankonum"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:background="@color/unselected_color"
+        android:gravity="center"
+        android:text="Konum"
+        android:textSize="20dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:gravity="center"
+                android:text="  Fiyat Aralığı:" />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:gravity="center"
+                android:text="  m² Aralığı:" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:gravity="center"
+                android:text="  İlan Tipi:" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:gravity="center"
+                android:text="  Oda Sayısı:" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:gravity="center"
+                android:text="  Krediye Uygun:" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/fiyataraligi"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_gravity="right"
+                android:layout_marginRight="3dp"
+                android:gravity="center" />
+
+            <TextView
+                android:id="@+id/m2araligi"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_gravity="right"
+                android:layout_marginRight="3dp"
+                android:gravity="center" />
+
+            <TextView
+                android:id="@+id/emlaktipi"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_gravity="right"
+                android:layout_marginRight="3dp"
+                android:gravity="center" />
+
+            <TextView
+                android:id="@+id/odasayisi"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_gravity="right"
+                android:layout_marginRight="3dp"
+                android:gravity="center" />
+
+            <TextView
+                android:id="@+id/krediuygun"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_gravity="right"
+                android:layout_marginRight="3dp"
+                android:gravity="center" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black" />
+
+    <TextView
+
+        android:id="@+id/ilanaciklama"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:gravity="center_vertical"
+        android:text="  İlan Açıklama:" />
+
 </LinearLayout>

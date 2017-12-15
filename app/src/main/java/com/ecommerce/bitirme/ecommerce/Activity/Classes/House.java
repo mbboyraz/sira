@@ -18,6 +18,11 @@ public class House {
     public String semt;
     public String maxFiyat;
     public String minFiyat;
+    //public String useremail;
+
+
+
+
 
     public House(String ilanTipi, String odaSayisi, String minM2, String maxM2, boolean krediyeUygun, String ilanAciklama, String sehir, String maxFiyat, String minFiyat) {
         this.ilanTipi = ilanTipi;
@@ -29,6 +34,7 @@ public class House {
         this.sehir = sehir;
         this.minFiyat = minFiyat;
         this.maxFiyat = maxFiyat;
+        //this.useremail=useremail;
 
 
         //   mapDondur();

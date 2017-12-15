@@ -8,7 +8,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ecommerce.bitirme.ecommerce.Activity.Classes.House;
 import com.ecommerce.bitirme.ecommerce.R;
@@ -20,7 +19,7 @@ import com.firebase.client.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AllAdvertsActivity extends AppCompatActivity implements ValueEventListener, View.OnClickListener {
+public class AllAdvertsActivity extends AppCompatActivity implements ValueEventListener {
 
     final List<katagori> ilanlar = new ArrayList<katagori>();
     Firebase mRef;
@@ -80,7 +79,7 @@ setTitle(extras.getString("session"));*/
                 Intent intent = new Intent(AllAdvertsActivity.this, AdvertActivity.class);
                 intent.putExtra("id", ilanlar.get(position).getId());
                 startActivity(intent);
-                Toast.makeText(view.getContext(), "Uçuyozz", Toast.LENGTH_LONG).show();
+                // Toast.makeText(view.getContext(), "Uçuyozz", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -90,14 +89,5 @@ setTitle(extras.getString("session"));*/
 
     }
 
-    public void kayitlarigetir() {
-        txt.setText("");
 
-
-    }
-
-    @Override
-    public void onClick(View v) {
-        kayitlarigetir();
-    }
 }
