@@ -11,7 +11,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ecommerce.bitirme.ecommerce.Classes.Users;
 import com.ecommerce.bitirme.ecommerce.R;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -28,9 +33,9 @@ import com.google.android.gms.tasks.Task;
  */
 public class Giris extends AppCompatActivity implements
         View.OnClickListener {
-
     private static final String TAG = "SignInActivity";
     private static final int RC_SIGN_IN = 9001;
+    Firebase mRef;
     Button uyeliksiz;
     private GoogleSignInClient mGoogleSignInClient;
     private TextView mStatusTextView;
@@ -39,6 +44,7 @@ public class Giris extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_giris);
+        Firebase.setAndroidContext(this);
         // uyeliksiz=(Button)findViewById(R.id.uyeliksiz);
         navi();
         // Views
@@ -79,12 +85,24 @@ public class Giris extends AppCompatActivity implements
     @Override
     public void onStart() {
         super.onStart();
-
+        mRef = new Firebase("https://ecommerce-1-28620.firebaseio.com/");
         // [START on_start_sign_in]
         // Check for existing Google Sign In account, if the user is already signed in
         // the GoogleSignInAccount will be non-null.
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         updateUI(account);
+
+        mRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
         // [END on_start_sign_in]
     }
 
@@ -112,10 +130,12 @@ public class Giris extends AppCompatActivity implements
             Toast.makeText(this, account.getDisplayName(), Toast.LENGTH_LONG).show();
             updateUI(account);
 
+            firebaseUyeEkle(account.getId(), account.getDisplayName(), account.getEmail(), account.getPhotoUrl().toString(), "");
             Intent intent1 = new Intent(Giris.this, DasboardActivity.class);
             intent1.putExtra("name", account.getDisplayName());
             intent1.putExtra("email", account.getEmail());
             intent1.putExtra("photourl", account.getPhotoUrl().toString());
+            intent1.putExtra("usersid", account.getId());
 
 
 
@@ -130,6 +150,16 @@ public class Giris extends AppCompatActivity implements
             Log.e(TAG, "signInResult:failed code=" + e.getStatusCode());
             updateUI(null);
         }
+    }
+
+    public void firebaseUyeEkle(String id, String usersname, String usersemail, String usersphotourl, String userstel) {
+
+
+        Users users = new Users(usersname, usersemail, usersphotourl, userstel);
+        mRef.child("users").child(id).setValue(users);
+
+
+
     }
     // [END handleSignInResult]
     private void uyeliksizGiris() {

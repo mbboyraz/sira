@@ -16,13 +16,17 @@ import java.util.List;
 
 public class katagoriactivity extends AppCompatActivity {
     final List<katagori> categories = new ArrayList<katagori>();
+    String username, useremail, userid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_katagoriactivity);
         TextView textView=(TextView)findViewById(R.id.textView);
         textView.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
-
+        Bundle extras = getIntent().getExtras();
+        username = extras.getString("username");
+        useremail = extras.getString("useremail");
+        userid = extras.getString("usersid");
         /* mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);*/
@@ -43,25 +47,38 @@ public class katagoriactivity extends AppCompatActivity {
         liste.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent gec = new Intent(katagoriactivity.this, AddAdvertHouse.class);
-                String s;
+
+                // String s;
 
                   if(i==0){
-                    s="Ev İlanı";
+                      Intent gecHouseEkle = new Intent(katagoriactivity.this, AddAdvertHouse.class);
+
+                      gecHouseEkle.putExtra("username", username);
+                      gecHouseEkle.putExtra("useremail", useremail);
+                      gecHouseEkle.putExtra("usersid", userid);
+
+                      startActivity(gecHouseEkle);
+
                 }
                 else if(i==1){
-                    s="Araba İlanı";
+                      Intent gecCarEkle = new Intent(katagoriactivity.this, AddAdvertCar.class);
+
+                      gecCarEkle.putExtra("username", username);
+                      gecCarEkle.putExtra("useremail", useremail);
+                      gecCarEkle.putExtra("usersid", userid);
+
+                      startActivity(gecCarEkle);
                 }
                   else if(i==2){
-                      s="Spor İlanı";
+                      //   s="Spor İlanı";
                   }
                   else if(i==3){
-                      s="Teknoloji İlanı";
+                      // s="Teknoloji İlanı";
                   }
-                else s="Taşıt ilanı";
-                s = categories.get(i).getKatagoriName();
+                //else s="Taşıt ilanı";
+             /*  s = categories.get(i).getKatagoriName();
                  gec.putExtra("session", s);
-                 startActivity(gec);
+                 startActivity(gec);*/
             }
         });
     }

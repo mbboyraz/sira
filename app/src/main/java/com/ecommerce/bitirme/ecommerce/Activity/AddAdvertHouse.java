@@ -49,6 +49,8 @@ public class AddAdvertHouse extends AppCompatActivity {
     String minfiy, maxfiy, minmetre, maxmetre;
     boolean yes;
 
+    String useremail, username, userid;
+
 
 //    FirebaseDatabase database = FirebaseDatabase.getInstance();
 //    DatabaseReference myRef = database.getReference();
@@ -83,6 +85,9 @@ public class AddAdvertHouse extends AppCompatActivity {
         ilanadi.setText(extras.getString("session"));
         ilanadi.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
 
+        username = extras.getString("username");
+        useremail = extras.getString("useremail");
+        userid = extras.getString("usersid");
 
        // ilan=(TextView) findViewById(R.id.ilan);
         ArrayAdapter<String> arrayAdapter1 = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, ilantipi);
@@ -151,8 +156,8 @@ public class AddAdvertHouse extends AppCompatActivity {
                 maxmetre = maxm2.getText().toString();
                 minmetre = minm2.getText().toString();
                 i++;
-                
-                firebaseEvEkle(tipi, sayi, minmetre, maxmetre, yes, ilanyazi, sehiradi, minfiy, maxfiy);
+
+                firebaseEvEkle(tipi, sayi, minmetre, maxmetre, yes, ilanyazi, sehiradi, minfiy, maxfiy, userid);
             }
         });
     }
@@ -174,10 +179,10 @@ public class AddAdvertHouse extends AppCompatActivity {
     }
 
 
-    public void firebaseEvEkle(String tipi, String sayi, String minmetre, String maxmetre, boolean yes, String ilanyazi, String sehiradi, String minfiy, String maxfiy) {
+    public void firebaseEvEkle(String tipi, String sayi, String minmetre, String maxmetre, boolean yes, String ilanyazi, String sehiradi, String minfiy, String maxfiy, String userid) {
 
 
-        House house = new House(tipi, sayi, minmetre, maxmetre, yes, ilanyazi, sehiradi, minfiy, maxfiy);
+        House house = new House(tipi, sayi, minmetre, maxmetre, yes, ilanyazi, sehiradi, minfiy, maxfiy, userid);
         mRef.child("lastadvert").setValue(String.valueOf(i));
         mRef.child("ilanlar").child("ev").child(String.valueOf(i)).setValue(house);
 

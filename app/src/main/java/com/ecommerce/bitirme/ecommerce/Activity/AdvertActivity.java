@@ -16,7 +16,8 @@ public class AdvertActivity extends AppCompatActivity implements ValueEventListe
     Firebase mRef;
     Bundle bundle;
     House house;
-    TextView fiyat, m2, tip, oda, kredi, aciklama, konum;
+    String usersid;
+    TextView fiyat, m2, tip, oda, kredi, aciklama, konum, aliciadi;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +31,7 @@ public class AdvertActivity extends AppCompatActivity implements ValueEventListe
         kredi = (TextView) findViewById(R.id.krediuygun);
         aciklama = (TextView) findViewById(R.id.ilanaciklama);
         konum = (TextView) findViewById(R.id.ilankonum);
+        aliciadi = (TextView) findViewById(R.id.aliciadi);
 
         house = new House();
         mRef = new Firebase("https://ecommerce-1-28620.firebaseio.com/");
@@ -40,12 +42,16 @@ public class AdvertActivity extends AppCompatActivity implements ValueEventListe
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
 
+
+        usersid = dataSnapshot.child("ilanlar").child("ev").child(bundle.getString("id")).getValue(House.class).getUserid();
+
+
         konum.setText(dataSnapshot.child("ilanlar").child("ev").child(bundle.getString("id")).getValue(House.class).getSehir());
         fiyat.setText(dataSnapshot.child("ilanlar").child("ev").child(bundle.getString("id")).getValue(House.class).getMinFiyat() + "-" + dataSnapshot.child("ilanlar").child("ev").child(bundle.getString("id")).getValue(House.class).getMaxFiyat());
         m2.setText(dataSnapshot.child("ilanlar").child("ev").child(bundle.getString("id")).getValue(House.class).getMinM2() + "-" + dataSnapshot.child("ilanlar").child("ev").child(bundle.getString("id")).getValue(House.class).getMaxM2());
         tip.setText(dataSnapshot.child("ilanlar").child("ev").child(bundle.getString("id")).getValue(House.class).getIlanTipi());
         oda.setText(dataSnapshot.child("ilanlar").child("ev").child(bundle.getString("id")).getValue(House.class).getOdaSayisi());
-
+        aliciadi.setText(dataSnapshot.child("users").child(usersid).child("usersName").getValue().toString());
         String s = "Hayır";
         if (String.valueOf(dataSnapshot.child("ilanlar").child("ev").child(bundle.getString("id")).getValue(House.class).krediyeUygun).equals("true")) {
             s = "Evet";

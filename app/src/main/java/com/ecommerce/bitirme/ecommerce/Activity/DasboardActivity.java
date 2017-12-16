@@ -25,7 +25,7 @@ public class DasboardActivity extends AppCompatActivity
     TextView txt_left_menu_user_email;
     NavigationView nav_drawer;
 
-    String photourl;
+    String photourl, username, useremail, userid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +35,12 @@ public class DasboardActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         navi();
         Bundle extras = getIntent().getExtras();
-        txt_left_menu_user_name.setText(extras.getString("name"));
-        txt_left_menu_user_email.setText(extras.getString("email"));
+        username = extras.getString("name");
+        txt_left_menu_user_name.setText(username);
+        useremail = extras.getString("email");
+        txt_left_menu_user_email.setText(useremail);
 
+        userid = extras.getString("usersid");
         photourl = extras.getString("photourl");
         // Picasso.with(this).load(Uri.parse(extras.getString("photourl")).into(img_left_menu_photo);
         Picasso.with(DasboardActivity.this).load(photourl).into(img_left_menu_photo);
@@ -48,6 +51,10 @@ public class DasboardActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 Intent gec= new Intent(DasboardActivity.this,katagoriactivity.class);
+                gec.putExtra("useremail", useremail);
+                gec.putExtra("username", username);
+
+                gec.putExtra("usersid", userid);
                 startActivity(gec);
               // Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 //        .setAction("Action", null).show();
@@ -146,10 +153,16 @@ public class DasboardActivity extends AppCompatActivity
             startActivity(gec1);
         } else if (id == R.id.profil) {
             gec2.putExtra("profilephoto", photourl);
+            gec2.putExtra("useremail", useremail);
+            gec2.putExtra("username", username);
+            gec2.putExtra("usersid", userid);
             startActivity(gec2);
         }
         else if (id == R.id.ilanver) {
-        startActivity(gec3);
+            gec3.putExtra("useremail", useremail);
+            gec3.putExtra("username", username);
+            gec3.putExtra("usersid", userid);
+            startActivity(gec3);
         }
 
 
