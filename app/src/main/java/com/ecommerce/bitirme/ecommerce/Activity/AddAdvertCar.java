@@ -2,23 +2,34 @@ package com.ecommerce.bitirme.ecommerce.Activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.ecommerce.bitirme.ecommerce.Classes.Cars;
 import com.ecommerce.bitirme.ecommerce.R;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
-public class AddAdvertCar extends AppCompatActivity {
+import java.util.Calendar;
+import java.util.Date;
+
+public class AddAdvertCar extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
     //values
+    Date currentTime;
     int i;
     String car_min_fiyat;
     String car_max_fiyat;
     String car_min_model;
     String car_max_model;
     String car_marka;
+    String car_baslik;
+    String car_aciklama;
     String[] sehirler = new String[]{"Adana", "Adıyaman", "Afyon", "Ağrı", "Amasya", "Ankara", "Antalya", "Artvin",
             "Aydın", "Balıkesir", "Bilecik", "Bingöl", "Bitlis", "Bolu", "Burdur", "Bursa", "Çanakkale",
             "Çankırı", "Çorum", "Denizli", "Diyarbakır", "Edirne", "Elazığ", "Erzincan", "Erzurum", "Eskişehir",
@@ -33,9 +44,13 @@ public class AddAdvertCar extends AppCompatActivity {
     String[] kasatipi = new String[]{"Sedan", "Hatchack", "Coupe", "Cabrio"};
     String[] motorhacmi = new String[]{"1.2", "1.3", "1.4", "1.5", "1.6", "1.8", "2.0", "2.5 ve üstü"};
     String[] cekis = new String[]{"4x2 Önden", "4x2 Arkadan", "4x4"};
+    String sehirAl, vitesAl, kasaAl, motorAl, cekisAl, yakitAl;
+    String userId;
+    Bundle bundle;
     //Network
     private Firebase mRef;
     //components
+    private Button btn_car_ilan_kaydet;
     private EditText edt_car_ilan_baslik;
     private EditText edt_car_fiyat_min;
     private EditText edt_car_fiyat_max;
@@ -48,6 +63,12 @@ public class AddAdvertCar extends AppCompatActivity {
     private Spinner spinner_car_vites;
     private Spinner spinner_car_kasatip;
     private Spinner spinner_car_cekis;
+    private ArrayAdapter<String> sehirAdapter;
+    private ArrayAdapter<String> motorAdapter;
+    private ArrayAdapter<String> yakitAdapter;
+    private ArrayAdapter<String> vitesAdapter;
+    private ArrayAdapter<String> kasatipAdapter;
+    private ArrayAdapter<String> cekisAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +76,7 @@ public class AddAdvertCar extends AppCompatActivity {
         setContentView(R.layout.activity_add_advert_car);
         navi();
         initEvent();
+        bundle = getIntent().getExtras();
 
     }
 
@@ -80,6 +102,7 @@ public class AddAdvertCar extends AppCompatActivity {
     }
 
     private void initEvent() {
+        btn_car_ilan_kaydet.setOnClickListener(this);
     }
 
     private void degerleriAl() {
@@ -88,11 +111,19 @@ public class AddAdvertCar extends AppCompatActivity {
         car_min_fiyat = edt_car_fiyat_min.getText().toString();
         car_max_model = edt_car_model_max.getText().toString();
         car_min_model = edt_car_model_min.getText().toString();
-
-
+        spinner_car_cekis.setOnItemSelectedListener(this);
+        spinner_car_sehir.setOnItemSelectedListener(this);
+        spinner_car_kasatip.setOnItemSelectedListener(this);
+        spinner_car_motorhacim.setOnItemSelectedListener(this);
+        spinner_car_vites.setOnItemSelectedListener(this);
+        spinner_car_yakit.setOnItemSelectedListener(this);
+        userId = bundle.getString("usersid");
+        i++;
     }
 
     private void navi() {
+        //component navigation
+        btn_car_ilan_kaydet = (Button) findViewById(R.id.ilan_kaydet_car_btn);
         spinner_car_cekis = (Spinner) findViewById(R.id.cekis_car_spinner);
         spinner_car_sehir = (Spinner) findViewById(R.id.sehir_car_spinner);
         spinner_car_kasatip = (Spinner) findViewById(R.id.kasatip_car_spinner);
@@ -104,6 +135,64 @@ public class AddAdvertCar extends AppCompatActivity {
         edt_car_marka = (EditText) findViewById(R.id.marka_car_edt);
         edt_car_model_max = (EditText) findViewById(R.id.model_max_car_edt);
         edt_car_model_min = (EditText) findViewById(R.id.model_min_car_edt);
+        //spinner adapter navigation
+        sehirAdapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, sehirler);
+        motorAdapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, motorhacmi);
+        vitesAdapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, vites);
+        yakitAdapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, yakit);
+        kasatipAdapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, kasatipi);
+        cekisAdapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, cekis);
+        //spinner adapter setting
+        spinner_car_yakit.setAdapter(yakitAdapter);
+        spinner_car_vites.setAdapter(vitesAdapter);
+        spinner_car_motorhacim.setAdapter(motorAdapter);
+        spinner_car_kasatip.setAdapter(kasatipAdapter);
+        spinner_car_sehir.setAdapter(sehirAdapter);
+        spinner_car_cekis.setAdapter(cekisAdapter);
+
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        switch (parent.getId()) {
+            case R.id.cekis_car_spinner:
+                cekisAl = parent.getSelectedItem().toString();
+                break;
+            case R.id.kasatip_car_spinner:
+                kasaAl = parent.getSelectedItem().toString();
+                break;
+            case R.id.motor_hacim_car_spinner:
+                motorAl = parent.getSelectedItem().toString();
+                break;
+            case R.id.sehir_car_spinner:
+                sehirAl = parent.getSelectedItem().toString();
+                break;
+            case R.id.vites_car_spinner:
+                vitesAl = parent.getSelectedItem().toString();
+                break;
+            case R.id.yakit_car_spinner:
+                yakitAl = parent.getSelectedItem().toString();
+                break;
+
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        degerleriAl();
+        currentTime = Calendar.getInstance().getTime();
+        firebaseCarEkle(car_max_model, car_min_model, car_max_fiyat, car_min_fiyat, car_baslik, car_aciklama, car_marka, sehirAl, yakitAl, vitesAl, kasaAl, cekisAl, motorAl, userId, currentTime.toString());
+    }
+
+    private void firebaseCarEkle(String modelMax, String modelMin, String fiyatMax, String fiyatMin, String baslik, String aciklama, String marka, String sehir, String yakit, String vites, String kasaTipi, String cekis, String motorHacmi, String userId, String date) {
+        Cars car = new Cars(modelMax, modelMin, fiyatMax, fiyatMin, baslik, aciklama, marka, sehir, yakit, vites, kasaTipi, cekis, motorHacmi, userId, date);
+        mRef.child("lastAdvert").setValue(String.valueOf(i));
+        mRef.child("ilanlar").child("araba").child(String.valueOf(i)).setValue(car);
+    }
 }
