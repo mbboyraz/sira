@@ -10,6 +10,11 @@ public class Users {
     public String usersPhotourl;
     public String usersTel;
 
+    public Users() {
+
+
+    }
+
     public Users(String usersname, String usersemail, String usersphotourl, String userstel) {
         this.usersName = usersname;
         this.usersEmail = usersemail;

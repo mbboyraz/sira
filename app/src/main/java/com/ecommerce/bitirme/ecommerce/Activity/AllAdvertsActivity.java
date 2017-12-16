@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ecommerce.bitirme.ecommerce.Classes.Cars;
 import com.ecommerce.bitirme.ecommerce.Classes.House;
 import com.ecommerce.bitirme.ecommerce.R;
 import com.firebase.client.DataSnapshot;
@@ -71,16 +72,16 @@ public class AllAdvertsActivity extends AppCompatActivity implements ValueEventL
         final House house = new House();
         ilanlar.clear();
         if (ilanturu.matches("Ev_Ilani")) {
-            setTitle(ilanturu);
+            setTitle("Ev İlanları");
             for (DataSnapshot gelenler : dataSnapshot.child("ilanlar").child("ev").getChildren()) {
                 ilanlar.add(new katagori("Ev",
                         gelenler.getValue(House.class).getSehir() + " , " + gelenler.getValue(House.class).getIlanTipi() + "->" + gelenler.getValue(House.class).getOdaSayisi(), gelenler.getKey()));
             }
         } else if (ilanturu.matches("Araba_Ilani")) {
-            setTitle(ilanturu);
-            for (DataSnapshot gelenler : dataSnapshot.child("ilanlar").child("ev").getChildren()) {
-                ilanlar.add(new katagori("Ev",
-                        gelenler.getValue(House.class).getSehir() + " , " + gelenler.getValue(House.class).getIlanTipi() + "->" + gelenler.getValue(House.class).getOdaSayisi(), gelenler.getKey()));
+            setTitle("Araba İlanları");
+            for (DataSnapshot gelenler1 : dataSnapshot.child("ilanlar").child("araba").getChildren()) {
+                ilanlar.add(new katagori("Araba",
+                        gelenler1.getValue(Cars.class).getMarka() + " , " + gelenler1.getValue(Cars.class).getModelMin() + "-" + gelenler1.getValue(Cars.class).getModelMax() + " , " + gelenler1.getValue(Cars.class).getFiyatMin() + "-" + gelenler1.getValue(Cars.class).getFiyatMax(), gelenler1.getKey()));
             }
         }
         //house.ilanAciklama = dataSnapshot.child("ilanlar").child("ev").child("3").child("ilanAciklama").getValue().toString();
