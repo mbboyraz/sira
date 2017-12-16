@@ -8,6 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ecommerce.bitirme.ecommerce.Classes.Cars;
 import com.ecommerce.bitirme.ecommerce.R;
@@ -16,12 +18,16 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
-import java.util.Calendar;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class AddAdvertCar extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
     //values
+    DateFormat current;
     Date currentTime;
+    String currentDate;
+
     int i;
     String car_min_fiyat;
     String car_max_fiyat;
@@ -47,9 +53,11 @@ public class AddAdvertCar extends AppCompatActivity implements AdapterView.OnIte
     String sehirAl, vitesAl, kasaAl, motorAl, cekisAl, yakitAl;
     String userId;
     Bundle bundle;
+    boolean kontrol;
     //Network
     private Firebase mRef;
     //components
+    private TextView txt_bos_hata;
     private Button btn_car_ilan_kaydet;
     private EditText edt_car_ilan_baslik;
     private EditText edt_car_fiyat_min;
@@ -120,7 +128,14 @@ public class AddAdvertCar extends AppCompatActivity implements AdapterView.OnIte
         car_min_model = edt_car_model_min.getText().toString();
         car_baslik = edt_car_ilan_baslik.getText().toString();
         car_aciklama = edt_car_aciklama.getText().toString();
-
+        if (car_aciklama.matches("") || car_baslik.matches("") || car_min_model.matches("") || car_max_model.matches("") || car_min_fiyat.matches("") || car_max_fiyat.matches("") || car_marka.matches("")) {
+            txt_bos_hata.setVisibility(View.VISIBLE);
+            txt_bos_hata.setText("Lütfen tüm alanları doldurunuz**");
+            txt_bos_hata.setTextColor(getColor(R.color.error));
+            kontrol = false;
+        } else {
+            kontrol = true;
+        }
         userId = bundle.getString("usersid");
         i++;
     }
@@ -141,6 +156,7 @@ public class AddAdvertCar extends AppCompatActivity implements AdapterView.OnIte
         edt_car_model_min = (EditText) findViewById(R.id.model_min_car_edt);
         edt_car_aciklama = (EditText) findViewById(R.id.ilan_aciklama_car_edt);
         edt_car_ilan_baslik = (EditText) findViewById(R.id.ilan_baslik_car_edt);
+        txt_bos_hata = (TextView) findViewById(R.id.car_bos_alan);
         //spinner adapter navigation
         sehirAdapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, sehirler);
         motorAdapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, motorhacmi);
@@ -191,14 +207,31 @@ public class AddAdvertCar extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onClick(View v) {
+        kontrol = false;
         degerleriAl();
-        currentTime = Calendar.getInstance().getTime();
-        firebaseCarEkle(car_max_model, car_min_model, car_max_fiyat, car_min_fiyat, car_baslik, car_aciklama, car_marka, sehirAl, yakitAl, vitesAl, kasaAl, cekisAl, motorAl, userId, currentTime.toString());
+
+        currentTime = new Date();
+        current = new SimpleDateFormat("dd.MM.yyyy");
+        currentDate = current.format(currentTime);
+
+        if (kontrol) {
+            txt_bos_hata.setVisibility(View.INVISIBLE);
+            firebaseCarEkle(car_max_model, car_min_model, car_max_fiyat, car_min_fiyat, car_baslik, car_aciklama, car_marka, sehirAl, yakitAl, vitesAl, kasaAl, cekisAl, motorAl, userId, currentDate.toString());
+            onBackPressed();
+            Toast.makeText(this, "İlan başarıyla eklendi", Toast.LENGTH_SHORT).show();
+            onBackPressed();
+        } else
+            degerleriAl();
     }
 
     private void firebaseCarEkle(String modelMax, String modelMin, String fiyatMax, String fiyatMin, String baslik, String aciklama, String marka, String sehir, String yakit, String vites, String kasaTipi, String cekis, String motorHacmi, String userId, String date) {
         Cars car = new Cars(modelMax, modelMin, fiyatMax, fiyatMin, baslik, aciklama, marka, sehir, yakit, vites, kasaTipi, cekis, motorHacmi, userId, date);
         mRef.child("lastadvert").setValue(String.valueOf(i));
         mRef.child("ilanlar").child("araba").child(String.valueOf(i)).setValue(car);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

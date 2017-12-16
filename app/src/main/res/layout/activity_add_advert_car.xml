@@ -265,6 +265,7 @@
                 android:layout_alignBottom="@+id/car_ilan_baslik_txt"
                 android:layout_toEndOf="@+id/car_ilan_aciklama_txt"
                 android:layout_toRightOf="@+id/car_ilan_aciklama_txt"
+                android:ems="5"
                 android:inputType="text" />
 
             <EditText
@@ -275,6 +276,7 @@
                 android:layout_marginTop="12dp"
                 android:layout_toEndOf="@+id/model_min_car_edt"
                 android:layout_toRightOf="@+id/model_min_car_edt"
+                android:ems="5"
                 android:inputType="text" />
 
         </RelativeLayout>
