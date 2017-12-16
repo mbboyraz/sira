@@ -21,6 +21,10 @@ public class Cars {
     private String userId;
     private String date;
 
+    public Cars() {
+
+    }
+
     public Cars(String modelMax, String modelMin, String fiyatMax, String fiyatMin, String baslik, String aciklama, String marka, String sehir, String yakit, String vites, String kasaTipi, String cekis, String motorHacmi, String userId, String date) {
         this.modelMax = modelMax;
         this.modelMin = modelMin;
