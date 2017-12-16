@@ -9,7 +9,8 @@ public class Cars {
     private String modelMin;
     private String fiyatMax;
     private String fiyatMin;
-    private String turu;
+    private String baslik;
+    private String aciklama;
     private String marka;
     private String sehir;
     private String yakit;
@@ -17,14 +18,16 @@ public class Cars {
     private String kasaTipi;
     private String cekis;
     private String motorHacmi;
-    private String userEmail;
+    private String userId;
+    private String date;
 
-    public Cars(String modelMax, String modelMin, String fiyatMax, String fiyatMin, String turu, String marka, String sehir, String yakit, String vites, String kasaTipi, String cekis, String motorHacmi, String userEmail) {
+    public Cars(String modelMax, String modelMin, String fiyatMax, String fiyatMin, String baslik, String aciklama, String marka, String sehir, String yakit, String vites, String kasaTipi, String cekis, String motorHacmi, String userId, String date) {
         this.modelMax = modelMax;
         this.modelMin = modelMin;
         this.fiyatMax = fiyatMax;
         this.fiyatMin = fiyatMin;
-        this.turu = turu;
+        this.baslik = baslik;
+        this.aciklama = aciklama;
         this.marka = marka;
         this.sehir = sehir;
         this.yakit = yakit;
@@ -32,15 +35,40 @@ public class Cars {
         this.kasaTipi = kasaTipi;
         this.cekis = cekis;
         this.motorHacmi = motorHacmi;
-        this.userEmail = userEmail;
+        this.userId = userId;
+        this.date = date;
     }
 
-    public String getUserEmail() {
-        return userEmail;
+    public String getBaslik() {
+        return baslik;
     }
 
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
+    public void setBaslik(String baslik) {
+        this.baslik = baslik;
+    }
+
+    public String getAciklama() {
+        return aciklama;
+    }
+
+    public void setAciklama(String aciklama) {
+        this.aciklama = aciklama;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getModelMax() {
@@ -73,14 +101,6 @@ public class Cars {
 
     public void setFiyatMin(String fiyatMin) {
         this.fiyatMin = fiyatMin;
-    }
-
-    public String getTuru() {
-        return turu;
-    }
-
-    public void setTuru(String turu) {
-        this.turu = turu;
     }
 
     public String getMarka() {
