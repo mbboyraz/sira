@@ -57,6 +57,7 @@ public class AddAdvertCar extends AppCompatActivity implements AdapterView.OnIte
     private EditText edt_car_model_min;
     private EditText edt_car_model_max;
     private EditText edt_car_marka;
+    private EditText edt_car_aciklama;
     private Spinner spinner_car_sehir;
     private Spinner spinner_car_motorhacim;
     private Spinner spinner_car_yakit;
@@ -103,6 +104,12 @@ public class AddAdvertCar extends AppCompatActivity implements AdapterView.OnIte
 
     private void initEvent() {
         btn_car_ilan_kaydet.setOnClickListener(this);
+        spinner_car_cekis.setOnItemSelectedListener(this);
+        spinner_car_sehir.setOnItemSelectedListener(this);
+        spinner_car_kasatip.setOnItemSelectedListener(this);
+        spinner_car_motorhacim.setOnItemSelectedListener(this);
+        spinner_car_vites.setOnItemSelectedListener(this);
+        spinner_car_yakit.setOnItemSelectedListener(this);
     }
 
     private void degerleriAl() {
@@ -111,12 +118,9 @@ public class AddAdvertCar extends AppCompatActivity implements AdapterView.OnIte
         car_min_fiyat = edt_car_fiyat_min.getText().toString();
         car_max_model = edt_car_model_max.getText().toString();
         car_min_model = edt_car_model_min.getText().toString();
-        spinner_car_cekis.setOnItemSelectedListener(this);
-        spinner_car_sehir.setOnItemSelectedListener(this);
-        spinner_car_kasatip.setOnItemSelectedListener(this);
-        spinner_car_motorhacim.setOnItemSelectedListener(this);
-        spinner_car_vites.setOnItemSelectedListener(this);
-        spinner_car_yakit.setOnItemSelectedListener(this);
+        car_baslik = edt_car_ilan_baslik.getText().toString();
+        car_aciklama = edt_car_aciklama.getText().toString();
+
         userId = bundle.getString("usersid");
         i++;
     }
@@ -135,6 +139,8 @@ public class AddAdvertCar extends AppCompatActivity implements AdapterView.OnIte
         edt_car_marka = (EditText) findViewById(R.id.marka_car_edt);
         edt_car_model_max = (EditText) findViewById(R.id.model_max_car_edt);
         edt_car_model_min = (EditText) findViewById(R.id.model_min_car_edt);
+        edt_car_aciklama = (EditText) findViewById(R.id.ilan_aciklama_car_edt);
+        edt_car_ilan_baslik = (EditText) findViewById(R.id.ilan_baslik_car_edt);
         //spinner adapter navigation
         sehirAdapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, sehirler);
         motorAdapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, motorhacmi);
@@ -192,7 +198,7 @@ public class AddAdvertCar extends AppCompatActivity implements AdapterView.OnIte
 
     private void firebaseCarEkle(String modelMax, String modelMin, String fiyatMax, String fiyatMin, String baslik, String aciklama, String marka, String sehir, String yakit, String vites, String kasaTipi, String cekis, String motorHacmi, String userId, String date) {
         Cars car = new Cars(modelMax, modelMin, fiyatMax, fiyatMin, baslik, aciklama, marka, sehir, yakit, vites, kasaTipi, cekis, motorHacmi, userId, date);
-        mRef.child("lastAdvert").setValue(String.valueOf(i));
+        mRef.child("lastadvert").setValue(String.valueOf(i));
         mRef.child("ilanlar").child("araba").child(String.valueOf(i)).setValue(car);
     }
 }
