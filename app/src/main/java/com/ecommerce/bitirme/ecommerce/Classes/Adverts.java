@@ -1,4 +1,4 @@
-package com.ecommerce.bitirme.ecommerce.Activity.Classes;
+package com.ecommerce.bitirme.ecommerce.Classes;
 
 /**
  * Created by Sedat Er on 7.12.2017.

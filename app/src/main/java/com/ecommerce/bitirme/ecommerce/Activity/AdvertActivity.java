@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
-import com.ecommerce.bitirme.ecommerce.Activity.Classes.House;
+import com.ecommerce.bitirme.ecommerce.Classes.House;
 import com.ecommerce.bitirme.ecommerce.R;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;

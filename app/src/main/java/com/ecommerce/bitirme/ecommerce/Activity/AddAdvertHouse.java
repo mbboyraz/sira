@@ -12,14 +12,14 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.ecommerce.bitirme.ecommerce.Activity.Classes.House;
+import com.ecommerce.bitirme.ecommerce.Classes.House;
 import com.ecommerce.bitirme.ecommerce.R;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
-public class AddAdvert extends AppCompatActivity {
+public class AddAdvertHouse extends AppCompatActivity {
     Firebase mRef;
     Spinner spinner;
    // TextView ilan;
@@ -76,7 +76,7 @@ public class AddAdvert extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_advert);
+        setContentView(R.layout.activity_add_advert_house);
         Firebase.setAndroidContext(this);
         degiskenHazirla();
         Bundle extras = getIntent().getExtras();

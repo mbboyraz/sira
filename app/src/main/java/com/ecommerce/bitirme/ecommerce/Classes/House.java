@@ -1,4 +1,4 @@
-package com.ecommerce.bitirme.ecommerce.Activity.Classes;
+package com.ecommerce.bitirme.ecommerce.Classes;
 
 import java.util.HashMap;
 import java.util.Map;

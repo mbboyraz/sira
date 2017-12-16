@@ -43,7 +43,7 @@ public class katagoriactivity extends AppCompatActivity {
         liste.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                 Intent gec= new Intent(katagoriactivity.this,AddAdvert.class);
+                Intent gec = new Intent(katagoriactivity.this, AddAdvertHouse.class);
                 String s;
 
                   if(i==0){
