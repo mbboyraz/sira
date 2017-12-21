@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ecommerce.bitirme.ecommerce.Classes.Cars;
 import com.ecommerce.bitirme.ecommerce.Classes.House;
 import com.ecommerce.bitirme.ecommerce.R;
 import com.firebase.client.DataSnapshot;
@@ -126,6 +127,7 @@ public class MyProfile extends AppCompatActivity {
         List<katagori> ilanlar = new ArrayList<katagori>();
         adapter ilanadapter;
         ListView ilanlarliste;
+        int i;
 
 
 
@@ -154,6 +156,7 @@ public class MyProfile extends AppCompatActivity {
             ilanlarliste = rootView.findViewById(R.id.liste);
             TextView textView = rootView.findViewById(R.id.section_label);
             // textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+            i = getArguments().getInt(ARG_SECTION_NUMBER);
             Firebase.setAndroidContext(this.getActivity());
             mRef = new Firebase("https://ecommerce-1-28620.firebaseio.com/");
             mRef.addValueEventListener(this);
@@ -163,9 +166,16 @@ public class MyProfile extends AppCompatActivity {
 
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
+            if (i == 1) {
             for (DataSnapshot gelenler : dataSnapshot.child("ilanlar").child("ev").getChildren()) {
                 ilanlar.add(new katagori("Ev",
                         gelenler.getValue(House.class).getSehir() + " , " + gelenler.getValue(House.class).getIlanTipi() + "->" + gelenler.getValue(House.class).getOdaSayisi(), gelenler.getKey()));
+            }
+            } else if (i == 2) {
+                for (DataSnapshot gelenler1 : dataSnapshot.child("ilanlar").child("araba").getChildren()) {
+                    ilanlar.add(new katagori("Araba",
+                            gelenler1.getValue(Cars.class).getMarka() + " , " + gelenler1.getValue(Cars.class).getModelMin() + "-" + gelenler1.getValue(Cars.class).getModelMax() + " , " + gelenler1.getValue(Cars.class).getFiyatMin() + "-" + gelenler1.getValue(Cars.class).getFiyatMax(), gelenler1.getKey()));
+                }
             }
             ilanadapter = new adapter(this.getActivity(), ilanlar);
             ilanlarliste.setAdapter(ilanadapter);
