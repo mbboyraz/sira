@@ -1,5 +1,6 @@
 package com.ecommerce.bitirme.ecommerce.Activity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -83,6 +84,7 @@ public class AddAdvertCar extends AppCompatActivity implements AdapterView.OnIte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_advert_car);
+        setTitle("İlan Ver");
         navi();
         initEvent();
         bundle = getIntent().getExtras();
@@ -131,7 +133,7 @@ public class AddAdvertCar extends AppCompatActivity implements AdapterView.OnIte
         if (car_aciklama.matches("") || car_baslik.matches("") || car_min_model.matches("") || car_max_model.matches("") || car_min_fiyat.matches("") || car_max_fiyat.matches("") || car_marka.matches("")) {
             txt_bos_hata.setVisibility(View.VISIBLE);
             txt_bos_hata.setText("Lütfen tüm alanları doldurunuz**");
-            txt_bos_hata.setTextColor(getColor(R.color.error));
+            txt_bos_hata.setTextColor(Color.RED);
             kontrol = false;
         } else {
             kontrol = true;
@@ -228,6 +230,7 @@ public class AddAdvertCar extends AppCompatActivity implements AdapterView.OnIte
         Cars car = new Cars(modelMax, modelMin, fiyatMax, fiyatMin, baslik, aciklama, marka, sehir, yakit, vites, kasaTipi, cekis, motorHacmi, userId, date);
         mRef.child("lastadvert").setValue(String.valueOf(i));
         mRef.child("ilanlar").child("araba").child(String.valueOf(i)).setValue(car);
+        mRef.child("users").child(userId).child("ilanlarım").child("araba").child(String.valueOf(i)).setValue(String.valueOf(i));
     }
 
     @Override

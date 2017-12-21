@@ -185,6 +185,7 @@ public class AddAdvertHouse extends AppCompatActivity {
         House house = new House(tipi, sayi, minmetre, maxmetre, yes, ilanyazi, sehiradi, minfiy, maxfiy, userid);
         mRef.child("lastadvert").setValue(String.valueOf(i));
         mRef.child("ilanlar").child("ev").child(String.valueOf(i)).setValue(house);
+        mRef.child("users").child(userid).child("ilanlarım").child("ev").child(String.valueOf(i)).setValue(String.valueOf(i));
 
 
 

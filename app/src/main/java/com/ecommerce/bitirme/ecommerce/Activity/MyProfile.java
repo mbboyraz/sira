@@ -19,11 +19,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ecommerce.bitirme.ecommerce.R;
+import com.firebase.client.Firebase;
 import com.squareup.picasso.Picasso;
 
 public class MyProfile extends AppCompatActivity {
 
+    Firebase mRef;
     ImageView profilephotos;
+
+
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -32,7 +36,8 @@ public class MyProfile extends AppCompatActivity {
      * may be best to switch to a
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
-    private SectionsPagerAdapter mSectionsPagerAdapter;
+    private PlaceholderFragment.SectionsPagerAdapter mSectionsPagerAdapter;
+
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -44,6 +49,8 @@ public class MyProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_profile);
 
+        Firebase.setAndroidContext(this);
+
         profilephotos = (ImageView) findViewById(R.id.profilphoto);
         Bundle extras = getIntent().getExtras();
         Picasso.with(MyProfile.this).load(extras.getString("profilephoto")).into(profilephotos);
@@ -51,7 +58,7 @@ public class MyProfile extends AppCompatActivity {
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        mSectionsPagerAdapter = new PlaceholderFragment.SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -97,6 +104,7 @@ public class MyProfile extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -125,18 +133,22 @@ public class MyProfile extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
+
+
             View rootView = inflater.inflate(R.layout.fragment_my_profile, container, false);
+
             TextView textView = rootView.findViewById(R.id.section_label);
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+
             return rootView;
         }
-    }
 
-    /**
+
+        /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+        public static class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -168,4 +180,5 @@ public class MyProfile extends AppCompatActivity {
             return null;
         }
     }
+}
 }

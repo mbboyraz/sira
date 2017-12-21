@@ -7,8 +7,20 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
+import com.ecommerce.bitirme.ecommerce.Activity.adapter;
+import com.ecommerce.bitirme.ecommerce.Activity.katagori;
+import com.ecommerce.bitirme.ecommerce.Classes.House;
 import com.ecommerce.bitirme.ecommerce.R;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -19,11 +31,18 @@ import com.ecommerce.bitirme.ecommerce.R;
  * Use the {@link MyAdvertsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MyAdvertsFragment extends Fragment {
+public class MyAdvertsFragment extends Fragment implements ValueEventListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    List<katagori> ilanlar = new ArrayList<katagori>();
+    Firebase mRef;
+
+    adapter ilanadapter;
+    ListView liste;
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -66,7 +85,14 @@ public class MyAdvertsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_my_adverts, container, false);
+        Firebase.setAndroidContext(this.getActivity());
+        mRef = new Firebase("https://ecommerce-1-28620.firebaseio.com/");
+
+        View mView = inflater.inflate(R.layout.fragment_my_profile, container, false);
+
+        mRef.addValueEventListener(this);
+        liste = mView.findViewById(R.id.liste);
+        return mView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -91,6 +117,48 @@ public class MyAdvertsFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onDataChange(DataSnapshot dataSnapshot) {
+
+
+        for (DataSnapshot gelenler : dataSnapshot.child("ilanlar").child("ev").getChildren()) {
+            ilanlar.add(new katagori("Ev",
+                    gelenler.getValue(House.class).getSehir() + " , " + gelenler.getValue(House.class).getIlanTipi() + "->" + gelenler.getValue(House.class).getOdaSayisi(), gelenler.getKey()));
+        }
+
+
+              /*  for (DataSnapshot gelenler1 : dataSnapshot.child("ilanlar").child("araba").getChildren()) {
+                    ilanlar.add(new katagori("Araba",
+                            gelenler1.getValue(Cars.class).getMarka() + " , " + gelenler1.getValue(Cars.class).getModelMin() + "-" + gelenler1.getValue(Cars.class).getModelMax() + " , " + gelenler1.getValue(Cars.class).getFiyatMin() + "-" + gelenler1.getValue(Cars.class).getFiyatMax(), gelenler1.getKey()));
+                }*/
+
+        //house.ilanAciklama = dataSnapshot.child("ilanlar").child("ev").child("3").child("ilanAciklama").getValue().toString();
+        //     Toast.makeText(this, dataSnapshot.child("ilanlar").child("ev").child("14").child("ilanAciklama").getValue().toString(), Toast.LENGTH_SHORT).show();
+//        for(DataSnapshot gelenler:dataSnapshot.child("ilanlar").child("ev").getChildren()){
+//            Toast.makeText(this,gelenler.getValue(House.class).ilanAciklama+"\n",Toast.LENGTH_SHORT);
+//        }
+
+
+        ilanadapter = new adapter(this.getActivity(), ilanlar);
+        liste.setAdapter(ilanadapter);
+        liste.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                  /*  Intent intent = new Intent(AllAdvertsActivity.this, AdvertActivity.class);
+                    intent.putExtra("id", ilanlar.get(position).getId());
+                    startActivity(intent);*/
+                // Toast.makeText(view.getContext(), "Uçuyozz", Toast.LENGTH_LONG).show();
+            }
+        });
+
+    }
+
+    @Override
+    public void onCancelled(FirebaseError firebaseError) {
+
     }
 
     /**
