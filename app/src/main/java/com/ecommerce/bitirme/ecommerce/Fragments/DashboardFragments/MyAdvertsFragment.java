@@ -89,9 +89,9 @@ public class MyAdvertsFragment extends Fragment implements ValueEventListener {
         mRef = new Firebase("https://ecommerce-1-28620.firebaseio.com/");
 
         View mView = inflater.inflate(R.layout.fragment_my_profile, container, false);
-
-        mRef.addValueEventListener(this);
         liste = mView.findViewById(R.id.liste);
+        mRef.addValueEventListener(this);
+
         return mView;
     }
 
@@ -141,7 +141,7 @@ public class MyAdvertsFragment extends Fragment implements ValueEventListener {
 //        }
 
 
-        ilanadapter = new adapter(this.getActivity(), ilanlar);
+        ilanadapter = new adapter(getActivity(), ilanlar);
         liste.setAdapter(ilanadapter);
         liste.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

@@ -16,15 +16,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ecommerce.bitirme.ecommerce.Classes.House;
 import com.ecommerce.bitirme.ecommerce.R;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MyProfile extends AppCompatActivity {
 
-    Firebase mRef;
+
     ImageView profilephotos;
 
 
@@ -49,7 +57,7 @@ public class MyProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_profile);
 
-        Firebase.setAndroidContext(this);
+
 
         profilephotos = (ImageView) findViewById(R.id.profilphoto);
         Bundle extras = getIntent().getExtras();
@@ -108,14 +116,21 @@ public class MyProfile extends AppCompatActivity {
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment {
+    public static class PlaceholderFragment extends Fragment implements ValueEventListener {
         /**
          * The fragment argument representing the section number for this
          * fragment.
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
+        Firebase mRef;
+        List<katagori> ilanlar = new ArrayList<katagori>();
+        adapter ilanadapter;
+        ListView ilanlarliste;
+
+
 
         public PlaceholderFragment() {
+
         }
 
         /**
@@ -136,11 +151,29 @@ public class MyProfile extends AppCompatActivity {
 
 
             View rootView = inflater.inflate(R.layout.fragment_my_profile, container, false);
-
+            ilanlarliste = rootView.findViewById(R.id.liste);
             TextView textView = rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+            // textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+            Firebase.setAndroidContext(this.getActivity());
+            mRef = new Firebase("https://ecommerce-1-28620.firebaseio.com/");
+            mRef.addValueEventListener(this);
 
             return rootView;
+        }
+
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            for (DataSnapshot gelenler : dataSnapshot.child("ilanlar").child("ev").getChildren()) {
+                ilanlar.add(new katagori("Ev",
+                        gelenler.getValue(House.class).getSehir() + " , " + gelenler.getValue(House.class).getIlanTipi() + "->" + gelenler.getValue(House.class).getOdaSayisi(), gelenler.getKey()));
+            }
+            ilanadapter = new adapter(this.getActivity(), ilanlar);
+            ilanlarliste.setAdapter(ilanadapter);
+        }
+
+        @Override
+        public void onCancelled(FirebaseError firebaseError) {
+
         }
 
 
