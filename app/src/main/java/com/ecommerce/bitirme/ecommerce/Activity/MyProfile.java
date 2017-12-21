@@ -17,7 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ecommerce.bitirme.ecommerce.Classes.Cars;
 import com.ecommerce.bitirme.ecommerce.Classes.House;
@@ -35,8 +35,7 @@ public class MyProfile extends AppCompatActivity {
 
 
     ImageView profilephotos;
-
-
+    String userid, name;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -46,12 +45,14 @@ public class MyProfile extends AppCompatActivity {
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     private PlaceholderFragment.SectionsPagerAdapter mSectionsPagerAdapter;
-
-
     /**
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+
+    public String getData() {
+        return userid;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +63,8 @@ public class MyProfile extends AppCompatActivity {
 
         profilephotos = (ImageView) findViewById(R.id.profilphoto);
         Bundle extras = getIntent().getExtras();
+        userid = extras.getString("usersid");
+        name = extras.getString("username");
         Picasso.with(MyProfile.this).load(extras.getString("profilephoto")).into(profilephotos);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -154,13 +157,17 @@ public class MyProfile extends AppCompatActivity {
 
             View rootView = inflater.inflate(R.layout.fragment_my_profile, container, false);
             ilanlarliste = rootView.findViewById(R.id.liste);
-            TextView textView = rootView.findViewById(R.id.section_label);
+            //  TextView textView = rootView.findViewById(R.id.section_label);
             // textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+            // my.userid
+
+            MyProfile activity = (MyProfile) getActivity();
+            String id = activity.getData();
             i = getArguments().getInt(ARG_SECTION_NUMBER);
             Firebase.setAndroidContext(this.getActivity());
             mRef = new Firebase("https://ecommerce-1-28620.firebaseio.com/");
             mRef.addValueEventListener(this);
-
+            Toast.makeText(getContext(), id, Toast.LENGTH_SHORT).show();
             return rootView;
         }
 
@@ -179,6 +186,7 @@ public class MyProfile extends AppCompatActivity {
             }
             ilanadapter = new adapter(this.getActivity(), ilanlar);
             ilanlarliste.setAdapter(ilanadapter);
+
         }
 
         @Override
