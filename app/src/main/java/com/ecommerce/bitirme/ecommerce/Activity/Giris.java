@@ -155,8 +155,12 @@ public class Giris extends AppCompatActivity implements
     public void firebaseUyeEkle(String id, String usersname, String usersemail, String usersphotourl, String userstel) {
 
 
-        Users users = new Users(usersname, usersemail, usersphotourl, userstel);
-        mRef.child("users").child(id).setValue(users);
+        if (mRef.child("users").child(id).getKey() == null) {
+            Users users = new Users(usersname, usersemail, usersphotourl, userstel);
+            mRef.child("users").child(id).setValue(users);
+        } else {
+            return;
+        }
 
 
 

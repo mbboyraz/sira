@@ -2,7 +2,6 @@ package com.ecommerce.bitirme.ecommerce.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -29,13 +29,19 @@ import com.firebase.client.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MyProfile extends AppCompatActivity {
 
 
     ImageView profilephotos;
     String userid, name;
+    Firebase mRef;
+    String s;
+    ArrayList<String> ilanno = new ArrayList<>();
+
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -54,17 +60,19 @@ public class MyProfile extends AppCompatActivity {
         return userid;
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_profile);
 
+        Firebase.setAndroidContext(this);
 
 
         profilephotos = (ImageView) findViewById(R.id.profilphoto);
         Bundle extras = getIntent().getExtras();
         userid = extras.getString("usersid");
-        name = extras.getString("username");
+
         Picasso.with(MyProfile.this).load(extras.getString("profilephoto")).into(profilephotos);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -79,17 +87,7 @@ public class MyProfile extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent prof= new Intent(MyProfile.this,katagoriactivity.class);
-                startActivity(prof);
-              /*  Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
 
-            }
-        });
 
     }
 
@@ -131,6 +129,11 @@ public class MyProfile extends AppCompatActivity {
         adapter ilanadapter;
         ListView ilanlarliste;
         int i;
+        String id;
+
+        Map<String, ArrayList<String>> ids = new HashMap<>();
+        ArrayList<String> idler = new ArrayList<>();
+        ArrayList<String> donilan = new ArrayList<>();
 
 
 
@@ -162,7 +165,8 @@ public class MyProfile extends AppCompatActivity {
             // my.userid
 
             MyProfile activity = (MyProfile) getActivity();
-            String id = activity.getData();
+            id = activity.getData();
+
             i = getArguments().getInt(ARG_SECTION_NUMBER);
             Firebase.setAndroidContext(this.getActivity());
             mRef = new Firebase("https://ecommerce-1-28620.firebaseio.com/");
@@ -171,21 +175,75 @@ public class MyProfile extends AppCompatActivity {
             return rootView;
         }
 
+
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
-            if (i == 1) {
-            for (DataSnapshot gelenler : dataSnapshot.child("ilanlar").child("ev").getChildren()) {
-                ilanlar.add(new katagori("Ev",
-                        gelenler.getValue(House.class).getSehir() + " , " + gelenler.getValue(House.class).getIlanTipi() + "->" + gelenler.getValue(House.class).getOdaSayisi(), gelenler.getKey()));
-            }
-            } else if (i == 2) {
-                for (DataSnapshot gelenler1 : dataSnapshot.child("ilanlar").child("araba").getChildren()) {
-                    ilanlar.add(new katagori("Araba",
-                            gelenler1.getValue(Cars.class).getMarka() + " , " + gelenler1.getValue(Cars.class).getModelMin() + "-" + gelenler1.getValue(Cars.class).getModelMax() + " , " + gelenler1.getValue(Cars.class).getFiyatMin() + "-" + gelenler1.getValue(Cars.class).getFiyatMax(), gelenler1.getKey()));
+            int k = 0, l = 0;
+            DataSnapshot data;
+
+
+
+
+
+         /*   for (DataSnapshot arabaid : dataSnapshot.child("users").child(id).child("ilanlarım").child("araba").getChildren()) {
+
+                donilan.add(arabaid.getValue().toString());
+
+            }*/
+
+
+
+           /* if (i == 2) {
+                for (DataSnapshot gelenler : dataSnapshot.child("users").child(id).child("ilanlarım").child("ev").getChildren()) {
+                    if (!gelenler.getValue().toString().equals(null)) {
+                        for (DataSnapshot gelenler1 : dataSnapshot.child("ilanlar").child("ev").child(gelenler.getValue().toString()).getChildren()) {
+                            ilanlar.add(new katagori("Ev", gelenler1.child("sehir").getValue().toString(), gelenler1.child("odaSayisi").getValue().toString()));
+
+                        }
+                    }
+//                    ilanlar.add(new katagori("Ev",
+//                            gelenler.getValue(House.class).getSehir() + " , " + gelenler.getValue(House.class).getIlanTipi() + "->" + gelenler.getValue(House.class).getOdaSayisi(), gelenler.getKey()));
                 }
+            }*/
+            if (i == 1) {
+                for (DataSnapshot evid : dataSnapshot.child("users").child(id).child("ilanlarım").child("ev").getChildren()) {
+
+                    data = dataSnapshot.child("ilanlar").child("ev").child(evid.getValue().toString());
+
+                    ilanlar.add(new katagori("Ev",
+                            data.getValue(House.class).getSehir() + " , " +
+                                    data.getValue(House.class).getIlanTipi() + "->" +
+                                    data.getValue(House.class).getOdaSayisi(), data.getKey()));
+                }
+                for (DataSnapshot arabaid : dataSnapshot.child("users").child(id).child("ilanlarım").child("araba").getChildren()) {
+
+                    data = dataSnapshot.child("ilanlar").child("araba").child(arabaid.getValue().toString());
+
+                    ilanlar.add(new katagori("Araba",
+                            data.getValue(Cars.class).getMarka() + " , " +
+                                    data.getValue(Cars.class).getModelMin() + "-" +
+                                    data.getValue(Cars.class).getModelMax() + " , " +
+                                    data.getValue(Cars.class).getFiyatMin() + "-" +
+                                    data.getValue(Cars.class).getFiyatMax(), data.getKey()));
+                }
+
+
             }
-            ilanadapter = new adapter(this.getActivity(), ilanlar);
+
+
+            adapter ilanadapter = new adapter(this.getActivity(), ilanlar);
             ilanlarliste.setAdapter(ilanadapter);
+            ilanlarliste.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    Intent intent = new Intent(getContext(), AdvertActivity.class);
+                    intent.putExtra("id", ilanlar.get(position).getId());
+                    startActivity(intent);
+                    // Toast.makeText(view.getContext(), "Uçuyozz", Toast.LENGTH_LONG).show();
+                }
+            });
+
 
         }
 
