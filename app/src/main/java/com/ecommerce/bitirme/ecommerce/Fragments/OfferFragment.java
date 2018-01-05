@@ -9,6 +9,7 @@ import android.widget.ListView;
 
 import com.ecommerce.bitirme.ecommerce.Activity.adapter;
 import com.ecommerce.bitirme.ecommerce.Activity.katagori;
+import com.ecommerce.bitirme.ecommerce.Classes.OfferHouse;
 import com.ecommerce.bitirme.ecommerce.R;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -53,10 +54,10 @@ public class OfferFragment extends Fragment implements ValueEventListener {
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
         for (DataSnapshot gelenler : dataSnapshot.child("teklifler").child(ilanIdOffer).getChildren()) {
-            for (DataSnapshot gelenler1 : gelenler.getChildren()) {
+
                 offer.add(new katagori("teklif",
-                        gelenler1.child("fiyat").getValue().toString(), gelenler.child("m2").getValue().toString()));
-            }
+                        gelenler.getValue(OfferHouse.class).getOfferFiyat() + "," + gelenler.getValue(OfferHouse.class).getOfferm2(), gelenler.getValue(OfferHouse.class).getOfferAciklama()));
+
         }
 
         offeradap = new adapter(this.getActivity(), offer);
