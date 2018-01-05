@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
@@ -42,13 +43,14 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
     DateFormat current;
     Date currentTime;
     String currentDate;
-
+    FragmentTransaction ft;
     android.app.Fragment offerfragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.evilan);
+
         bundle = getIntent().getExtras();
         offeruserid = bundle.getString("userid");
 
@@ -56,6 +58,9 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
         Bundle bundle1 = new Bundle();
         bundle1.putString("ilanid", bundle.getString("id"));
         OfferFragment offerfragment = new OfferFragment();
+        ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.frame, offerfragment);
+        ft.commit();
         offerfragment.setArguments(bundle1);
 
 

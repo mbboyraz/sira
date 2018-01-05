@@ -40,12 +40,12 @@ public class OfferFragment extends Fragment implements ValueEventListener {
                              Bundle savedInstanceState) {
         View mview = inflater.inflate(R.layout.fragment_offer, container, false);
         listoffer = mview.findViewById(R.id.offerlist);
+        ilanIdOffer = getArguments().getString("ilanid");
         //// TODO: 5.01.2018 sorgu firebaseden offer doldurulacak
         Firebase.setAndroidContext(mview.getContext());
         mRef = new Firebase("https://ecommerce-1-28620.firebaseio.com/");
         mRef.addValueEventListener(this);
 
-        ilanIdOffer = getArguments().getString("ilanid");
 
         return mview;
     }
@@ -53,8 +53,10 @@ public class OfferFragment extends Fragment implements ValueEventListener {
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
         for (DataSnapshot gelenler : dataSnapshot.child("teklifler").child(ilanIdOffer).getChildren()) {
-            offer.add(new katagori("teklif",
-                    gelenler.getValue().toString(), ""));
+            for (DataSnapshot gelenler1 : gelenler.getChildren()) {
+                offer.add(new katagori("teklif",
+                        gelenler1.child("fiyat").getValue().toString(), gelenler.child("m2").getValue().toString()));
+            }
         }
 
         offeradap = new adapter(this.getActivity(), offer);

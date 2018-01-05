@@ -184,12 +184,14 @@
     </LinearLayout>
         </ScrollView>
 
-        <fragment
-            android:id="@+id/fragmentoffer"
+        <FrameLayout
+            android:id="@+id/frame"
+            android:name="com.ecommerce.bitirme.ecommerce.Fragments.OfferFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="bottom"
-            android:layout_weight="1"></fragment>
+            android:layout_weight="1"
+            android:background="#ababab" />
 
 
     </LinearLayout>
