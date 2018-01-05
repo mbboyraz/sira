@@ -76,6 +76,8 @@ public class MyProfile extends AppCompatActivity {
         Picasso.with(MyProfile.this).load(extras.getString("profilephoto")).into(profilephotos);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new PlaceholderFragment.SectionsPagerAdapter(getSupportFragmentManager());
@@ -129,7 +131,7 @@ public class MyProfile extends AppCompatActivity {
         adapter ilanadapter;
         ListView ilanlarliste;
         int i;
-        String id;
+        String userid;
 
         Map<String, ArrayList<String>> ids = new HashMap<>();
         ArrayList<String> idler = new ArrayList<>();
@@ -165,13 +167,13 @@ public class MyProfile extends AppCompatActivity {
             // my.userid
 
             MyProfile activity = (MyProfile) getActivity();
-            id = activity.getData();
+            userid = activity.getData();
 
             i = getArguments().getInt(ARG_SECTION_NUMBER);
             Firebase.setAndroidContext(this.getActivity());
             mRef = new Firebase("https://ecommerce-1-28620.firebaseio.com/");
             mRef.addValueEventListener(this);
-            Toast.makeText(getContext(), id, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), userid, Toast.LENGTH_SHORT).show();
             return rootView;
         }
 
@@ -181,32 +183,8 @@ public class MyProfile extends AppCompatActivity {
             int k = 0, l = 0;
             DataSnapshot data;
 
-
-
-
-
-         /*   for (DataSnapshot arabaid : dataSnapshot.child("users").child(id).child("ilanlarım").child("araba").getChildren()) {
-
-                donilan.add(arabaid.getValue().toString());
-
-            }*/
-
-
-
-           /* if (i == 2) {
-                for (DataSnapshot gelenler : dataSnapshot.child("users").child(id).child("ilanlarım").child("ev").getChildren()) {
-                    if (!gelenler.getValue().toString().equals(null)) {
-                        for (DataSnapshot gelenler1 : dataSnapshot.child("ilanlar").child("ev").child(gelenler.getValue().toString()).getChildren()) {
-                            ilanlar.add(new katagori("Ev", gelenler1.child("sehir").getValue().toString(), gelenler1.child("odaSayisi").getValue().toString()));
-
-                        }
-                    }
-//                    ilanlar.add(new katagori("Ev",
-//                            gelenler.getValue(House.class).getSehir() + " , " + gelenler.getValue(House.class).getIlanTipi() + "->" + gelenler.getValue(House.class).getOdaSayisi(), gelenler.getKey()));
-                }
-            }*/
             if (i == 1) {
-                for (DataSnapshot evid : dataSnapshot.child("users").child(id).child("ilanlarım").child("ev").getChildren()) {
+                for (DataSnapshot evid : dataSnapshot.child("users").child(userid).child("ilanlarım").child("ev").getChildren()) {
 
                     data = dataSnapshot.child("ilanlar").child("ev").child(evid.getValue().toString());
 
@@ -215,7 +193,7 @@ public class MyProfile extends AppCompatActivity {
                                     data.getValue(House.class).getIlanTipi() + "->" +
                                     data.getValue(House.class).getOdaSayisi(), data.getKey()));
                 }
-                for (DataSnapshot arabaid : dataSnapshot.child("users").child(id).child("ilanlarım").child("araba").getChildren()) {
+                for (DataSnapshot arabaid : dataSnapshot.child("users").child(userid).child("ilanlarım").child("araba").getChildren()) {
 
                     data = dataSnapshot.child("ilanlar").child("araba").child(arabaid.getValue().toString());
 
@@ -239,6 +217,7 @@ public class MyProfile extends AppCompatActivity {
 
                     Intent intent = new Intent(getContext(), AdvertActivity.class);
                     intent.putExtra("id", ilanlar.get(position).getId());
+                    intent.putExtra("userid", userid);
                     startActivity(intent);
                     // Toast.makeText(view.getContext(), "Uçuyozz", Toast.LENGTH_LONG).show();
                 }

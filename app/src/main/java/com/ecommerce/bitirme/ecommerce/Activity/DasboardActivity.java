@@ -124,12 +124,14 @@ public class DasboardActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {
             sayfaad = "Ev_Ilani";
             gec1.putExtra("session", sayfaad);
+            gec1.putExtra("usersid", userid);
             startActivity(gec1);
             // Handle the camera action
 
         } else if (id == R.id.nav_gallery) {
             sayfaad = "Araba_Ilani";
             gec1.putExtra("session", sayfaad);
+            gec1.putExtra("usersid", userid);
             startActivity(gec1);
         } else if (id == R.id.nav_slideshow) {
             sayfaad="Spor İlanları";

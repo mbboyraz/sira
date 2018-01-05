@@ -29,6 +29,7 @@ public class AllAdvertsActivity extends AppCompatActivity implements ValueEventL
     Button btn;
     SwipeRefreshLayout swipeRefreshLayout;
     String ilanturu;
+    String userid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,17 +41,7 @@ public class AllAdvertsActivity extends AppCompatActivity implements ValueEventL
         mRef.addValueEventListener(this);
         Bundle extras = getIntent().getExtras();
         this.ilanturu = extras.get("session").toString();
-//          if (extras.getString("session").matches("Ev_Ilani")) {
-//
-//        } else if (extras.getString("session").matches("Araba_Ilani")) {
-//            setContentView(R.layout.arabailan);
-//        }
-//          txt = (TextView) findViewById(R.id.altbaslik);
-//           txt1 = (TextView) findViewById(R.id.baslik);
-//          btn = (Button) findViewById(R.id.button2);
-//          btn.setOnClickListener(this);
-//          txt1.setText("Ev");
-//        txt.setText(extras.getString("session"))   ;
+        userid = extras.getString("usersid");
 
         swipeRefreshLayout.setOnRefreshListener(this);
 
@@ -99,6 +90,7 @@ public class AllAdvertsActivity extends AppCompatActivity implements ValueEventL
 
                 Intent intent = new Intent(AllAdvertsActivity.this, AdvertActivity.class);
                 intent.putExtra("id", ilanlar.get(position).getId());
+                intent.putExtra("userid", userid);
                 startActivity(intent);
                 // Toast.makeText(view.getContext(), "Uçuyozz", Toast.LENGTH_LONG).show();
             }

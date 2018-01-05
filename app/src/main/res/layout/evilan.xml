@@ -1,12 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/evilan"
     android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/unselected_color"
         android:orientation="horizontal">
@@ -166,5 +181,26 @@
         android:layout_height="25dp"
         android:gravity="center_vertical"
         android:text="  İlan Açıklama:" />
+    </LinearLayout>
+        </ScrollView>
 
-</LinearLayout>
+        <fragment
+            android:id="@+id/fragmentoffer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"></fragment>
+
+
+    </LinearLayout>
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/faballadvert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        app:srcCompat="@drawable/ic_action_name" />
+
+</android.support.design.widget.CoordinatorLayout>

@@ -1,46 +1,160 @@
 package com.ecommerce.bitirme.ecommerce.Activity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AlertDialog;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ecommerce.bitirme.ecommerce.Classes.House;
+import com.ecommerce.bitirme.ecommerce.Fragments.OfferFragment;
 import com.ecommerce.bitirme.ecommerce.R;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
-public class AdvertActivity extends AppCompatActivity implements ValueEventListener {
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class AdvertActivity extends FragmentActivity implements ValueEventListener, OfferFragment.OnFragmentInteractionListener {
 
     Firebase mRef;
     Bundle bundle;
     House house;
-    String usersid;
+    String usersid, lastoffer, offeruserid;
+    int i = 0;
     TextView fiyat, m2, tip, oda, kredi, aciklama, konum, aliciadi;
+    FloatingActionButton fab;
+    AlertDialog.Builder dialog;
+    LinearLayout ilantipilay, odalay, sehirlay, kredilay;
+    TextView fiy, metre;
+    EditText edt_fiyat, edtdelfiyat, edt_m2, edtdelm2, edt_aciklama;
+    Button btndel;
+
+    DateFormat current;
+    Date currentTime;
+    String currentDate;
+
+    android.app.Fragment offerfragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.evilan);
         bundle = getIntent().getExtras();
+        offeruserid = bundle.getString("userid");
 
-        fiyat = (TextView) findViewById(R.id.fiyataraligi);
-        m2 = (TextView) findViewById(R.id.m2araligi);
-        tip = (TextView) findViewById(R.id.emlaktipi);
-        oda = (TextView) findViewById(R.id.odasayisi);
-        kredi = (TextView) findViewById(R.id.krediuygun);
-        aciklama = (TextView) findViewById(R.id.ilanaciklama);
-        konum = (TextView) findViewById(R.id.ilankonum);
-        aliciadi = (TextView) findViewById(R.id.aliciadi);
 
+        Bundle bundle1 = new Bundle();
+        bundle1.putString("ilanid", bundle.getString("id"));
+        OfferFragment offerfragment = new OfferFragment();
+        offerfragment.setArguments(bundle1);
+
+
+        fiyat = findViewById(R.id.fiyataraligi);
+        m2 = findViewById(R.id.m2araligi);
+        tip = findViewById(R.id.emlaktipi);
+        oda = findViewById(R.id.odasayisi);
+        kredi = findViewById(R.id.krediuygun);
+        aciklama = findViewById(R.id.ilanaciklama);
+        konum = findViewById(R.id.ilankonum);
+        aliciadi = findViewById(R.id.aliciadi);
+        fab = findViewById(R.id.faballadvert);
         house = new House();
         mRef = new Firebase("https://ecommerce-1-28620.firebaseio.com/");
         mRef.addValueEventListener(this);
 
+
+        currentTime = new Date();
+        current = new SimpleDateFormat("dd.MM.yyyy");
+        currentDate = current.format(currentTime);
+
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                dialog = new AlertDialog.Builder(AdvertActivity.this);
+                View mview = getLayoutInflater().inflate(R.layout.activity_add_advert_house, null);
+                ilantipilay = mview.findViewById(R.id.ilantipilay);
+                odalay = mview.findViewById(R.id.odalay);
+                sehirlay = mview.findViewById(R.id.sehirlay);
+                kredilay = mview.findViewById(R.id.kredilay);
+                ilantipilay.setVisibility(View.GONE);
+                odalay.setVisibility(View.GONE);
+                sehirlay.setVisibility(View.GONE);
+                kredilay.setVisibility(View.GONE);
+                edt_fiyat = mview.findViewById(R.id.min_price_edttxt);
+                edtdelfiyat = mview.findViewById(R.id.max_price_edttxt);
+                edtdelm2 = mview.findViewById(R.id.sizes_max_edttxt);
+                edt_m2 = mview.findViewById(R.id.sizes_min_edttxt);
+                edt_aciklama = mview.findViewById(R.id.explanation_edttxt);
+                btndel = mview.findViewById(R.id.save_advert_btn);
+                fiy = mview.findViewById(R.id.price_txt);
+                metre = mview.findViewById(R.id.sizes_txt);
+                edtdelm2.setVisibility(View.GONE);
+                edtdelfiyat.setVisibility(View.GONE);
+                edt_aciklama.setHint("Teklif Açıklaması");
+                btndel.setVisibility(View.GONE);
+                fiy.setText("Teklif Fiyatı");
+                metre.setText("m2");
+                edt_m2.setHint("Teklif m2");
+                edt_fiyat.setHint("Fiyat");
+                dialog.setTitle("Teklif Yap");
+
+                dialog.setPositiveButton("Ekle", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+
+                        if (edt_m2.getText().toString().matches("") || edt_fiyat.getText().toString().matches("") || edt_aciklama.getText().toString().matches("")) {
+
+                            Toast.makeText(getApplicationContext(), "Tüm Bilgileri Eksiksiz Doldurunuz", Toast.LENGTH_SHORT).show();
+                        } else {
+
+                            i = Integer.parseInt(lastoffer);
+                            i++;
+                            mRef.child("teklifler").child(bundle.getString("id")).child(String.valueOf(i)).child("fiyat").setValue(edt_fiyat.getText().toString());
+                            mRef.child("teklifler").child(bundle.getString("id")).child(String.valueOf(i)).child("m2").setValue(edt_m2.getText().toString());
+                            mRef.child("teklifler").child(bundle.getString("id")).child(String.valueOf(i)).child("teklifaciklama").setValue(edt_aciklama.getText().toString());
+                            mRef.child("teklifler").child(bundle.getString("id")).child(String.valueOf(i)).child("offeruser").setValue(offeruserid);
+                            mRef.child("users").child(offeruserid).child("tekliflerim").child("ev").child(bundle.getString("id")).setValue(String.valueOf(i));
+                            mRef.child("teklifler").child(bundle.getString("id")).child(String.valueOf(i)).child("offerdate").setValue(currentDate.toString());
+                            mRef.child("teklifler").child(bundle.getString("id")).child("lastoffer").setValue(String.valueOf(i));
+                        }
+
+
+                    }
+                });
+                dialog.setNegativeButton("İptal", null);
+
+
+                dialog.setView(mview);
+                AlertDialog mdialog = dialog.create();
+                mdialog.show();
+
+            }
+        });
     }
 
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
+
+        try {
+            lastoffer = dataSnapshot.child("teklifler").child(bundle.getString("id")).child("lastoffer").getValue().toString();
+        } catch (Exception e) {
+
+            mRef.child("teklifler").child(bundle.getString("id")).child("lastoffer").setValue(0);
+            lastoffer = "0";
+        }
 
 
         usersid = dataSnapshot.child("ilanlar").child("ev").child(bundle.getString("id")).getValue(House.class).getUserid();
@@ -66,10 +180,21 @@ public class AdvertActivity extends AppCompatActivity implements ValueEventListe
 
         //  Toast.makeText(this, dataSnapshot.child("ilanlar").child("ev").child(bundle.getString("id")).getValue(House.class).getSehir(), Toast.LENGTH_SHORT).show();
         setTitle(dataSnapshot.child("ilanlar").child("ev").child(bundle.getString("id")).getValue(House.class).getIlanTipi());
+        if (usersid.matches(offeruserid) || Integer.parseInt(lastoffer) >= 5) {
+            fab.setVisibility(View.GONE);
+            if (Integer.parseInt(lastoffer) >= 5) {
+                Toast.makeText(this, "Teklif Sınırına Ulaşıldı Teklif Veremezsiniz", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     @Override
     public void onCancelled(FirebaseError firebaseError) {
+
+    }
+
+    @Override
+    public void onFragmentInteraction(String ilanid) {
 
     }
 }
