@@ -19,8 +19,9 @@ public class House {
     public String maxFiyat;
     public String minFiyat;
     public String userid;
+    public String date;
 
-    public House(String ilanTipi, String odaSayisi, String minM2, String maxM2, boolean krediyeUygun, String ilanAciklama, String sehir, String maxFiyat, String minFiyat, String userid) {
+    public House(String ilanTipi, String odaSayisi, String minM2, String maxM2, boolean krediyeUygun, String ilanAciklama, String sehir, String maxFiyat, String minFiyat, String userid, String date) {
         this.ilanTipi = ilanTipi;
         this.odaSayisi = odaSayisi;
         this.minM2 = minM2;
@@ -31,12 +32,20 @@ public class House {
         this.minFiyat = minFiyat;
         this.maxFiyat = maxFiyat;
         this.userid = userid;
-
+        this.date = date;
 
         //   mapDondur();
     }
 
     public House() {
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getUserid() {

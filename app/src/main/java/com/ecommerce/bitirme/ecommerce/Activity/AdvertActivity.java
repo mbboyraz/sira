@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ecommerce.bitirme.ecommerce.Classes.House;
+import com.ecommerce.bitirme.ecommerce.Classes.OfferHouse;
 import com.ecommerce.bitirme.ecommerce.Fragments.OfferFragment;
 import com.ecommerce.bitirme.ecommerce.R;
 import com.firebase.client.DataSnapshot;
@@ -25,7 +26,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class AdvertActivity extends FragmentActivity implements ValueEventListener, OfferFragment.OnFragmentInteractionListener {
+public class AdvertActivity extends FragmentActivity implements ValueEventListener {
 
     Firebase mRef;
     Bundle bundle;
@@ -57,7 +58,7 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
 
         Bundle bundle1 = new Bundle();
         bundle1.putString("ilanid", bundle.getString("id"));
-        OfferFragment offerfragment = new OfferFragment();
+        final OfferFragment offerfragment = new OfferFragment();
         ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.frame, offerfragment);
         ft.commit();
@@ -127,12 +128,10 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
 
                             i = Integer.parseInt(lastoffer);
                             i++;
-                            mRef.child("teklifler").child(bundle.getString("id")).child(String.valueOf(i)).child("fiyat").setValue(edt_fiyat.getText().toString());
-                            mRef.child("teklifler").child(bundle.getString("id")).child(String.valueOf(i)).child("m2").setValue(edt_m2.getText().toString());
-                            mRef.child("teklifler").child(bundle.getString("id")).child(String.valueOf(i)).child("teklifaciklama").setValue(edt_aciklama.getText().toString());
-                            mRef.child("teklifler").child(bundle.getString("id")).child(String.valueOf(i)).child("offeruser").setValue(offeruserid);
+                            OfferHouse offerhouse = new OfferHouse(edt_fiyat.getText().toString(), edt_m2.getText().toString(), edt_aciklama.getText().toString(), currentDate.toString(), offeruserid);
+
+                            mRef.child("teklifler").child(bundle.getString("id")).child(String.valueOf(i)).setValue(offerhouse);
                             mRef.child("users").child(offeruserid).child("tekliflerim").child("ev").child(bundle.getString("id")).setValue(String.valueOf(i));
-                            mRef.child("teklifler").child(bundle.getString("id")).child(String.valueOf(i)).child("offerdate").setValue(currentDate.toString());
                             mRef.child("teklifler").child(bundle.getString("id")).child("lastoffer").setValue(String.valueOf(i));
                         }
 
@@ -198,8 +197,5 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
 
     }
 
-    @Override
-    public void onFragmentInteraction(String ilanid) {
 
-    }
 }

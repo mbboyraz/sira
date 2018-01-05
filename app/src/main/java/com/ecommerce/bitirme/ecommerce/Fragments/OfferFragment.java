@@ -27,7 +27,7 @@ public class OfferFragment extends Fragment implements ValueEventListener {
     List<katagori> offer = new ArrayList<>();
     Firebase mRef;
 
-    private OnFragmentInteractionListener mListener;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,10 +53,15 @@ public class OfferFragment extends Fragment implements ValueEventListener {
 
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
+        offer.clear();
         for (DataSnapshot gelenler : dataSnapshot.child("teklifler").child(ilanIdOffer).getChildren()) {
-
+            try {
                 offer.add(new katagori("teklif",
-                        gelenler.getValue(OfferHouse.class).getOfferFiyat() + "," + gelenler.getValue(OfferHouse.class).getOfferm2(), gelenler.getValue(OfferHouse.class).getOfferAciklama()));
+                        gelenler.getValue(OfferHouse.class).getOfferFiyat() + " , " + gelenler.getValue(OfferHouse.class).getOfferm2() + " , " + gelenler.getValue(OfferHouse.class).getOfferDate() + "----" + gelenler.getKey(), ""));
+            } catch (Exception e) {
+
+                continue;
+            }
 
         }
 
@@ -69,7 +74,5 @@ public class OfferFragment extends Fragment implements ValueEventListener {
 
     }
 
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(String ilanid);
-    }
+
 }

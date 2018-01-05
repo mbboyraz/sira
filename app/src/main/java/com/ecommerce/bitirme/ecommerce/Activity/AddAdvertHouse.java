@@ -19,7 +19,16 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class AddAdvertHouse extends AppCompatActivity {
+
+    DateFormat current;
+    Date currentTime;
+    String currentDate;
+
     Firebase mRef;
     Spinner spinner;
    // TextView ilan;
@@ -157,7 +166,11 @@ public class AddAdvertHouse extends AppCompatActivity {
                 minmetre = minm2.getText().toString();
                 i++;
 
-                firebaseEvEkle(tipi, sayi, minmetre, maxmetre, yes, ilanyazi, sehiradi, minfiy, maxfiy, userid);
+                currentTime = new Date();
+                current = new SimpleDateFormat("dd.MM.yyyy");
+                currentDate = current.format(currentTime);
+
+                firebaseEvEkle(tipi, sayi, minmetre, maxmetre, yes, ilanyazi, sehiradi, minfiy, maxfiy, userid, currentDate);
             }
         });
     }
@@ -179,10 +192,10 @@ public class AddAdvertHouse extends AppCompatActivity {
     }
 
 
-    public void firebaseEvEkle(String tipi, String sayi, String minmetre, String maxmetre, boolean yes, String ilanyazi, String sehiradi, String minfiy, String maxfiy, String userid) {
+    public void firebaseEvEkle(String tipi, String sayi, String minmetre, String maxmetre, boolean yes, String ilanyazi, String sehiradi, String minfiy, String maxfiy, String userid, String date) {
 
 
-        House house = new House(tipi, sayi, minmetre, maxmetre, yes, ilanyazi, sehiradi, minfiy, maxfiy, userid);
+        House house = new House(tipi, sayi, minmetre, maxmetre, yes, ilanyazi, sehiradi, minfiy, maxfiy, userid, date);
         mRef.child("lastadvert").setValue(String.valueOf(i));
         mRef.child("ilanlar").child("ev").child(String.valueOf(i)).setValue(house);
         mRef.child("users").child(userid).child("ilanlarım").child("ev").child(String.valueOf(i)).setValue(String.valueOf(i));
