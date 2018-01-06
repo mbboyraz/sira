@@ -20,6 +20,7 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -59,18 +60,21 @@ public class OfferFragment extends Fragment implements ValueEventListener {
 
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
+        String offersPhotoUrl;
         offer.clear();
         for (DataSnapshot gelenler : dataSnapshot.child("teklifler").child(ilanIdOffer).getChildren()) {
             try {
-                offer.add(new katagori("teklif",
-                        gelenler.getValue(OfferHouse.class).getOfferFiyat() + " , " + gelenler.getValue(OfferHouse.class).getOfferm2() + " , " + gelenler.getValue(OfferHouse.class).getOfferDate() + "----" + gelenler.getKey(), ""));
+                offersPhotoUrl = dataSnapshot.child("users")
+                        .child(gelenler.getValue(OfferHouse.class).getOfferUserId()).child("usersPhotourl").getValue().toString();
+                offer.add(new katagori("Teklif",
+                        gelenler.getValue(OfferHouse.class).getOfferFiyat() + " , " + gelenler.getValue(OfferHouse.class).getOfferm2() + " , " + gelenler.getValue(OfferHouse.class).getOfferDate() + "----" + gelenler.getKey(), offersPhotoUrl));
             } catch (Exception e) {
 
                 continue;
             }
 
         }
-
+        Collections.reverse(offer);
         offeradap = new adapter(this.getActivity(), offer);
         listoffer.setAdapter(offeradap);
         listoffer.setOnItemClickListener(new AdapterView.OnItemClickListener() {

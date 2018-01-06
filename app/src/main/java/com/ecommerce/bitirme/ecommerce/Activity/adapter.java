@@ -14,14 +14,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ecommerce.bitirme.ecommerce.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class adapter extends BaseAdapter{
 
+    ImageView simge;
     private List<katagori> userList;
     private Activity activity;
-
     public adapter(Activity activity,List<katagori> userList){
         this.activity = activity;
         this.userList=userList;
@@ -48,7 +49,7 @@ public class adapter extends BaseAdapter{
 
         TextView kategori = lineView.findViewById(R.id.kategori);
         TextView altkategori = lineView.findViewById(R.id.altkategori);
-        ImageView simge = lineView.findViewById(R.id.simge);
+        simge = lineView.findViewById(R.id.simge);
 
         katagori user = userList.get(i);
         kategori.setText(user.getKatagoriName());
@@ -67,6 +68,8 @@ public class adapter extends BaseAdapter{
         }
         else if(user.getKatagoriName().equals("Taşıtlar")){
             simge.setImageResource(R.drawable.ic_motorcycle_black_24dp);
+        } else if (user.getKatagoriName().equals("Teklif")) {
+            Picasso.with(this.activity).load(user.getId()).into(simge);
         }
 
 

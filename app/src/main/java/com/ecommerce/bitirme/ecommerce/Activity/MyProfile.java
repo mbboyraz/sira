@@ -184,6 +184,7 @@ public class MyProfile extends AppCompatActivity {
         public void onDataChange(DataSnapshot dataSnapshot) {
             int k = 0, l = 0;
             DataSnapshot data;
+            String offersPhotoUrl;
 
             if (i == 1) {
                 for (DataSnapshot evid : dataSnapshot.child("users").child(userid).child("ilanlarım").child("ev").getChildren()) {
@@ -227,8 +228,9 @@ public class MyProfile extends AppCompatActivity {
 
                     data = dataSnapshot.child("teklifler").child(evid.getKey().toString()).child(evid.getValue().toString());
 
-                    ilanlar.add(new katagori("teklif",
-                            data.getValue(OfferHouse.class).getOfferFiyat() + " , " + data.getValue(OfferHouse.class).getOfferm2() + " , " + data.getValue(OfferHouse.class).getOfferDate() + "----" + data.getKey(), ""));
+                    offersPhotoUrl = dataSnapshot.child("users").child(data.getValue(OfferHouse.class).getOfferUserId()).child("usersPhotourl").getValue().toString();
+                    ilanlar.add(new katagori("Teklif",
+                            data.getValue(OfferHouse.class).getOfferFiyat() + " , " + data.getValue(OfferHouse.class).getOfferm2() + " , " + data.getValue(OfferHouse.class).getOfferDate() + "----" + data.getKey(), offersPhotoUrl));
                 }
                 Collections.reverse(ilanlar);
                 adapter ilanadapter = new adapter(this.getActivity(), ilanlar);
@@ -277,7 +279,7 @@ public class MyProfile extends AppCompatActivity {
                 case 0:
                     return "İLANLARIM";
                 case 1:
-                    return "TEKLİFLER";
+                    return "TEKLİFLERİM";
               /*  case 2:
                     return "SECTION 3";*/
             }
