@@ -2,10 +2,13 @@ package com.ecommerce.bitirme.ecommerce.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.ecommerce.bitirme.ecommerce.Activity.adapter;
 import com.ecommerce.bitirme.ecommerce.Activity.katagori;
@@ -26,8 +29,8 @@ public class OfferFragment extends Fragment implements ValueEventListener {
     String ilanIdOffer;
     List<katagori> offer = new ArrayList<>();
     Firebase mRef;
-
-
+    TextView txtTitle;
+    AlertDialog.Builder dialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,10 +43,13 @@ public class OfferFragment extends Fragment implements ValueEventListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View mview = inflater.inflate(R.layout.fragment_offer, container, false);
+        txtTitle = mview.findViewById(R.id.txtTitle);
         listoffer = mview.findViewById(R.id.offerlist);
+        txtTitle.setText("Teklifler");
         ilanIdOffer = getArguments().getString("ilanid");
         //// TODO: 5.01.2018 sorgu firebaseden offer doldurulacak
         Firebase.setAndroidContext(mview.getContext());
+
         mRef = new Firebase("https://ecommerce-1-28620.firebaseio.com/");
         mRef.addValueEventListener(this);
 
@@ -67,6 +73,13 @@ public class OfferFragment extends Fragment implements ValueEventListener {
 
         offeradap = new adapter(this.getActivity(), offer);
         listoffer.setAdapter(offeradap);
+        listoffer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                dialog = new AlertDialog.Builder(view.getContext());
+            }
+        });
     }
 
     @Override

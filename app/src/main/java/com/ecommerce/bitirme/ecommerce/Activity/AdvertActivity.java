@@ -31,12 +31,12 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
     Firebase mRef;
     Bundle bundle;
     House house;
-    String usersid, lastoffer, offeruserid;
+    String usersid, lastoffer = "0", offeruserid;
     int i = 0;
     TextView fiyat, m2, tip, oda, kredi, aciklama, konum, aliciadi;
     FloatingActionButton fab;
     AlertDialog.Builder dialog;
-    LinearLayout ilantipilay, odalay, sehirlay, kredilay;
+    LinearLayout ilantipilay, odalay, sehirlay, kredilay, semtlay;
     TextView fiy, metre;
     EditText edt_fiyat, edtdelfiyat, edt_m2, edtdelm2, edt_aciklama;
     Button btndel;
@@ -46,6 +46,8 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
     String currentDate;
     FragmentTransaction ft;
     android.app.Fragment offerfragment;
+
+    boolean isFirstTime = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +93,7 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
                 dialog = new AlertDialog.Builder(AdvertActivity.this);
                 View mview = getLayoutInflater().inflate(R.layout.activity_add_advert_house, null);
                 ilantipilay = mview.findViewById(R.id.ilantipilay);
+                semtlay = mview.findViewById(R.id.semtlay);
                 odalay = mview.findViewById(R.id.odalay);
                 sehirlay = mview.findViewById(R.id.sehirlay);
                 kredilay = mview.findViewById(R.id.kredilay);
@@ -98,6 +101,7 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
                 odalay.setVisibility(View.GONE);
                 sehirlay.setVisibility(View.GONE);
                 kredilay.setVisibility(View.GONE);
+                semtlay.setVisibility(View.GONE);
                 edt_fiyat = mview.findViewById(R.id.min_price_edttxt);
                 edtdelfiyat = mview.findViewById(R.id.max_price_edttxt);
                 edtdelm2 = mview.findViewById(R.id.sizes_max_edttxt);
@@ -116,6 +120,12 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
                 edt_fiyat.setHint("Fiyat");
                 dialog.setTitle("Teklif Yap");
 
+                edt_fiyat.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 0.5f));
+                fiy.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+
+                edt_m2.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 0.5f));
+                metre.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+
                 dialog.setPositiveButton("Ekle", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -133,6 +143,11 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
                             mRef.child("teklifler").child(bundle.getString("id")).child(String.valueOf(i)).setValue(offerhouse);
                             mRef.child("users").child(offeruserid).child("tekliflerim").child("ev").child(bundle.getString("id")).setValue(String.valueOf(i));
                             mRef.child("teklifler").child(bundle.getString("id")).child("lastoffer").setValue(String.valueOf(i));
+
+                            if (i >= 5) {
+                                Toast.makeText(AdvertActivity.this, "Teklif Sınırına Ulaşıldı Teklif Veremezsiniz", Toast.LENGTH_LONG).show();
+                                fab.setVisibility(View.GONE);
+                            }
                         }
 
 
@@ -153,15 +168,24 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
     public void onDataChange(DataSnapshot dataSnapshot) {
 
         try {
+            usersid = dataSnapshot.child("ilanlar").child("ev").child(bundle.getString("id")).getValue(House.class).getUserid();
+
             lastoffer = dataSnapshot.child("teklifler").child(bundle.getString("id")).child("lastoffer").getValue().toString();
+
+            if (usersid.matches(offeruserid)) {
+                fab.setVisibility(View.GONE);
+            }
+
+            if (isFirstTime && Integer.parseInt(lastoffer) >= 5) {
+                fab.setVisibility(View.GONE);
+                Toast.makeText(this, "Teklif Sınırına Ulaşıldı Teklif Veremezsiniz", Toast.LENGTH_LONG).show();
+                isFirstTime = false;
+            }
         } catch (Exception e) {
 
             mRef.child("teklifler").child(bundle.getString("id")).child("lastoffer").setValue(0);
             lastoffer = "0";
         }
-
-
-        usersid = dataSnapshot.child("ilanlar").child("ev").child(bundle.getString("id")).getValue(House.class).getUserid();
 
 
         konum.setText(dataSnapshot.child("ilanlar").child("ev").child(bundle.getString("id")).getValue(House.class).getSehir());
@@ -181,15 +205,18 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
         aciklama.setText("  İlan Açıklama:" + dataSnapshot.child("ilanlar").child("ev").child(bundle.getString("id")).getValue(House.class).getIlanAciklama());
 
 
-
         //  Toast.makeText(this, dataSnapshot.child("ilanlar").child("ev").child(bundle.getString("id")).getValue(House.class).getSehir(), Toast.LENGTH_SHORT).show();
         setTitle(dataSnapshot.child("ilanlar").child("ev").child(bundle.getString("id")).getValue(House.class).getIlanTipi());
-        if (usersid.matches(offeruserid) || Integer.parseInt(lastoffer) >= 5) {
+  /*      if (usersid.matches(offeruserid) || Integer.parseInt(lastoffer) >= 5) {
             fab.setVisibility(View.GONE);
             if (Integer.parseInt(lastoffer) >= 5) {
                 Toast.makeText(this, "Teklif Sınırına Ulaşıldı Teklif Veremezsiniz", Toast.LENGTH_LONG).show();
+            }else{
+                lastoffer = "0";
             }
-        }
+        }else{
+            lastoffer = "0";
+        }*/
     }
 
     @Override

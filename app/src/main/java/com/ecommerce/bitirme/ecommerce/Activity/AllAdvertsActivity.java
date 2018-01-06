@@ -19,6 +19,7 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class AllAdvertsActivity extends AppCompatActivity implements ValueEventListener, SwipeRefreshLayout.OnRefreshListener {
@@ -82,6 +83,8 @@ public class AllAdvertsActivity extends AppCompatActivity implements ValueEventL
 //        }
 
         swipeRefreshLayout.setRefreshing(false);
+
+        Collections.reverse(ilanlar);
         final adapter ilanadapter = new adapter(this, ilanlar);
         ilanlarliste.setAdapter(ilanadapter);
         ilanlarliste.setOnItemClickListener(new AdapterView.OnItemClickListener() {

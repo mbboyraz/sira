@@ -1,286 +1,307 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="16dp"
     tools:context="com.ecommerce.bitirme.ecommerce.Activity.AddAdvertCar">
 
-
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:layout_marginTop="2dp"
+        android:gravity="center"
+        android:orientation="vertical">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/car_ilan_baslik_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="İlan Tipi" />
+
+            <EditText
+                android:id="@+id/ilan_baslik_car_edt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:ems="5"
+                android:inputType="text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/car_ilan_aciklama_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="İlan Açıklama" />
+
+            <EditText
+                android:id="@+id/ilan_aciklama_car_edt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:ems="5"
+                android:inputType="text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/fiyatlay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
+            android:gravity="center"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/car_fiyat_aralik"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/ilan_aciklama_car_edt"
-                android:layout_marginLeft="19dp"
-                android:layout_marginStart="19dp"
-                android:layout_marginTop="31dp"
+                android:layout_weight="0.5"
                 android:text="Fiyat Aralığı" />
-
-            <TextView
-                android:id="@+id/car_model"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/car_fiyat_aralik"
-                android:layout_alignStart="@+id/car_fiyat_aralik"
-                android:layout_below="@+id/fiyat_min_car_edt"
-                android:layout_marginTop="25dp"
-                android:text="Model Yılı" />
-
-            <TextView
-                android:id="@+id/sehir_car_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/car_model"
-                android:layout_alignStart="@+id/car_model"
-                android:layout_below="@+id/car_model"
-                android:layout_marginTop="25dp"
-                android:text="Şehir" />
-
-            <TextView
-                android:id="@+id/yakit_car_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/sehir_car_txt"
-                android:layout_alignStart="@+id/sehir_car_txt"
-                android:layout_below="@+id/sehir_car_txt"
-                android:layout_marginTop="25dp"
-                android:text="Yakıt" />
-
-            <TextView
-                android:id="@+id/vites_car_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/yakit_car_txt"
-                android:layout_alignStart="@+id/yakit_car_txt"
-                android:layout_below="@+id/yakit_car_txt"
-                android:layout_marginTop="25dp"
-                android:text="Vites" />
-
-            <TextView
-                android:id="@+id/kasa_car_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/vites_car_txt"
-                android:layout_alignStart="@+id/vites_car_txt"
-                android:layout_below="@+id/vites_car_txt"
-                android:layout_marginTop="25dp"
-                android:text="Kasa Tipi" />
-
-            <TextView
-                android:id="@+id/marka_car_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/kasa_car_txt"
-                android:layout_alignStart="@+id/kasa_car_txt"
-                android:layout_below="@+id/kasatip_car_spinner"
-                android:layout_marginTop="25dp"
-                android:layout_toLeftOf="@+id/vites_car_spinner"
-                android:layout_toStartOf="@+id/vites_car_spinner"
-                android:text="Marka" />
-
-            <TextView
-                android:id="@+id/cekis_car_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/marka_car_txt"
-                android:layout_alignStart="@+id/marka_car_txt"
-                android:layout_below="@+id/marka_car_txt"
-                android:layout_marginTop="25dp"
-                android:text="Çekiş" />
 
             <EditText
                 android:id="@+id/fiyat_min_car_edt"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/car_fiyat_aralik"
-                android:layout_alignBottom="@+id/car_fiyat_aralik"
-                android:layout_toEndOf="@+id/car_fiyat_aralik"
-                android:layout_toRightOf="@+id/car_fiyat_aralik"
+                android:layout_weight="0.5"
+                android:ems="5"
                 android:hint="min"
-                android:inputType="number" />
+                android:inputType="number"
+                android:maxLength="6" />
 
             <EditText
                 android:id="@+id/fiyat_max_car_edt"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/fiyat_min_car_edt"
-                android:layout_alignBottom="@+id/fiyat_min_car_edt"
-                android:layout_marginLeft="11dp"
-                android:layout_marginStart="11dp"
-                android:layout_toEndOf="@+id/fiyat_min_car_edt"
-                android:layout_toRightOf="@+id/fiyat_min_car_edt"
+                android:layout_weight="0.5"
+                android:ems="5"
                 android:hint="max"
-                android:inputType="number" />
+                android:inputType="number"
+                android:maxLength="8" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/car_model"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="Model Yılı" />
 
             <EditText
                 android:id="@+id/model_min_car_edt"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/car_model"
-                android:layout_alignBottom="@+id/car_model"
-                android:layout_toEndOf="@+id/car_model"
-                android:layout_toRightOf="@+id/car_model"
+                android:layout_weight="0.5"
+                android:ems="5"
                 android:hint="min"
-                android:inputType="number" />
+                android:inputType="number"
+                android:maxLength="4" />
 
             <EditText
                 android:id="@+id/model_max_car_edt"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/model_min_car_edt"
-                android:layout_alignBottom="@+id/model_min_car_edt"
-                android:layout_alignLeft="@+id/fiyat_max_car_edt"
-                android:layout_alignStart="@+id/fiyat_max_car_edt"
-                android:layout_marginLeft="11dp"
-                android:layout_marginStart="11dp"
+                android:layout_weight="0.5"
+                android:ems="5"
                 android:hint="max"
-                android:inputType="number" />
+                android:inputType="number"
+                android:maxLength="5" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/sehir_car_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Şehir" />
 
             <Spinner
                 android:id="@+id/sehir_car_spinner"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/yakit_car_spinner"
-                android:layout_alignStart="@+id/yakit_car_spinner"
-                android:layout_alignTop="@+id/sehir_car_txt" />
+                android:layout_weight="0.5" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/yakit_car_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Yakıt" />
 
             <Spinner
                 android:id="@+id/yakit_car_spinner"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/yakit_car_txt"
-                android:layout_marginLeft="14dp"
-                android:layout_marginStart="14dp"
-                android:layout_toEndOf="@+id/yakit_car_txt"
-                android:layout_toRightOf="@+id/yakit_car_txt" />
+                android:layout_weight="0.5" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/vites_car_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Vites" />
 
             <Spinner
                 android:id="@+id/vites_car_spinner"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/yakit_car_spinner"
-                android:layout_alignStart="@+id/yakit_car_spinner"
-                android:layout_alignTop="@+id/vites_car_txt" />
+                android:layout_weight="0.5" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/kasa_car_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Kasa Tipi" />
 
             <Spinner
                 android:id="@+id/kasatip_car_spinner"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/kasa_car_txt"
-                android:layout_toLeftOf="@+id/model_max_car_edt"
-                android:layout_toStartOf="@+id/model_max_car_edt" />
+                android:layout_weight="0.5" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/marka_car_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Marka" />
 
             <EditText
                 android:id="@+id/marka_car_edt"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/marka_car_txt"
-                android:layout_alignBottom="@+id/marka_car_txt"
-                android:layout_toEndOf="@+id/car_ilan_baslik_txt"
-                android:layout_toRightOf="@+id/car_ilan_baslik_txt"
-                android:hint="Örn: Volkswagen"
-                android:inputType="text" />
+                android:layout_weight="0.5"
+                android:hint="Örn: Volkswagen" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/cekis_car_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Çekiş" />
 
             <Spinner
                 android:id="@+id/cekis_car_spinner"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/cekis_car_txt"
-                android:layout_toEndOf="@+id/marka_car_txt"
-                android:layout_toRightOf="@+id/marka_car_txt" />
+                android:layout_weight="0.5" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
+            android:gravity="center"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/motor_hacim_car_txt"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/cekis_car_txt"
-                android:layout_alignStart="@+id/cekis_car_txt"
-                android:layout_below="@+id/cekis_car_txt"
-                android:layout_marginTop="25dp"
+                android:layout_weight="1"
                 android:text="Motor Hacmi" />
 
             <Spinner
                 android:id="@+id/motor_hacim_car_spinner"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/motor_hacim_car_txt"
-                android:layout_toEndOf="@+id/cekis_car_spinner"
-                android:layout_toRightOf="@+id/cekis_car_spinner" />
+                android:layout_weight="0.5" />
+        </LinearLayout>
 
-            <Button
-                android:id="@+id/ilan_kaydet_car_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/car_bos_alan"
-                android:layout_marginLeft="31dp"
-                android:layout_marginStart="31dp"
-                android:layout_toEndOf="@+id/marka_car_edt"
-                android:layout_toRightOf="@+id/marka_car_edt"
-                android:text="İlanı Kaydet" />
+        <TextView
+            android:id="@+id/car_bos_alan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible" />
 
-            <TextView
-                android:id="@+id/car_bos_alan"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/ilan_kaydet_car_btn"
-                android:layout_alignStart="@+id/ilan_kaydet_car_btn"
-                android:layout_below="@+id/motor_hacim_car_spinner"
-                android:visibility="invisible" />
+        <Button
+            android:id="@+id/ilan_kaydet_car_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="İlan Kaydet" />
+    </LinearLayout>
 
-            <TextView
-                android:id="@+id/car_ilan_baslik_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/car_fiyat_aralik"
-                android:layout_alignParentTop="true"
-                android:layout_alignStart="@+id/car_fiyat_aralik"
-                android:layout_marginTop="25dp"
-                android:text="İlan Başlığı" />
+</ScrollView>
 
-            <TextView
-                android:id="@+id/car_ilan_aciklama_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/ilan_aciklama_car_edt"
-                android:layout_alignBottom="@+id/ilan_aciklama_car_edt"
-                android:layout_alignLeft="@+id/car_ilan_baslik_txt"
-                android:layout_alignStart="@+id/car_ilan_baslik_txt"
-                android:text="İlan Açıklama" />
-
-            <EditText
-                android:id="@+id/ilan_baslik_car_edt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/car_ilan_baslik_txt"
-                android:layout_alignBottom="@+id/car_ilan_baslik_txt"
-                android:layout_toEndOf="@+id/car_ilan_aciklama_txt"
-                android:layout_toRightOf="@+id/car_ilan_aciklama_txt"
-                android:ems="5"
-                android:inputType="text" />
-
-            <EditText
-                android:id="@+id/ilan_aciklama_car_edt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/ilan_baslik_car_edt"
-                android:layout_marginTop="12dp"
-                android:layout_toEndOf="@+id/model_min_car_edt"
-                android:layout_toRightOf="@+id/model_min_car_edt"
-                android:ems="5"
-                android:inputType="text" />
-
-        </RelativeLayout>
-    </ScrollView>
-
-
-</RelativeLayout>

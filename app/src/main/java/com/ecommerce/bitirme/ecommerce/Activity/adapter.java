@@ -19,14 +19,12 @@ import java.util.List;
 
 public class adapter extends BaseAdapter{
 
-    private LayoutInflater userInflater;
     private List<katagori> userList;
+    private Activity activity;
 
     public adapter(Activity activity,List<katagori> userList){
-        userInflater=(LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.activity = activity;
         this.userList=userList;
-
-
     }
 
     @Override
@@ -44,8 +42,10 @@ public class adapter extends BaseAdapter{
         return i;
     }
     public View getView(int i, View view, ViewGroup viewGroup) {
-        View lineView;
-        lineView = userInflater.inflate(R.layout.satir_layout, null);
+
+        LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View lineView = inflater.inflate(R.layout.satir_layout, viewGroup, false);
+
         TextView kategori = lineView.findViewById(R.id.kategori);
         TextView altkategori = lineView.findViewById(R.id.altkategori);
         ImageView simge = lineView.findViewById(R.id.simge);
