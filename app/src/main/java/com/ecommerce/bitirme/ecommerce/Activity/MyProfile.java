@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.ecommerce.bitirme.ecommerce.Classes.Cars;
 import com.ecommerce.bitirme.ecommerce.Classes.House;
+import com.ecommerce.bitirme.ecommerce.Classes.OfferHouse;
 import com.ecommerce.bitirme.ecommerce.R;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -207,23 +208,36 @@ public class MyProfile extends AppCompatActivity {
                 }
 
 
+                Collections.reverse(ilanlar);
+                adapter ilanadapter = new adapter(this.getActivity(), ilanlar);
+                ilanlarliste.setAdapter(ilanadapter);
+                ilanlarliste.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                        Intent intent = new Intent(getContext(), AdvertActivity.class);
+                        intent.putExtra("id", ilanlar.get(position).getId());
+                        intent.putExtra("userid", userid);
+                        startActivity(intent);
+                        // Toast.makeText(view.getContext(), "Uçuyozz", Toast.LENGTH_LONG).show();
+                    }
+                });
+            } else if (i == 2) {
+                for (DataSnapshot evid : dataSnapshot.child("users").child(userid).child("tekliflerim").child("ev").getChildren()) {
+
+                    data = dataSnapshot.child("teklifler").child(evid.getKey().toString()).child(evid.getValue().toString());
+
+                    ilanlar.add(new katagori("teklif",
+                            data.getValue(OfferHouse.class).getOfferFiyat() + " , " + data.getValue(OfferHouse.class).getOfferm2() + " , " + data.getValue(OfferHouse.class).getOfferDate() + "----" + data.getKey(), ""));
+                }
+                Collections.reverse(ilanlar);
+                adapter ilanadapter = new adapter(this.getActivity(), ilanlar);
+                ilanlarliste.setAdapter(ilanadapter);
+
+
             }
 
 
-            Collections.reverse(ilanlar);
-            adapter ilanadapter = new adapter(this.getActivity(), ilanlar);
-            ilanlarliste.setAdapter(ilanadapter);
-            ilanlarliste.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                    Intent intent = new Intent(getContext(), AdvertActivity.class);
-                    intent.putExtra("id", ilanlar.get(position).getId());
-                    intent.putExtra("userid", userid);
-                    startActivity(intent);
-                    // Toast.makeText(view.getContext(), "Uçuyozz", Toast.LENGTH_LONG).show();
-                }
-            });
 
 
         }
