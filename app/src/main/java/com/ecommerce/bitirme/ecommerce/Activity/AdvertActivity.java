@@ -191,7 +191,7 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
 
         kredi.setText(s.toString());
 
-        aciklama.setText("  İlan Açıklama:" + dataSnapshot.child("ilanlar").child("ev").child(bundle.getString("id")).getValue(House.class).getIlanAciklama());
+        aciklama.setText("İlan Açıklama:   " + dataSnapshot.child("ilanlar").child("ev").child(bundle.getString("id")).getValue(House.class).getIlanAciklama());
 
 
         //  Toast.makeText(this, dataSnapshot.child("ilanlar").child("ev").child(bundle.getString("id")).getValue(House.class).getSehir(), Toast.LENGTH_SHORT).show();

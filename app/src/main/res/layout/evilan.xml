@@ -83,37 +83,48 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/add_advert_left"
                         android:layout_weight="1"
                         android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
-                            android:layout_height="25dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="2dp"
+                            android:layout_marginTop="2dp"
                             android:gravity="center"
                             android:text="@string/fiyat_aral" />
 
                         <TextView
 
                             android:layout_width="wrap_content"
-                            android:layout_height="25dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="2dp"
+                            android:layout_marginTop="2dp"
                             android:gravity="center"
                             android:text="@string/m_aral" />
 
                         <TextView
                             android:layout_width="wrap_content"
-                            android:layout_height="25dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="2dp"
+                            android:layout_marginTop="2dp"
                             android:gravity="center"
                             android:text="@string/lan_tipi" />
 
                         <TextView
                             android:layout_width="wrap_content"
-                            android:layout_height="25dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="2dp"
+                            android:layout_marginTop="2dp"
                             android:gravity="center"
                             android:text="@string/oda_say_s" />
 
                         <TextView
                             android:layout_width="wrap_content"
-                            android:layout_height="25dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="2dp"
+                            android:layout_marginTop="2dp"
                             android:gravity="center"
                             android:text="@string/krediye_uygun" />
 
@@ -131,6 +142,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="right"
+                            android:layout_marginBottom="2dp"
+                            android:layout_marginTop="2dp"
                             android:gravity="center" />
 
                         <TextView
@@ -138,6 +151,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="right"
+                            android:layout_marginBottom="2dp"
+                            android:layout_marginTop="2dp"
                             android:gravity="center" />
 
                         <TextView
@@ -145,6 +160,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="right"
+                            android:layout_marginBottom="2dp"
+                            android:layout_marginTop="2dp"
                             android:gravity="center" />
 
                         <TextView
@@ -152,13 +169,18 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="right"
-                            android:gravity="center" />
+                            android:layout_marginBottom="2dp"
+                            android:layout_marginTop="2dp"
+                            android:gravity="center"
+                            android:text="text" />
 
                         <TextView
                             android:id="@+id/krediuygun"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="right"
+                            android:layout_marginBottom="2dp"
+                            android:layout_marginTop="2dp"
                             android:gravity="center" />
 
                     </LinearLayout>
@@ -168,13 +190,17 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
+                    android:layout_marginTop="2dp"
                     android:background="@color/black" />
 
                 <TextView
-
                     android:id="@+id/ilanaciklama"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginLeft="@dimen/add_advert_left"
+                    android:layout_marginRight="@dimen/add_advert_left"
+                    android:layout_marginTop="2dp"
                     android:gravity="center_vertical"
                     android:text="@string/lan_a_klama" />
             </LinearLayout>
