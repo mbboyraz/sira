@@ -38,6 +38,9 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
 
     EditText edt_fiyat, edt_m2, edt_aciklama, edt_telnumber;
 
+    EditText offer_fiyat_edt, offer_m2_edt, offer_tarih_edt, offer_aciklama_edt;
+    TextView offer_fiyat_txt, offer_m2_txt, offer_tarih_txt, offer_aciklama_txt;
+
 
     DateFormat current;
     Date currentTime;
@@ -205,12 +208,66 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
 
     }
 
-    public AlertDialog.Builder tekliflerDialog() {
+    public AlertDialog.Builder tekliflerDialog(String fiyat, String m2, String aciklama, String user, String date, String ilanid, String teklifid, String offersname, String offersphoto, String offerstel) {
 
 
         dialog = new AlertDialog.Builder(AdvertActivity.this);
-        View mview = getLayoutInflater().inflate(R.layout.activity_add_advert_house, null);
-        dialog.setView(mview);
+        View nview = getLayoutInflater().inflate(R.layout.show_offer_dialog, null);
+        offer_fiyat_txt = nview.findViewById(R.id.fiyatbilgi_txt);
+        offer_m2_txt = nview.findViewById(R.id.m2bilgi_txt);
+        offer_tarih_txt = nview.findViewById(R.id.tekliftarihi_txt);
+        offer_aciklama_txt = nview.findViewById(R.id.aciklama_txt);
+        offer_fiyat_edt = nview.findViewById(R.id.fiyataraligi_edt);
+        offer_m2_edt = nview.findViewById(R.id.m2aralig_edt);
+        offer_tarih_edt = nview.findViewById(R.id.tekliftarihi_edt);
+        offer_aciklama_edt = nview.findViewById(R.id.aciklama_edt);
+        if (usersid == offeruserid) {
+            offer_fiyat_txt.setText(fiyat);
+            offer_m2_txt.setText(m2);
+            offer_aciklama_txt.setText(aciklama);
+            offer_tarih_txt.setText(date);
+
+            dialog.setPositiveButton("Kabul Et", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    //// TODO: 7.01.2018 kabul edilen haricindeki diğer teklifler silinecek
+
+
+                }
+            });
+            dialog.setNegativeButton("Reddet", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    //// TODO: 7.01.2018 sadece reddedilen teklif silinecek
+                }
+            });
+            dialog.setNeutralButton("Kapat", null);
+        } else if (offeruserid == user) {
+
+            offer_fiyat_edt.setText(fiyat);
+            offer_m2_edt.setText(m2);
+            offer_tarih_edt.setText(date);
+            offer_aciklama_edt.setText(aciklama);
+            dialog.setPositiveButton("Düzenle", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    //// TODO: 7.01.2018 Verilen teklif bilgileri burada edt text de hazır getirilip düzenlenecek
+
+                }
+            });
+            dialog.setNegativeButton("Sil", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    //// TODO: 7.01.2018 teklif firebaseden silinecek
+                }
+            });
+            dialog.setNeutralButton("Kapat", null);
+
+        }
+
+        dialog.setView(nview);
         AlertDialog mdialog = dialog.create();
         mdialog.show();
         return dialog;

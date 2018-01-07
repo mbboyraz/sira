@@ -14,6 +14,7 @@ import com.ecommerce.bitirme.ecommerce.Activity.AdvertActivity;
 import com.ecommerce.bitirme.ecommerce.Activity.adapter;
 import com.ecommerce.bitirme.ecommerce.Activity.katagori;
 import com.ecommerce.bitirme.ecommerce.Classes.OfferHouse;
+import com.ecommerce.bitirme.ecommerce.Classes.Users;
 import com.ecommerce.bitirme.ecommerce.R;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -63,7 +64,7 @@ public class OfferFragment extends Fragment implements ValueEventListener {
     }
 
     @Override
-    public void onDataChange(DataSnapshot dataSnapshot) {
+    public void onDataChange(final DataSnapshot dataSnapshot) {
         String offersPhotoUrl;
         offer.clear();
         for (DataSnapshot gelenler : dataSnapshot.child("teklifler").child(ilanIdOffer).getChildren()) {
@@ -87,7 +88,13 @@ public class OfferFragment extends Fragment implements ValueEventListener {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                advtactivity.tekliflerDialog();
+                DataSnapshot data = dataSnapshot.child("teklifler").child(ilanIdOffer).child(offer.get(position).getId());
+                DataSnapshot data1 = dataSnapshot.child("users").child(data.getValue(OfferHouse.class).getOfferUserId());
+
+                advtactivity.tekliflerDialog(data.getValue(OfferHouse.class).getOfferFiyat(), data.getValue(OfferHouse.class).getOfferm2(),
+                        data.getValue(OfferHouse.class).getOfferAciklama(), data.getValue(OfferHouse.class).getOfferUserId(),
+                        data.getValue(OfferHouse.class).getOfferDate(), ilanIdOffer, offer.get(position).getId(), data1.getValue(Users.class).getUsersName(),
+                        data1.getValue(Users.class).getUsersPhotourl(), data1.getValue(Users.class).getUsersTel());
 
             }
         });
