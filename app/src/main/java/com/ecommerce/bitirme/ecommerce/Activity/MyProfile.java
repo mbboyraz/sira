@@ -1,5 +1,6 @@
 package com.ecommerce.bitirme.ecommerce.Activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -16,8 +17,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ecommerce.bitirme.ecommerce.Classes.Cars;
@@ -39,14 +43,16 @@ import java.util.Map;
 public class MyProfile extends AppCompatActivity {
 
 
+    static String ilanIdOffer;
     ImageView profilephotos;
     String userid, name;
     Firebase mRef;
     String s;
     ArrayList<String> ilanno = new ArrayList<>();
-
+    EditText offer_fiyat_edt, offer_m2_edt, offer_tarih_edt, offer_aciklama_edt;
     AlertDialog.Builder dialog;
-
+    TextView offer_fiyat_txt, offer_m2_txt, offer_tarih_txt, offer_aciklama_txt, offersAd;
+    ImageButton imgbtn_offers, imgbtn_offersAra;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -64,7 +70,6 @@ public class MyProfile extends AppCompatActivity {
     public String getData() {
         return userid;
     }
-
 
 
     @Override
@@ -96,7 +101,6 @@ public class MyProfile extends AppCompatActivity {
         tabLayout.setupWithViewPager(mViewPager);
 
 
-
     }
 
 
@@ -122,12 +126,53 @@ public class MyProfile extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public AlertDialog.Builder tekliflerDialog() {
+    public AlertDialog.Builder tekliflerDialog(String fiyat, String m2, String aciklama, String user, String date, String ilanid, String teklifid, String offersname, String offersphoto, final String offerstel) {
 
 
         dialog = new AlertDialog.Builder(MyProfile.this);
-        View mview = getLayoutInflater().inflate(R.layout.activity_add_advert_house, null);
-        dialog.setView(mview);
+        View nview = getLayoutInflater().inflate(R.layout.show_offer_dialog, null);
+        offer_fiyat_txt = nview.findViewById(R.id.fiyatbilgi_txt);
+        offer_m2_txt = nview.findViewById(R.id.m2bilgi_txt);
+        offer_tarih_txt = nview.findViewById(R.id.tekliftarihi_txt);
+        offer_aciklama_txt = nview.findViewById(R.id.aciklama_txt);
+        offer_fiyat_edt = nview.findViewById(R.id.fiyataraligi_edt);
+        offer_m2_edt = nview.findViewById(R.id.m2aralig_edt);
+        offer_tarih_edt = nview.findViewById(R.id.tekliftarihi_edt);
+        offer_aciklama_edt = nview.findViewById(R.id.aciklama_edt);
+        offersAd = nview.findViewById(R.id.teklifverenad_txt);
+        imgbtn_offers = nview.findViewById(R.id.teklifveren_imgbtn);
+        imgbtn_offersAra = nview.findViewById(R.id.offersArama_imgbtn);
+        offersAd.setText(offersname);
+        Picasso.with(nview.getContext()).load(offersphoto).into(imgbtn_offers);
+        offer_fiyat_txt.setVisibility(View.GONE);
+        offer_m2_txt.setVisibility(View.GONE);
+        offer_tarih_txt.setVisibility(View.GONE);
+        offer_aciklama_txt.setVisibility(View.GONE);
+
+        imgbtn_offersAra.setVisibility(View.GONE);
+
+        offer_fiyat_edt.setText(fiyat);
+        offer_m2_edt.setText(m2);
+        offer_tarih_edt.setText(date);
+        offer_aciklama_edt.setText(aciklama);
+        dialog.setPositiveButton("Düzenle", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                //// TODO: 7.01.2018 Verilen teklif bilgileri burada edt text de hazır getirilip düzenlenecek
+
+            }
+        });
+        dialog.setNegativeButton("Sil", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //// TODO: 7.01.2018 teklif firebaseden silinecek
+            }
+        });
+        dialog.setNeutralButton("Kapat", null);
+
+
+        dialog.setView(nview);
         AlertDialog mdialog = dialog.create();
         mdialog.show();
         return dialog;
@@ -156,7 +201,6 @@ public class MyProfile extends AppCompatActivity {
         ArrayList<String> donilan = new ArrayList<>();
 
         MyProfile activity;
-
 
 
         public PlaceholderFragment() {
@@ -199,7 +243,7 @@ public class MyProfile extends AppCompatActivity {
 
 
         @Override
-        public void onDataChange(DataSnapshot dataSnapshot) {
+        public void onDataChange(final DataSnapshot dataSnapshot) {
             int k = 0, l = 0;
             DataSnapshot data;
             String offersPhotoUrl;
@@ -212,7 +256,7 @@ public class MyProfile extends AppCompatActivity {
                     ilanlar.add(new katagori("Ev",
                             data.getValue(House.class).getSehir() + " , " +
                                     data.getValue(House.class).getIlanTipi() + "->" +
-                                    data.getValue(House.class).getOdaSayisi(), data.getValue(House.class).getDate(), "", data.getKey()));
+                                    data.getValue(House.class).getOdaSayisi(), data.getValue(House.class).getDate(), "", "", data.getKey()));
                 }
                 for (DataSnapshot arabaid : dataSnapshot.child("users").child(userid).child("ilanlarım").child("araba").getChildren()) {
 
@@ -223,7 +267,7 @@ public class MyProfile extends AppCompatActivity {
                                     data.getValue(Cars.class).getModelMin() + "-" +
                                     data.getValue(Cars.class).getModelMax() + " , " +
                                     data.getValue(Cars.class).getFiyatMin() + "-" +
-                                    data.getValue(Cars.class).getFiyatMax(), data.getValue(House.class).getDate(), "", data.getKey()));
+                                    data.getValue(Cars.class).getFiyatMax(), data.getValue(House.class).getDate(), "", "", data.getKey()));
                 }
 
 
@@ -247,12 +291,10 @@ public class MyProfile extends AppCompatActivity {
                     data = dataSnapshot.child("teklifler").child(evid.getKey()).child(evid.getValue().toString());
 
                     offersPhotoUrl = dataSnapshot.child("users").child(data.getValue(OfferHouse.class).getOfferUserId()).child("usersPhotourl").getValue().toString();
-                    teklifler.add(new katagori("Teklif",
+                    teklifler.add(new katagori("Teklif", "Fiyat -> " +
                             data.getValue(OfferHouse.class).getOfferFiyat()
-                                    + " , " + data.getValue(OfferHouse.class).getOfferm2()
-                                    + " , " + data.getValue(OfferHouse.class).getOfferDate()
-                                    + "----", "İlan Tarihi : "
-                            + data.getValue(OfferHouse.class).getOfferDate(), offersPhotoUrl, evid.getValue().toString()));
+                            + " , m² -> " + data.getValue(OfferHouse.class).getOfferm2()
+                            , data.getValue(OfferHouse.class).getOfferDate(), offersPhotoUrl, evid.getKey(), evid.getValue().toString()));
                 }
                 Collections.reverse(teklifler);
                 adapter ilanadapter = new adapter(this.getActivity(), teklifler);
@@ -260,15 +302,18 @@ public class MyProfile extends AppCompatActivity {
                 ilanlarliste.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        DataSnapshot dataSnapshot1 = dataSnapshot.child("teklifler").child(teklifler.get(position).getKatagoriIlanid()).child(teklifler.get(position).getId());
+                        DataSnapshot data1 = dataSnapshot.child("users").child(userid);
+                        activity.tekliflerDialog(dataSnapshot1.getValue(OfferHouse.class).getOfferFiyat(), dataSnapshot1.getValue(OfferHouse.class).getOfferm2(),
+                                dataSnapshot1.getValue(OfferHouse.class).getOfferAciklama(), dataSnapshot1.getValue(OfferHouse.class).getOfferUserId(),
+                                dataSnapshot1.getValue(OfferHouse.class).getOfferDate(), teklifler.get(position).getKatagoriIlanid(), teklifler.get(position).getId(), data1.child("usersName").getValue().toString(),
+                                data1.child("usersPhotourl").getValue().toString(), data1.child("usersTel").getValue().toString());
 
-                        activity.tekliflerDialog();
                     }
                 });
 
 
             }
-
-
 
 
         }
@@ -280,40 +325,40 @@ public class MyProfile extends AppCompatActivity {
 
 
         /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
-     */
+         * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
+         * one of the sections/tabs/pages.
+         */
         public static class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        public SectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
+            public SectionsPagerAdapter(FragmentManager fm) {
+                super(fm);
+            }
 
-        @Override
-        public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
-        }
+            @Override
+            public Fragment getItem(int position) {
+                // getItem is called to instantiate the fragment for the given page.
+                // Return a PlaceholderFragment (defined as a static inner class below).
+                return PlaceholderFragment.newInstance(position + 1);
+            }
 
-        @Override
-        public int getCount() {
-            // Show 3 total pages.
-            return 2;
-        }
+            @Override
+            public int getCount() {
+                // Show 3 total pages.
+                return 2;
+            }
 
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return "İLANLARIM";
-                case 1:
-                    return "TEKLİFLERİM";
+            @Override
+            public CharSequence getPageTitle(int position) {
+                switch (position) {
+                    case 0:
+                        return "İLANLARIM";
+                    case 1:
+                        return "TEKLİFLERİM";
               /*  case 2:
                     return "SECTION 3";*/
+                }
+                return null;
             }
-            return null;
         }
     }
-}
 }

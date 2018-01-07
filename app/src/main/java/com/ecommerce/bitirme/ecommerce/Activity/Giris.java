@@ -162,21 +162,12 @@ public class Giris extends AppCompatActivity implements
                     Users users = new Users(usersname, usersemail, usersphotourl, userstel);
                     mRef.child("users").child(id).setValue(users);
                 }
-
-
             }
-
             @Override
             public void onCancelled(FirebaseError firebaseError) {
 
             }
         });
-
-
-
-
-
-
 
     }
     // [END handleSignInResult]

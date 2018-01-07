@@ -73,7 +73,7 @@ public class OfferFragment extends Fragment implements ValueEventListener {
                 offer.add(new katagori("Teklif",
                         gelenler.getValue(OfferHouse.class).getOfferFiyat()
                                 + " ,  " + gelenler.getValue(OfferHouse.class).getOfferm2()
-                        , gelenler.getValue(OfferHouse.class).getOfferDate(), offersPhotoUrl, gelenler.getKey()));
+                        , gelenler.getValue(OfferHouse.class).getOfferDate(), offersPhotoUrl, "", gelenler.getKey()));
             } catch (Exception e) {
 
                 continue;

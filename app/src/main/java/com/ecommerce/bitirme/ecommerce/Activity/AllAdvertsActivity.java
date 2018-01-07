@@ -69,7 +69,7 @@ public class AllAdvertsActivity extends AppCompatActivity implements ValueEventL
                 ilanlar.add(new katagori("Ev",
                         gelenler.getValue(House.class).getSehir()
                                 + " , " + gelenler.getValue(House.class).getIlanTipi()
-                                + "->" + gelenler.getValue(House.class).getOdaSayisi(), gelenler.getValue(House.class).getDate(), "", gelenler.getKey()));
+                                + "->" + gelenler.getValue(House.class).getOdaSayisi(), gelenler.getValue(House.class).getDate(), "", "", gelenler.getKey()));
             }
         } else if (ilanturu.matches("Araba_Ilani")) {
             setTitle("Araba İlanları");
@@ -79,7 +79,7 @@ public class AllAdvertsActivity extends AppCompatActivity implements ValueEventL
                                 + " , " + gelenler1.getValue(Cars.class).getModelMin()
                                 + "-" + gelenler1.getValue(Cars.class).getModelMax()
                                 + " , " + gelenler1.getValue(Cars.class).getFiyatMin()
-                                + "-" + gelenler1.getValue(Cars.class).getFiyatMax(), gelenler1.getValue(Cars.class).getDate(), "", gelenler1.getKey()));
+                                + "-" + gelenler1.getValue(Cars.class).getFiyatMax(), gelenler1.getValue(Cars.class).getDate(), "", "", gelenler1.getKey()));
             }
         }
         //house.ilanAciklama = dataSnapshot.child("ilanlar").child("ev").child("3").child("ilanAciklama").getValue().toString();

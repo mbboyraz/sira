@@ -10,13 +10,15 @@ public class katagori {
     private String katagoriAltName;
     private String katagoriDate;
     private String katagoriPhoto;
+    private String katagoriIlanid;
     private String id;
 
-    public katagori(String katagoriName, String katagoriAltName, String katagoriDate, String katagoriPhoto, String id) {
+    public katagori(String katagoriName, String katagoriAltName, String katagoriDate, String katagoriPhoto, String katagoriIlanid, String id) {
         this.katagoriName = katagoriName;
         this.katagoriAltName = katagoriAltName;
         this.katagoriDate = katagoriDate;
         this.katagoriPhoto = katagoriPhoto;
+        this.katagoriIlanid = katagoriIlanid;
         this.id = id;
     }
 
@@ -50,6 +52,14 @@ public class katagori {
 
     public void setKatagoriPhoto(String katagoriPhoto) {
         this.katagoriPhoto = katagoriPhoto;
+    }
+
+    public String getKatagoriIlanid() {
+        return katagoriIlanid;
+    }
+
+    public void setKatagoriIlanid(String katagoriIlanid) {
+        this.katagoriIlanid = katagoriIlanid;
     }
 
     public String getId() {

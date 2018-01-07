@@ -28,7 +28,6 @@ public class AddAdvertHouse extends AppCompatActivity {
     DateFormat current;
     Date currentTime;
     String currentDate;
-
     Firebase mRef;
     Spinner spinner;
    // TextView ilan;
@@ -50,9 +49,7 @@ public class AddAdvertHouse extends AppCompatActivity {
     RadioButton uygun, uygundegil;
     EditText aciklama;
     Button kaydet;
-
     int i;
-
 
     String sayi, tipi, sehiradi, ilanyazi;
     String minfiy, maxfiy, minmetre, maxmetre;
