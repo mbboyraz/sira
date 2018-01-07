@@ -24,6 +24,11 @@
                 android:layout_height="50dp"
                 android:layout_gravity="center" />
 
+            <ImageButton
+                android:id="@+id/offersArama_imgbtn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_call_black_24dp" />
 
             <TextView
                 android:id="@+id/teklifverenad_txt"

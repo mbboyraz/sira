@@ -1,8 +1,13 @@
 package com.ecommerce.bitirme.ecommerce.Activity;
 
+import android.Manifest;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
@@ -42,7 +47,7 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
 
     EditText offer_fiyat_edt, offer_m2_edt, offer_tarih_edt, offer_aciklama_edt;
     TextView offer_fiyat_txt, offer_m2_txt, offer_tarih_txt, offer_aciklama_txt, offersAd;
-    ImageButton imgbtn_offers;
+    ImageButton imgbtn_offers, imgbtn_offersAra;
 
 
     DateFormat current;
@@ -145,7 +150,6 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
                 dialog.setNegativeButton("İptal", null);
 
 
-
                 dialog.setView(mview);
                 AlertDialog mdialog = dialog.create();
                 mdialog.show();
@@ -211,7 +215,7 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
 
     }
 
-    public AlertDialog.Builder tekliflerDialog(String fiyat, String m2, String aciklama, String user, String date, String ilanid, String teklifid, String offersname, String offersphoto, String offerstel) {
+    public AlertDialog.Builder tekliflerDialog(String fiyat, String m2, String aciklama, String user, String date, String ilanid, String teklifid, String offersname, String offersphoto, final String offerstel) {
 
 
         dialog = new AlertDialog.Builder(AdvertActivity.this);
@@ -226,7 +230,7 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
         offer_aciklama_edt = nview.findViewById(R.id.aciklama_edt);
         offersAd = nview.findViewById(R.id.teklifverenad_txt);
         imgbtn_offers = nview.findViewById(R.id.teklifveren_imgbtn);
-
+        imgbtn_offersAra = nview.findViewById(R.id.offersArama_imgbtn);
         offersAd.setText(offersname);
         Picasso.with(nview.getContext()).load(offersphoto).into(imgbtn_offers);
 
@@ -241,6 +245,26 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
             offer_tarih_edt.setVisibility(View.GONE);
             offer_m2_edt.setVisibility(View.GONE);
             offer_aciklama_edt.setVisibility(View.GONE);
+
+            imgbtn_offersAra.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //// TODO: 7.01.2018 arama şeyleri olcak
+                    Intent callintent = new Intent(Intent.ACTION_CALL);
+                    callintent.setData(Uri.parse("tel:" + offerstel));
+                    if (ActivityCompat.checkSelfPermission(v.getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                        // TODO: Consider calling
+                        //    ActivityCompat#requestPermissions
+                        // here to request the missing permissions, and then overriding
+                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                        //                                          int[] grantResults)
+                        // to handle the case where the user grants the permission. See the documentation
+                        // for ActivityCompat#requestPermissions for more details.
+                        return;
+                    }
+                    startActivity(callintent);
+                }
+            });
 
             dialog.setPositiveButton("Kabul Et", new DialogInterface.OnClickListener() {
                 @Override
@@ -269,6 +293,8 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
             offer_m2_txt.setVisibility(View.GONE);
             offer_tarih_txt.setVisibility(View.GONE);
             offer_aciklama_txt.setVisibility(View.GONE);
+
+            imgbtn_offersAra.setVisibility(View.GONE);
             dialog.setPositiveButton("Düzenle", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
