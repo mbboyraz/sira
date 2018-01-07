@@ -152,14 +152,27 @@ public class Giris extends AppCompatActivity implements
         }
     }
 
-    public void firebaseUyeEkle(String id, String usersname, String usersemail, String usersphotourl, String userstel) {
+    public void firebaseUyeEkle(final String id, final String usersname, final String usersemail, final String usersphotourl, final String userstel) {
 
-        if (mRef.child("users").child(id).getKey() == null) {
-            Users users = new Users(usersname, usersemail, usersphotourl, userstel);
-            mRef.child("users").child(id).setValue(users);
-        } else {
-            return;
-        }
+
+        mRef.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.child(id).getValue() == null) {
+                    Users users = new Users(usersname, usersemail, usersphotourl, userstel);
+                    mRef.child("users").child(id).setValue(users);
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+
+
 
 
 

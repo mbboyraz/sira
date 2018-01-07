@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class katagoriactivity extends AppCompatActivity {
-    final List<katagori> categories = new ArrayList<katagori>();
+    List<katagori> categories = new ArrayList<katagori>();
     String username, useremail, userid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,16 +30,11 @@ public class katagoriactivity extends AppCompatActivity {
         /* mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);*/
-        categories.add(new katagori("Ev", "", ""));
-        categories.add(new katagori("Araba", "", ""));
-        categories.add(new katagori("Spor", "", ""));
-        categories.add(new katagori("Teknoloji", "", ""));
-        categories.add(new katagori("Taşıtlar", "", ""));
-      /*  categories.add(new katagori("Ustalar ve Hizmetler"));
-        categories.add(new katagori("Özel Ders Verenler"));
-        categories.add(new katagori("İş İlanları"));
-        categories.add(new katagori("Yardımcı Arayanlar"));
-        categories.add(new katagori("Hayvanlar Alemi"));*/
+        categories.add(new katagori("Ev", "", "", "", ""));
+        categories.add(new katagori("Araba", "", "", "", ""));
+        categories.add(new katagori("Spor", "", "", "", ""));
+        categories.add(new katagori("Teknoloji", "", "", "", ""));
+        categories.add(new katagori("Taşıtlar", "", "", "", ""));
         final ListView liste = (ListView) findViewById(R.id.liste);
         adapter adapterr = new adapter(this, categories);
         liste.setAdapter(adapterr);
@@ -48,15 +43,12 @@ public class katagoriactivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                // String s;
-
                   if(i==0){
                       Intent gecHouseEkle = new Intent(katagoriactivity.this, AddAdvertHouse.class);
 
                       gecHouseEkle.putExtra("username", username);
                       gecHouseEkle.putExtra("useremail", useremail);
                       gecHouseEkle.putExtra("usersid", userid);
-
                       startActivity(gecHouseEkle);
 
                 }

@@ -6,14 +6,50 @@ package com.ecommerce.bitirme.ecommerce.Activity;
 
 
 public class katagori {
-    public String KatagoriName;
-    public String KatagoriAltName;
-    public String id;
+    private String katagoriName;
+    private String katagoriAltName;
+    private String katagoriDate;
+    private String katagoriPhoto;
+    private String id;
 
-    public katagori(String KatagoriName, String KatagoriAltName, String id) {
-        this.KatagoriName=KatagoriName;
-        this.KatagoriAltName = KatagoriAltName;
+    public katagori(String katagoriName, String katagoriAltName, String katagoriDate, String katagoriPhoto, String id) {
+        this.katagoriName = katagoriName;
+        this.katagoriAltName = katagoriAltName;
+        this.katagoriDate = katagoriDate;
+        this.katagoriPhoto = katagoriPhoto;
         this.id = id;
+    }
+
+    public String getKatagoriName() {
+        return katagoriName;
+    }
+
+    public void setKatagoriName(String katagoriName) {
+        this.katagoriName = katagoriName;
+    }
+
+    public String getKatagoriAltName() {
+        return katagoriAltName;
+    }
+
+    public void setKatagoriAltName(String katagoriAltName) {
+        this.katagoriAltName = katagoriAltName;
+    }
+
+    public String getKatagoriDate() {
+        return katagoriDate;
+    }
+
+    public void setKatagoriDate(String katagoriDate) {
+        this.katagoriDate = katagoriDate;
+    }
+
+    public String getKatagoriPhoto() {
+        return katagoriPhoto;
+    }
+
+    public void setKatagoriPhoto(String katagoriPhoto) {
+        this.katagoriPhoto = katagoriPhoto;
     }
 
     public String getId() {
@@ -22,22 +58,5 @@ public class katagori {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getKatagoriName() {
-        return KatagoriName;
-    }
-
-    public void setKatagoriName(String KatagoriName) {
-        this.KatagoriName = KatagoriName;
-    }
-
-
-    public String getKatagoriAltName() {
-        return KatagoriAltName;
-    }
-
-    public void setKatagoriAltName(String katagoriAltName) {
-        KatagoriAltName = katagoriAltName;
     }
 }
