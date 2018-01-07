@@ -139,6 +139,7 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
                 dialog.setNegativeButton("İptal", null);
 
 
+
                 dialog.setView(mview);
                 AlertDialog mdialog = dialog.create();
                 mdialog.show();
