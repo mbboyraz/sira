@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +20,7 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -39,7 +41,8 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
     EditText edt_fiyat, edt_m2, edt_aciklama, edt_telnumber;
 
     EditText offer_fiyat_edt, offer_m2_edt, offer_tarih_edt, offer_aciklama_edt;
-    TextView offer_fiyat_txt, offer_m2_txt, offer_tarih_txt, offer_aciklama_txt;
+    TextView offer_fiyat_txt, offer_m2_txt, offer_tarih_txt, offer_aciklama_txt, offersAd;
+    ImageButton imgbtn_offers;
 
 
     DateFormat current;
@@ -221,11 +224,23 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
         offer_m2_edt = nview.findViewById(R.id.m2aralig_edt);
         offer_tarih_edt = nview.findViewById(R.id.tekliftarihi_edt);
         offer_aciklama_edt = nview.findViewById(R.id.aciklama_edt);
-        if (usersid == offeruserid) {
+        offersAd = nview.findViewById(R.id.teklifverenad_txt);
+        imgbtn_offers = nview.findViewById(R.id.teklifveren_imgbtn);
+
+        offersAd.setText(offersname);
+        Picasso.with(nview.getContext()).load(offersphoto).into(imgbtn_offers);
+
+        if (usersid.matches(offeruserid)) {
             offer_fiyat_txt.setText(fiyat);
             offer_m2_txt.setText(m2);
             offer_aciklama_txt.setText(aciklama);
             offer_tarih_txt.setText(date);
+
+
+            offer_fiyat_edt.setVisibility(View.GONE);
+            offer_tarih_edt.setVisibility(View.GONE);
+            offer_m2_edt.setVisibility(View.GONE);
+            offer_aciklama_edt.setVisibility(View.GONE);
 
             dialog.setPositiveButton("Kabul Et", new DialogInterface.OnClickListener() {
                 @Override
@@ -243,12 +258,17 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
                 }
             });
             dialog.setNeutralButton("Kapat", null);
-        } else if (offeruserid == user) {
+        } else if (offeruserid.matches(user)) {
 
             offer_fiyat_edt.setText(fiyat);
             offer_m2_edt.setText(m2);
             offer_tarih_edt.setText(date);
             offer_aciklama_edt.setText(aciklama);
+
+            offer_fiyat_txt.setVisibility(View.GONE);
+            offer_m2_txt.setVisibility(View.GONE);
+            offer_tarih_txt.setVisibility(View.GONE);
+            offer_aciklama_txt.setVisibility(View.GONE);
             dialog.setPositiveButton("Düzenle", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {

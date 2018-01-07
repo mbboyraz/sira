@@ -14,7 +14,6 @@ import com.ecommerce.bitirme.ecommerce.Activity.AdvertActivity;
 import com.ecommerce.bitirme.ecommerce.Activity.adapter;
 import com.ecommerce.bitirme.ecommerce.Activity.katagori;
 import com.ecommerce.bitirme.ecommerce.Classes.OfferHouse;
-import com.ecommerce.bitirme.ecommerce.Classes.Users;
 import com.ecommerce.bitirme.ecommerce.R;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -93,8 +92,8 @@ public class OfferFragment extends Fragment implements ValueEventListener {
 
                 advtactivity.tekliflerDialog(data.getValue(OfferHouse.class).getOfferFiyat(), data.getValue(OfferHouse.class).getOfferm2(),
                         data.getValue(OfferHouse.class).getOfferAciklama(), data.getValue(OfferHouse.class).getOfferUserId(),
-                        data.getValue(OfferHouse.class).getOfferDate(), ilanIdOffer, offer.get(position).getId(), data1.getValue(Users.class).getUsersName(),
-                        data1.getValue(Users.class).getUsersPhotourl(), data1.getValue(Users.class).getUsersTel());
+                        data.getValue(OfferHouse.class).getOfferDate(), ilanIdOffer, offer.get(position).getId(), data1.child("usersName").getValue().toString(),
+                        data1.child("usersPhotourl").getValue().toString(), data1.child("usersTel").getValue().toString());
 
             }
         });
