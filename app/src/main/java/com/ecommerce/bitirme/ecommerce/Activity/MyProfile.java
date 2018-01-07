@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -44,6 +45,8 @@ public class MyProfile extends AppCompatActivity {
     String s;
     ArrayList<String> ilanno = new ArrayList<>();
 
+    AlertDialog.Builder dialog;
+
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -61,6 +64,7 @@ public class MyProfile extends AppCompatActivity {
     public String getData() {
         return userid;
     }
+
 
 
     @Override
@@ -118,6 +122,16 @@ public class MyProfile extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public AlertDialog.Builder tekliflerDialog() {
+
+
+        dialog = new AlertDialog.Builder(MyProfile.this);
+        View mview = getLayoutInflater().inflate(R.layout.activity_add_advert_house, null);
+        dialog.setView(mview);
+        AlertDialog mdialog = dialog.create();
+        mdialog.show();
+        return dialog;
+    }
 
     /**
      * A placeholder fragment containing a simple view.
@@ -134,10 +148,13 @@ public class MyProfile extends AppCompatActivity {
         ListView ilanlarliste;
         int i;
         String userid;
+        AlertDialog.Builder dialog;
 
         Map<String, ArrayList<String>> ids = new HashMap<>();
         ArrayList<String> idler = new ArrayList<>();
         ArrayList<String> donilan = new ArrayList<>();
+
+        MyProfile activity;
 
 
 
@@ -168,7 +185,7 @@ public class MyProfile extends AppCompatActivity {
             // textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
             // my.userid
 
-            MyProfile activity = (MyProfile) getActivity();
+            activity = (MyProfile) getActivity();
             userid = activity.getData();
 
             i = getArguments().getInt(ARG_SECTION_NUMBER);
@@ -235,6 +252,13 @@ public class MyProfile extends AppCompatActivity {
                 Collections.reverse(ilanlar);
                 adapter ilanadapter = new adapter(this.getActivity(), ilanlar);
                 ilanlarliste.setAdapter(ilanadapter);
+                ilanlarliste.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                        activity.tekliflerDialog();
+                    }
+                });
 
 
             }

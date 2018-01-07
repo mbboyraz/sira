@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ecommerce.bitirme.ecommerce.Activity.AdvertActivity;
 import com.ecommerce.bitirme.ecommerce.Activity.adapter;
 import com.ecommerce.bitirme.ecommerce.Activity.katagori;
 import com.ecommerce.bitirme.ecommerce.Classes.OfferHouse;
@@ -33,6 +34,8 @@ public class OfferFragment extends Fragment implements ValueEventListener {
     TextView txtTitle;
     AlertDialog.Builder dialog;
 
+    AdvertActivity advtactivity;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +51,7 @@ public class OfferFragment extends Fragment implements ValueEventListener {
         listoffer = mview.findViewById(R.id.offerlist);
         txtTitle.setText("Teklifler");
         ilanIdOffer = getArguments().getString("ilanid");
+        advtactivity = (AdvertActivity) getActivity();
         //// TODO: 5.01.2018 sorgu firebaseden offer doldurulacak
         Firebase.setAndroidContext(mview.getContext());
 
@@ -81,7 +85,8 @@ public class OfferFragment extends Fragment implements ValueEventListener {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                dialog = new AlertDialog.Builder(view.getContext());
+                advtactivity.tekliflerDialog();
+
             }
         });
     }
