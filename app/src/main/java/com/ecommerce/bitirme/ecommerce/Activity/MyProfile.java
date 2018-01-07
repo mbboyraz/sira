@@ -144,6 +144,7 @@ public class MyProfile extends AppCompatActivity {
         private static final String ARG_SECTION_NUMBER = "section_number";
         Firebase mRef;
         List<katagori> ilanlar = new ArrayList<katagori>();
+        List<katagori> teklifler = new ArrayList<katagori>();
         adapter ilanadapter;
         ListView ilanlarliste;
         int i;
@@ -246,11 +247,11 @@ public class MyProfile extends AppCompatActivity {
                     data = dataSnapshot.child("teklifler").child(evid.getKey().toString()).child(evid.getValue().toString());
 
                     offersPhotoUrl = dataSnapshot.child("users").child(data.getValue(OfferHouse.class).getOfferUserId()).child("usersPhotourl").getValue().toString();
-                    ilanlar.add(new katagori("Teklif",
+                    teklifler.add(new katagori("Teklif",
                             data.getValue(OfferHouse.class).getOfferFiyat() + " , " + data.getValue(OfferHouse.class).getOfferm2() + " , " + data.getValue(OfferHouse.class).getOfferDate() + "----" + data.getKey(), offersPhotoUrl));
                 }
-                Collections.reverse(ilanlar);
-                adapter ilanadapter = new adapter(this.getActivity(), ilanlar);
+                Collections.reverse(teklifler);
+                adapter ilanadapter = new adapter(this.getActivity(), teklifler);
                 ilanlarliste.setAdapter(ilanadapter);
                 ilanlarliste.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
