@@ -212,7 +212,7 @@ public class MyProfile extends AppCompatActivity {
                     ilanlar.add(new katagori("Ev",
                             data.getValue(House.class).getSehir() + " , " +
                                     data.getValue(House.class).getIlanTipi() + "->" +
-                                    data.getValue(House.class).getOdaSayisi(), data.getKey()));
+                                    data.getValue(House.class).getOdaSayisi(), data.getValue(House.class).getDate(), "", data.getKey()));
                 }
                 for (DataSnapshot arabaid : dataSnapshot.child("users").child(userid).child("ilanlarım").child("araba").getChildren()) {
 
@@ -223,7 +223,7 @@ public class MyProfile extends AppCompatActivity {
                                     data.getValue(Cars.class).getModelMin() + "-" +
                                     data.getValue(Cars.class).getModelMax() + " , " +
                                     data.getValue(Cars.class).getFiyatMin() + "-" +
-                                    data.getValue(Cars.class).getFiyatMax(), data.getKey()));
+                                    data.getValue(Cars.class).getFiyatMax(), data.getValue(House.class).getDate(), "", data.getKey()));
                 }
 
 
@@ -244,11 +244,15 @@ public class MyProfile extends AppCompatActivity {
             } else if (i == 2) {
                 for (DataSnapshot evid : dataSnapshot.child("users").child(userid).child("tekliflerim").child("ev").getChildren()) {
 
-                    data = dataSnapshot.child("teklifler").child(evid.getKey().toString()).child(evid.getValue().toString());
+                    data = dataSnapshot.child("teklifler").child(evid.getKey()).child(evid.getValue().toString());
 
                     offersPhotoUrl = dataSnapshot.child("users").child(data.getValue(OfferHouse.class).getOfferUserId()).child("usersPhotourl").getValue().toString();
                     teklifler.add(new katagori("Teklif",
-                            data.getValue(OfferHouse.class).getOfferFiyat() + " , " + data.getValue(OfferHouse.class).getOfferm2() + " , " + data.getValue(OfferHouse.class).getOfferDate() + "----" + data.getKey(), offersPhotoUrl));
+                            data.getValue(OfferHouse.class).getOfferFiyat()
+                                    + " , " + data.getValue(OfferHouse.class).getOfferm2()
+                                    + " , " + data.getValue(OfferHouse.class).getOfferDate()
+                                    + "----", "İlan Tarihi : "
+                            + data.getValue(OfferHouse.class).getOfferDate(), offersPhotoUrl, evid.getValue().toString()));
                 }
                 Collections.reverse(teklifler);
                 adapter ilanadapter = new adapter(this.getActivity(), teklifler);

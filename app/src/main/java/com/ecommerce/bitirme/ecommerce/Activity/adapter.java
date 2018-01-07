@@ -18,14 +18,15 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class adapter extends BaseAdapter{
+public class adapter extends BaseAdapter {
 
     ImageView simge;
     private List<katagori> userList;
     private Activity activity;
-    public adapter(Activity activity,List<katagori> userList){
+
+    public adapter(Activity activity, List<katagori> userList) {
         this.activity = activity;
-        this.userList=userList;
+        this.userList = userList;
     }
 
     @Override
@@ -42,6 +43,7 @@ public class adapter extends BaseAdapter{
     public long getItemId(int i) {
         return i;
     }
+
     public View getView(int i, View view, ViewGroup viewGroup) {
 
         LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -49,33 +51,29 @@ public class adapter extends BaseAdapter{
 
         TextView kategori = lineView.findViewById(R.id.kategori);
         TextView altkategori = lineView.findViewById(R.id.altkategori);
+        TextView date = lineView.findViewById(R.id.katagori_date_txt);
         simge = lineView.findViewById(R.id.simge);
 
         katagori user = userList.get(i);
         kategori.setText(user.getKatagoriName());
         altkategori.setText(user.getKatagoriAltName());
+        date.setText(user.getKatagoriDate());
         if (user.getKatagoriName().equals("Ev")) {
             simge.setImageResource(R.drawable.ic_home_black_24dp);
-        }
-        else if(user.getKatagoriName().equals("Araba")){
+        } else if (user.getKatagoriName().equals("Araba")) {
             simge.setImageResource(R.drawable.ic_drive_eta_black_24dp);
-        }
-        else if(user.getKatagoriName().equals("Spor")){
+        } else if (user.getKatagoriName().equals("Spor")) {
             simge.setImageResource(R.drawable.ic_fitness_center_black_24dp);
-        }
-        else if(user.getKatagoriName().equals("Teknoloji")){
+        } else if (user.getKatagoriName().equals("Teknoloji")) {
             simge.setImageResource(R.drawable.ic_phone_iphone_black_24dp);
-        }
-        else if(user.getKatagoriName().equals("Taşıtlar")){
+        } else if (user.getKatagoriName().equals("Taşıtlar")) {
             simge.setImageResource(R.drawable.ic_motorcycle_black_24dp);
         } else if (user.getKatagoriName().equals("Teklif")) {
             Picasso.with(this.activity).load(user.getId()).into(simge);
         }
 
 
-          //  simge.setImageResource(R.drawable.ic_menu_send);
-
-
+        //  simge.setImageResource(R.drawable.ic_menu_send);
 
 
         return lineView;

@@ -125,7 +125,10 @@ public class MyAdvertsFragment extends Fragment implements ValueEventListener {
 
         for (DataSnapshot gelenler : dataSnapshot.child("ilanlar").child("ev").getChildren()) {
             ilanlar.add(new katagori("Ev",
-                    gelenler.getValue(House.class).getSehir() + " , " + gelenler.getValue(House.class).getIlanTipi() + "->" + gelenler.getValue(House.class).getOdaSayisi(), gelenler.getKey()));
+                    gelenler.getValue(House.class).getSehir()
+                            + " , " + gelenler.getValue(House.class).getIlanTipi()
+                            + "->" + gelenler.getValue(House.class).getOdaSayisi(),
+                    "İlan Tarihi : " + gelenler.getValue(House.class).getDate(), "", gelenler.getKey()));
         }
 
 
