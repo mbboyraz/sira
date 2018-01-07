@@ -69,7 +69,7 @@ public class adapter extends BaseAdapter {
         } else if (user.getKatagoriName().equals("Taşıtlar")) {
             simge.setImageResource(R.drawable.ic_motorcycle_black_24dp);
         } else if (user.getKatagoriName().equals("Teklif")) {
-            Picasso.with(this.activity).load(user.getId()).into(simge);
+            Picasso.with(this.activity).load(user.getKatagoriPhoto()).into(simge);
         }
 
 

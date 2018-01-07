@@ -98,7 +98,7 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
                 edt_telnumber = mview.findViewById(R.id.tel_number_edttxt);
                 tel_txt = mview.findViewById(R.id.tel_txt);
 
-                if (offerUsersTel != null) {
+                if (!offerUsersTel.matches("")) {
                     edt_telnumber.setVisibility(View.GONE);
                     tel_txt.setVisibility(View.GONE);
                 }
@@ -112,7 +112,7 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
                     public void onClick(DialogInterface dialog, int which) {
 
 
-                        if (edt_m2.getText().toString().matches("") || edt_fiyat.getText().toString().matches("") || edt_aciklama.getText().toString().matches("") || edt_telnumber.getText().toString().matches("")) {
+                        if (edt_m2.getText().toString().matches("") || edt_fiyat.getText().toString().matches("") || edt_aciklama.getText().toString().matches("") || ((edt_telnumber.getVisibility() != View.GONE) && (edt_telnumber.getText().toString().matches("")))) {
 
                             Toast.makeText(getApplicationContext(), "Tüm Bilgileri Eksiksiz Doldurunuz", Toast.LENGTH_SHORT).show();
                         } else {
@@ -124,7 +124,7 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
                             mRef.child("teklifler").child(bundle.getString("id")).child(String.valueOf(i)).setValue(offerhouse);
                             mRef.child("users").child(offeruserid).child("tekliflerim").child("ev").child(bundle.getString("id")).setValue(String.valueOf(i));
                             mRef.child("teklifler").child(bundle.getString("id")).child("lastoffer").setValue(String.valueOf(i));
-                            if (offerUsersTel == null) {
+                            if (offerUsersTel.matches("")) {
                                 mRef.child("users").child(offeruserid).child("usersTel").setValue(edt_telnumber.getText().toString());
                             }
                             if (i >= 5) {
