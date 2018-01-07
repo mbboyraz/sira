@@ -39,18 +39,17 @@
                         android:background="@color/black" />
 
                     <ImageView
+                        android:id="@+id/userprofil_image"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
-
 
                     <TextView
                         android:id="@+id/aliciadi"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="asdasd"
                         android:textColor="@color/black"
-                        android:textSize="25dp" />
+                        android:textSize="25sp" />
 
 
                 </LinearLayout>
@@ -66,8 +65,8 @@
                     android:layout_height="wrap_content"
                     android:background="@color/unselected_color"
                     android:gravity="center"
-                    android:text="Konum"
-                    android:textSize="20dp" />
+                    android:text="@string/konum"
+                    android:textSize="20sp" />
 
                 <View
                     android:layout_width="match_parent"
@@ -78,6 +77,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:baselineAligned="false"
                     android:orientation="horizontal">
 
                     <LinearLayout
@@ -90,38 +90,39 @@
                             android:layout_width="wrap_content"
                             android:layout_height="25dp"
                             android:gravity="center"
-                            android:text="  Fiyat Aralığı:" />
+                            android:text="@string/fiyat_aral" />
 
                         <TextView
 
                             android:layout_width="wrap_content"
                             android:layout_height="25dp"
                             android:gravity="center"
-                            android:text="  m² Aralığı:" />
+                            android:text="@string/m_aral" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="25dp"
                             android:gravity="center"
-                            android:text="  İlan Tipi:" />
+                            android:text="@string/lan_tipi" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="25dp"
                             android:gravity="center"
-                            android:text="  Oda Sayısı:" />
+                            android:text="@string/oda_say_s" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="25dp"
                             android:gravity="center"
-                            android:text="  Krediye Uygun:" />
+                            android:text="@string/krediye_uygun" />
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/add_advert_left"
                         android:layout_weight="1"
                         android:orientation="vertical">
 
@@ -130,7 +131,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="right"
-                            android:layout_marginRight="@dimen/add_advert_right"
                             android:gravity="center" />
 
                         <TextView
@@ -138,7 +138,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="right"
-                            android:layout_marginRight="@dimen/add_advert_right"
                             android:gravity="center" />
 
                         <TextView
@@ -146,7 +145,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="right"
-                            android:layout_marginRight="@dimen/add_advert_right"
                             android:gravity="center" />
 
                         <TextView
@@ -154,7 +152,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="right"
-                            android:layout_marginRight="@dimen/add_advert_right"
                             android:gravity="center" />
 
                         <TextView
@@ -162,7 +159,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="right"
-                            android:layout_marginRight="@dimen/add_advert_right"
                             android:gravity="center" />
 
                     </LinearLayout>
@@ -180,7 +176,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:text="  İlan Açıklama:   " />
+                    android:text="@string/lan_a_klama" />
             </LinearLayout>
 
             <FrameLayout

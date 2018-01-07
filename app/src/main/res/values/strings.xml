@@ -24,6 +24,13 @@
         enabled for your project, you have a properly configured google-services.json file
         and that your device has an internet connection.
     </string>
+    <string name="krediye_uygun">Krediye Uygun:</string>
+    <string name="oda_say_s">Oda Sayısı:</string>
+    <string name="lan_tipi">İlan Tipi:</string>
+    <string name="m_aral">m² Aralığı:</string>
+    <string name="fiyat_aral">Fiyat Aralığı:</string>
+    <string name="lan_a_klama">İlan Açıklama:</string>
+    <string name="konum">Konum</string>
     <string name="fiyat">Fiyat</string>
     <string name="m">m²</string>
     <string name="teklif_fiyat">Teklif Fiyatı</string>
