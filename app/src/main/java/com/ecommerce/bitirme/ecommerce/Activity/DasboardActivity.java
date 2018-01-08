@@ -24,7 +24,7 @@ public class DasboardActivity extends AppCompatActivity
     TextView txt_left_menu_user_name;
     TextView txt_left_menu_user_email;
     NavigationView nav_drawer;
-
+    boolean isFirst = false;
     String photourl, username, useremail, userid;
 
     @Override
@@ -85,7 +85,15 @@ public class DasboardActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if (isFirst)
+                finish();
+            else {
+                isFirst = true;
+                onBackPressed();
+                super.onBackPressed();
+            }
+
+
         }
     }
 
@@ -133,18 +141,11 @@ public class DasboardActivity extends AppCompatActivity
             gec1.putExtra("session", sayfaad);
             gec1.putExtra("usersid", userid);
             startActivity(gec1);
-        } else if (id == R.id.nav_slideshow) {
-            sayfaad="Spor İlanları";
-            gec1.putExtra("session", sayfaad);
-            startActivity(gec1);
         } else if (id == R.id.nav_teknoloji) {
-            sayfaad="Teknoloji İlanları";
+            sayfaad = "Telefon_Ilani";
             gec1.putExtra("session", sayfaad);
             startActivity(gec1);
-        } else if (id == R.id.nav_tasit) {
-            sayfaad="Taşıt İlanları";
-            gec1.putExtra("session", sayfaad);
-            startActivity(gec1);
+
         } else if (id == R.id.nav_share) {
             sayfaad="Share";
             gec1.putExtra("session", sayfaad);

@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.ecommerce.bitirme.ecommerce.Classes.Cars;
 import com.ecommerce.bitirme.ecommerce.Classes.House;
+import com.ecommerce.bitirme.ecommerce.Classes.Telephone;
 import com.ecommerce.bitirme.ecommerce.R;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -97,6 +98,33 @@ public class AllAdvertsActivity extends AppCompatActivity implements ValueEventL
                                 + "-" + gelenler1.getValue(Cars.class).getModelMax()
                                 + " , " + gelenler1.getValue(Cars.class).getFiyatMin()
                                 + "-" + gelenler1.getValue(Cars.class).getFiyatMax(), gelenler1.getValue(Cars.class).getDate(), "", "", gelenler1.getKey(), ""));
+
+                swipeRefreshLayout.setRefreshing(false);
+
+                Collections.reverse(ilanlar);
+                final adapter ilanadapter = new adapter(this, ilanlar);
+                ilanlarliste.setAdapter(ilanadapter);
+                ilanlarliste.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                        Intent intent = new Intent(AllAdvertsActivity.this, AdvertCarActivity.class);
+                        intent.putExtra("id", ilanlar.get(position).getId());
+                        intent.putExtra("userid", userid);
+                        startActivity(intent);
+                        // Toast.makeText(view.getContext(), "Uçuyozz", Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        } else if (ilanturu.matches("Telefon_Ilani")) {
+            setTitle("Telefon İlanları");
+            for (DataSnapshot gelenler1 : dataSnapshot.child("ilanlar").child("telefon").getChildren()) {
+                ilanlar.add(new katagori("Telefon",
+                        gelenler1.getValue(Telephone.class).getTelMarka()
+                                + " , " + gelenler1.getValue(Telephone.class).getTelModel()
+                                + "-" + gelenler1.getValue(Telephone.class).getTelPriceMin()
+                                + " , " + gelenler1.getValue(Telephone.class).getTelPriceMax(),
+                        gelenler1.getValue(Telephone.class).getTelDate(), "", "", gelenler1.getKey()));
 
                 swipeRefreshLayout.setRefreshing(false);
 

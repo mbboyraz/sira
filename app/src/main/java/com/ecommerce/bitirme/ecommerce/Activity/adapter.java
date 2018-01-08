@@ -62,12 +62,8 @@ public class adapter extends BaseAdapter {
             simge.setImageResource(R.drawable.ic_home_black_24dp);
         } else if (user.getKatagoriName().equals("Araba")) {
             simge.setImageResource(R.drawable.ic_drive_eta_black_24dp);
-        } else if (user.getKatagoriName().equals("Spor")) {
-            simge.setImageResource(R.drawable.ic_fitness_center_black_24dp);
-        } else if (user.getKatagoriName().equals("Teknoloji")) {
+        } else if (user.getKatagoriName().equals("Telefon")) {
             simge.setImageResource(R.drawable.ic_phone_iphone_black_24dp);
-        } else if (user.getKatagoriName().equals("Taşıtlar")) {
-            simge.setImageResource(R.drawable.ic_motorcycle_black_24dp);
         } else if (user.getKatagoriName().equals("Teklif")) {
             Picasso.with(this.activity).load(user.getKatagoriPhoto()).into(simge);
         }
