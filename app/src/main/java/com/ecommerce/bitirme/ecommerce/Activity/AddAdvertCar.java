@@ -51,7 +51,8 @@ public class AddAdvertCar extends AppCompatActivity implements AdapterView.OnIte
     String[] kasatipi = new String[]{"Sedan", "Hatchack", "Coupe", "Cabrio"};
     String[] motorhacmi = new String[]{"1.2", "1.3", "1.4", "1.5", "1.6", "1.8", "2.0", "2.5 ve üstü"};
     String[] cekis = new String[]{"4x2 Önden", "4x2 Arkadan", "4x4"};
-    String sehirAl, vitesAl, kasaAl, motorAl, cekisAl, yakitAl;
+    String[] ilanTip = new String[]{"Satılık", "Aylık Kiralık", "Günlük Kiralık"};
+    String sehirAl, vitesAl, kasaAl, motorAl, cekisAl, yakitAl, ilantipiAl;
     String userId;
     Bundle bundle;
     boolean kontrol;
@@ -60,13 +61,14 @@ public class AddAdvertCar extends AppCompatActivity implements AdapterView.OnIte
     //components
     private TextView txt_bos_hata;
     private Button btn_car_ilan_kaydet;
-    private EditText edt_car_ilan_baslik;
+
     private EditText edt_car_fiyat_min;
     private EditText edt_car_fiyat_max;
     private EditText edt_car_model_min;
     private EditText edt_car_model_max;
     private EditText edt_car_marka;
     private EditText edt_car_aciklama;
+    private Spinner spinner_car_ilantipi;
     private Spinner spinner_car_sehir;
     private Spinner spinner_car_motorhacim;
     private Spinner spinner_car_yakit;
@@ -79,6 +81,7 @@ public class AddAdvertCar extends AppCompatActivity implements AdapterView.OnIte
     private ArrayAdapter<String> vitesAdapter;
     private ArrayAdapter<String> kasatipAdapter;
     private ArrayAdapter<String> cekisAdapter;
+    private ArrayAdapter<String> ilantipAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +123,7 @@ public class AddAdvertCar extends AppCompatActivity implements AdapterView.OnIte
         spinner_car_motorhacim.setOnItemSelectedListener(this);
         spinner_car_vites.setOnItemSelectedListener(this);
         spinner_car_yakit.setOnItemSelectedListener(this);
+        spinner_car_ilantipi.setOnItemSelectedListener(this);
     }
 
     private void degerleriAl() {
@@ -128,9 +132,8 @@ public class AddAdvertCar extends AppCompatActivity implements AdapterView.OnIte
         car_min_fiyat = edt_car_fiyat_min.getText().toString();
         car_max_model = edt_car_model_max.getText().toString();
         car_min_model = edt_car_model_min.getText().toString();
-        car_baslik = edt_car_ilan_baslik.getText().toString();
         car_aciklama = edt_car_aciklama.getText().toString();
-        if (car_aciklama.matches("") || car_baslik.matches("") || car_min_model.matches("") || car_max_model.matches("") || car_min_fiyat.matches("") || car_max_fiyat.matches("") || car_marka.matches("")) {
+        if (car_aciklama.matches("") || car_min_model.matches("") || car_max_model.matches("") || car_min_fiyat.matches("") || car_max_fiyat.matches("") || car_marka.matches("")) {
             txt_bos_hata.setVisibility(View.VISIBLE);
             txt_bos_hata.setText("Lütfen tüm alanları doldurunuz**");
             txt_bos_hata.setTextColor(Color.RED);
@@ -151,13 +154,14 @@ public class AddAdvertCar extends AppCompatActivity implements AdapterView.OnIte
         spinner_car_motorhacim = (Spinner) findViewById(R.id.motor_hacim_car_spinner);
         spinner_car_vites = (Spinner) findViewById(R.id.vites_car_spinner);
         spinner_car_yakit = (Spinner) findViewById(R.id.yakit_car_spinner);
+        spinner_car_ilantipi = (Spinner) findViewById(R.id.car_ilantipi_spinner);
         edt_car_fiyat_max = (EditText) findViewById(R.id.fiyat_max_car_edt);
         edt_car_fiyat_min = (EditText) findViewById(R.id.fiyat_min_car_edt);
         edt_car_marka = (EditText) findViewById(R.id.marka_car_edt);
         edt_car_model_max = (EditText) findViewById(R.id.model_max_car_edt);
         edt_car_model_min = (EditText) findViewById(R.id.model_min_car_edt);
         edt_car_aciklama = (EditText) findViewById(R.id.ilan_aciklama_car_edt);
-        edt_car_ilan_baslik = (EditText) findViewById(R.id.ilan_baslik_car_edt);
+
         txt_bos_hata = (TextView) findViewById(R.id.car_bos_alan);
         //spinner adapter navigation
         sehirAdapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, sehirler);
@@ -166,6 +170,7 @@ public class AddAdvertCar extends AppCompatActivity implements AdapterView.OnIte
         yakitAdapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, yakit);
         kasatipAdapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, kasatipi);
         cekisAdapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, cekis);
+        ilantipAdapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, ilanTip);
         //spinner adapter setting
         spinner_car_yakit.setAdapter(yakitAdapter);
         spinner_car_vites.setAdapter(vitesAdapter);
@@ -173,6 +178,7 @@ public class AddAdvertCar extends AppCompatActivity implements AdapterView.OnIte
         spinner_car_kasatip.setAdapter(kasatipAdapter);
         spinner_car_sehir.setAdapter(sehirAdapter);
         spinner_car_cekis.setAdapter(cekisAdapter);
+        spinner_car_ilantipi.setAdapter(ilantipAdapter);
 
     }
 
@@ -197,6 +203,9 @@ public class AddAdvertCar extends AppCompatActivity implements AdapterView.OnIte
             case R.id.yakit_car_spinner:
                 yakitAl = parent.getSelectedItem().toString();
                 break;
+            case R.id.car_ilantipi_spinner:
+                ilantipiAl = parent.getSelectedItem().toString();
+
 
         }
     }
@@ -218,7 +227,7 @@ public class AddAdvertCar extends AppCompatActivity implements AdapterView.OnIte
 
         if (kontrol) {
             txt_bos_hata.setVisibility(View.INVISIBLE);
-            firebaseCarEkle(car_max_model, car_min_model, car_max_fiyat, car_min_fiyat, car_baslik, car_aciklama, car_marka, sehirAl, yakitAl, vitesAl, kasaAl, cekisAl, motorAl, userId, currentDate.toString());
+            firebaseCarEkle(car_max_model, car_min_model, car_max_fiyat, car_min_fiyat, ilantipiAl, car_aciklama, car_marka, sehirAl, yakitAl, vitesAl, kasaAl, cekisAl, motorAl, userId, currentDate.toString());
             onBackPressed();
             Toast.makeText(this, "İlan başarıyla eklendi", Toast.LENGTH_SHORT).show();
             onBackPressed();

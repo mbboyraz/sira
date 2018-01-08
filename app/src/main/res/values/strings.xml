@@ -36,4 +36,13 @@
     <string name="teklif_fiyat">Teklif Fiyatı</string>
     <string name="teklif_a_klamas">Teklif Açıklaması</string>
     <string name="a_klama">Açıklama</string>
+    <string name="model_aral">Model Aralığı</string>
+    <string name="marka">Marka</string>
+    <string name="yak_t">Yakıt</string>
+    <string name="vites">Vites</string>
+    <string name="kasa_tipi">Kasa Tipi</string>
+    <string name="eki">Çekiş</string>
+    <string name="motor_hacmi">Motor Hacmi</string>
+    <string name="model">Model</string>
+    <string name="ehir">Şehir</string>
 </resources>

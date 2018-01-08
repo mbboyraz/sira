@@ -1,9 +1,6 @@
 package com.ecommerce.bitirme.ecommerce.Activity;
 
 import android.Manifest;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,19 +8,22 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ecommerce.bitirme.ecommerce.Classes.Cars;
 import com.ecommerce.bitirme.ecommerce.Classes.House;
-import com.ecommerce.bitirme.ecommerce.Classes.OfferHouse;
+import com.ecommerce.bitirme.ecommerce.Classes.OfferCar;
 import com.ecommerce.bitirme.ecommerce.Fragments.OfferFragment;
 import com.ecommerce.bitirme.ecommerce.R;
 import com.firebase.client.DataSnapshot;
@@ -36,23 +36,36 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class AdvertActivity extends FragmentActivity implements ValueEventListener {
+public class AdvertCarActivity extends AppCompatActivity implements ValueEventListener {
 
     Firebase mRef;
     Bundle bundle;
     House house;
     String usersid, lastoffer, offeruserid, offerUsersTel;
     int i = 0;
-    TextView fiyat, m2, tip, oda, kredi, aciklama, konum, aliciadi, tel_txt;
+    TextView fiyat, model, ilantip, marka, yakıt, vites, kasatipi, cekis, motorhacmi, aciklama, konum, aliciadi;
     FloatingActionButton fab;
     AlertDialog.Builder dialog;
 
-    LinearLayout sehirlay;
+    String[] sehirler = new String[]{"Adana", "Adıyaman", "Afyon", "Ağrı", "Amasya", "Ankara", "Antalya", "Artvin",
+            "Aydın", "Balıkesir", "Bilecik", "Bingöl", "Bitlis", "Bolu", "Burdur", "Bursa", "Çanakkale",
+            "Çankırı", "Çorum", "Denizli", "Diyarbakır", "Edirne", "Elazığ", "Erzincan", "Erzurum", "Eskişehir",
+            "Gaziantep", "Giresun", "Gümüşhane", "Hakkari", "Hatay", "Isparta", "Mersin", "İstanbul", "İzmir",
+            "Kars", "Kastamonu", "Kayseri", "Kırklareli", "Kırşehir", "Kocaeli", "Konya", "Kütahya", "Malatya",
+            "Manisa", "Kahramanmaraş", "Mardin", "Muğla", "Muş", "Nevşehir", "Niğde", "Ordu", "Rize", "Sakarya",
+            "Samsun", "Siirt", "Sinop", "Sivas", "Tekirdağ", "Tokat", "Trabzon", "Tunceli", "Şanlıurfa", "Uşak",
+            "Van", "Yozgat", "Zonguldak", "Aksaray", "Bayburt", "Karaman", "Kırıkkale", "Batman", "Şırnak",
+            "Bartın", "Ardahan", "Iğdır", "Yalova", "Karabük", "Kilis", "Osmaniye", "Düzce"};
 
-    EditText edt_fiyat, edt_m2, edt_aciklama, edt_telnumber;
+    ArrayAdapter<String> sehirAdapter;
+    String sehirAl;
 
-    EditText offer_fiyat_edt, offer_m2_edt, offer_tarih_edt, offer_aciklama_edt;
-    TextView offer_fiyat_txt, offer_m2_txt, offer_tarih_txt, offer_aciklama_txt, offersAd;
+
+    EditText edt_fiyat, edt_model, edt_aciklama, edt_telnumber;
+    Spinner spin_sehir;
+
+    EditText offer_fiyat_edt, offer_model_edt, offer_tarih_edt, offer_aciklama_edt, offer_sehir_edt;
+    TextView offer_fiyat_txt, offer_model1_txt, offer_model2_txt, offer_tarih_txt, offer_aciklama_txt, offersAd, tel_txt, offer_sehir1_txt, offer_sehir2_txt;
     ImageButton imgbtn_offers, imgbtn_offersAra;
     ImageView imgview_adverts;
 
@@ -68,7 +81,7 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.evilan);
+        setContentView(R.layout.activity_advert_car);
 
         bundle = getIntent().getExtras();
         offeruserid = bundle.getString("userid");
@@ -76,24 +89,28 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
 
         Bundle bundle1 = new Bundle();
         bundle1.putString("ilanid", bundle.getString("id"));
-        bundle1.putString("gelenact", "House");
+        bundle1.putString("gelenact", "Car");
+
         final OfferFragment offerfragment = new OfferFragment();
         ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.frame, offerfragment);
         ft.commit();
         offerfragment.setArguments(bundle1);
 
-
-        fiyat = findViewById(R.id.fiyataraligi);
-        m2 = findViewById(R.id.m2araligi);
-        tip = findViewById(R.id.emlaktipi);
-        oda = findViewById(R.id.odasayisi);
-        kredi = findViewById(R.id.krediuygun);
-        aciklama = findViewById(R.id.ilanaciklama);
-        konum = findViewById(R.id.ilankonum);
-        aliciadi = findViewById(R.id.aliciadi);
-        fab = findViewById(R.id.faballadvert);
-        imgview_adverts = findViewById(R.id.imgbtn);
+        fiyat = (TextView) findViewById(R.id.fiyataraligi_txt);
+        model = (TextView) findViewById(R.id.modelaraligi_txt);
+        ilantip = (TextView) findViewById(R.id.ilantipi_txt);
+        marka = (TextView) findViewById(R.id.marka_txt);
+        yakıt = (TextView) findViewById(R.id.yakıt_txt);
+        vites = (TextView) findViewById(R.id.vites_txt);
+        kasatipi = (TextView) findViewById(R.id.kasatipi_txt);
+        cekis = (TextView) findViewById(R.id.cekis_txt);
+        motorhacmi = (TextView) findViewById(R.id.motorhacmi_txt);
+        aciklama = (TextView) findViewById(R.id.ilanaciklama);
+        konum = (TextView) findViewById(R.id.ilankonum);
+        aliciadi = (TextView) findViewById(R.id.aliciadi);
+        fab = (FloatingActionButton) findViewById(R.id.faballadvert);
+        imgview_adverts = (ImageView) findViewById(R.id.imgbtn);
         house = new House();
         Firebase.setAndroidContext(this);
         mRef = new Firebase("https://ecommerce-1-28620.firebaseio.com/");
@@ -104,32 +121,33 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
         current = new SimpleDateFormat("dd.MM.yyyy");
         currentDate = current.format(currentTime);
 
-        try {
-            if (bundle.getString("flag").matches("notification")) {
-
-
-                tekliflerDialog(bundle.getString("fiyat").toString(), bundle.getString("m2").toString(), bundle.getString("aciklama").toString(),
-                        bundle.getString("userid").toString(), bundle.getString("date").toString(), bundle.getString("id").toString(),
-                        bundle.getString("teklifId").toString(), "", "", "");
-            }
-        } catch (Exception e) {
-
-        }
-
-
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                dialog = new AlertDialog.Builder(AdvertActivity.this);
-                View mview = getLayoutInflater().inflate(R.layout.add_offer_dialog, null);
+                dialog = new AlertDialog.Builder(AdvertCarActivity.this);
+                View mview = getLayoutInflater().inflate(R.layout.add_caroffer_dialog, null);
 
                 edt_fiyat = mview.findViewById(R.id.price_edttxt);
 
-                edt_m2 = mview.findViewById(R.id.sizes_edttxt);
+                edt_model = mview.findViewById(R.id.models_edttxt);
                 edt_aciklama = mview.findViewById(R.id.explanation_edttxt);
                 edt_telnumber = mview.findViewById(R.id.tel_number_edttxt);
+                sehirAdapter = new ArrayAdapter<String>(mview.getContext(), R.layout.support_simple_spinner_dropdown_item, sehirler);
+                spin_sehir = mview.findViewById(R.id.sehir_spinner);
+                spin_sehir.setAdapter(sehirAdapter);
+                spin_sehir.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        sehirAl = parent.getSelectedItem().toString();
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+
                 tel_txt = mview.findViewById(R.id.tel_txt);
 
                 if (!offerUsersTel.matches("")) {
@@ -146,26 +164,26 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
                     public void onClick(DialogInterface dialog, int which) {
 
 
-                        if (edt_m2.getText().toString().matches("") || edt_fiyat.getText().toString().matches("") || edt_aciklama.getText().toString().matches("") || ((edt_telnumber.getVisibility() != View.GONE) && (edt_telnumber.getText().toString().matches("")))) {
+                        if (edt_model.getText().toString().matches("") || edt_fiyat.getText().toString().matches("") || edt_aciklama.getText().toString().matches("") || ((edt_telnumber.getVisibility() != View.GONE) && (edt_telnumber.getText().toString().matches(""))) || sehirAl.matches("")) {
 
                             Toast.makeText(getApplicationContext(), "Tüm Bilgileri Eksiksiz Doldurunuz", Toast.LENGTH_SHORT).show();
                         } else {
 
                             i = Integer.parseInt(lastoffer);
                             i++;
-                            OfferHouse offerhouse = new OfferHouse(edt_fiyat.getText().toString(), edt_m2.getText().toString(), edt_aciklama.getText().toString(), currentDate.toString(), offeruserid);
+                            OfferCar offercar = new OfferCar(edt_fiyat.getText().toString(), edt_model.getText().toString(), sehirAl, edt_aciklama.getText().toString(), currentDate.toString(), offeruserid);
 
-                            mRef.child("teklifler").child(bundle.getString("id")).child(String.valueOf(i)).setValue(offerhouse);
-                            mRef.child("users").child(offeruserid).child("tekliflerim").child("ev").child(bundle.getString("id")).setValue(String.valueOf(i));
+                            mRef.child("teklifler").child(bundle.getString("id")).child(String.valueOf(i)).setValue(offercar);
+                            mRef.child("users").child(offeruserid).child("tekliflerim").child("araba").child(bundle.getString("id")).setValue(String.valueOf(i));
                             mRef.child("teklifler").child(bundle.getString("id")).child("lastoffer").setValue(String.valueOf(i));
 
-                            bildirimYolla(edt_fiyat.getText().toString(), edt_m2.getText().toString(), edt_aciklama.getText().toString(), currentDate.toString(), offeruserid, bundle.getString("id"), i);
+                            //bildirimYolla(edt_fiyat.getText().toString(),edt_m2.getText().toString(),edt_aciklama.getText().toString(),currentDate.toString(),offeruserid,bundle.getString("id"),i);
 
                             if (offerUsersTel.matches("")) {
                                 mRef.child("users").child(offeruserid).child("usersTel").setValue(edt_telnumber.getText().toString());
                             }
                             if (i >= 5) {
-                                Toast.makeText(AdvertActivity.this, "Teklif Sınırına Ulaşıldı Teklif Veremezsiniz", Toast.LENGTH_LONG).show();
+                                Toast.makeText(AdvertCarActivity.this, "Teklif Sınırına Ulaşıldı Teklif Veremezsiniz", Toast.LENGTH_LONG).show();
                                 fab.setVisibility(View.GONE);
                             }
                         }
@@ -186,9 +204,8 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
 
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
-
         try {
-            usersid = dataSnapshot.child("ilanlar").child("ev").child(bundle.getString("id")).getValue(House.class).getUserid();
+            usersid = dataSnapshot.child("ilanlar").child("araba").child(bundle.getString("id")).getValue(Cars.class).getUserId();
 
             lastoffer = dataSnapshot.child("teklifler").child(bundle.getString("id")).child("lastoffer").getValue().toString();
 
@@ -214,47 +231,51 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
         }
 
 
-        konum.setText(dataSnapshot.child("ilanlar").child("ev").child(bundle.getString("id")).getValue(House.class).getSehir());
-        fiyat.setText(dataSnapshot.child("ilanlar").child("ev").child(bundle.getString("id")).getValue(House.class).getMinFiyat() + "-" + dataSnapshot.child("ilanlar").child("ev").child(bundle.getString("id")).getValue(House.class).getMaxFiyat());
-        m2.setText(dataSnapshot.child("ilanlar").child("ev").child(bundle.getString("id")).getValue(House.class).getMinM2() + "-" + dataSnapshot.child("ilanlar").child("ev").child(bundle.getString("id")).getValue(House.class).getMaxM2());
-        tip.setText(dataSnapshot.child("ilanlar").child("ev").child(bundle.getString("id")).getValue(House.class).getIlanTipi());
-        oda.setText(dataSnapshot.child("ilanlar").child("ev").child(bundle.getString("id")).getValue(House.class).getOdaSayisi());
+        konum.setText(dataSnapshot.child("ilanlar").child("araba").child(bundle.getString("id")).getValue(Cars.class).getSehir());
+        fiyat.setText(dataSnapshot.child("ilanlar").child("araba").child(bundle.getString("id")).getValue(Cars.class).getFiyatMin() + "-" + dataSnapshot.child("ilanlar").child("araba").child(bundle.getString("id")).getValue(Cars.class).getFiyatMax());
+        model.setText(dataSnapshot.child("ilanlar").child("araba").child(bundle.getString("id")).getValue(Cars.class).getModelMin() + "-" + dataSnapshot.child("ilanlar").child("araba").child(bundle.getString("id")).getValue(Cars.class).getModelMax());
+        ilantip.setText(dataSnapshot.child("ilanlar").child("araba").child(bundle.getString("id")).getValue(Cars.class).getBaslik());
+        marka.setText(dataSnapshot.child("ilanlar").child("araba").child(bundle.getString("id")).getValue(Cars.class).getMarka());
+        yakıt.setText(dataSnapshot.child("ilanlar").child("araba").child(bundle.getString("id")).getValue(Cars.class).getYakit());
+        vites.setText(dataSnapshot.child("ilanlar").child("araba").child(bundle.getString("id")).getValue(Cars.class).getVites());
+        kasatipi.setText(dataSnapshot.child("ilanlar").child("araba").child(bundle.getString("id")).getValue(Cars.class).getKasaTipi());
+        cekis.setText(dataSnapshot.child("ilanlar").child("araba").child(bundle.getString("id")).getValue(Cars.class).getCekis());
+        motorhacmi.setText(dataSnapshot.child("ilanlar").child("araba").child(bundle.getString("id")).getValue(Cars.class).getMotorHacmi());
+
         aliciadi.setText(dataSnapshot.child("users").child(usersid).child("usersName").getValue().toString());
         Picasso.with(this).load(dataSnapshot.child("users").child(usersid).child("usersPhotourl").getValue().toString()).into(imgview_adverts);
-        String s = "Hayır";
-        if (String.valueOf(dataSnapshot.child("ilanlar").child("ev").child(bundle.getString("id")).getValue(House.class).krediyeUygun).equals("true")) {
-            s = "Evet";
 
-        }
 
-        kredi.setText(s.toString());
-
-        aciklama.setText("İlan Açıklama:   " + dataSnapshot.child("ilanlar").child("ev").child(bundle.getString("id")).getValue(House.class).getIlanAciklama());
+        aciklama.setText("İlan Açıklama:   " + dataSnapshot.child("ilanlar").child("araba").child(bundle.getString("id")).getValue(Cars.class).getAciklama().toString());
 
 
         //  Toast.makeText(this, dataSnapshot.child("ilanlar").child("ev").child(bundle.getString("id")).getValue(House.class).getSehir(), Toast.LENGTH_SHORT).show();
-        // setTitle(dataSnapshot.child("ilanlar").child("ev").child(bundle.getString("id")).getValue(House.class).getIlanTipi());
+        // setTitle(dataSnapshot.child("ilanlar").child("araba").child(bundle.getString("id")).getValue(Cars.class).getBaslik());
 
     }
-
 
     @Override
     public void onCancelled(FirebaseError firebaseError) {
 
     }
 
-    public AlertDialog.Builder tekliflerDialog(String fiyat, String m2, String aciklama, String user, String date, String ilanid, String teklifid, String offersname, String offersphoto, final String offerstel) {
+    public AlertDialog.Builder tekliflerDialog(String fiyat, String model, String aciklama, String user, String date, String sehir, String ilanid, String teklifid, String offersname, String offersphoto, final String offerstel) {
 
 
-        dialog = new AlertDialog.Builder(AdvertActivity.this);
+        dialog = new AlertDialog.Builder(AdvertCarActivity.this);
         View nview = getLayoutInflater().inflate(R.layout.show_offer_dialog, null);
         offer_fiyat_txt = nview.findViewById(R.id.fiyatbilgi_txt);
-        offer_m2_txt = nview.findViewById(R.id.m2bilgi_txt);
+        offer_model1_txt = nview.findViewById(R.id.m2_txt);
+        offer_model2_txt = nview.findViewById(R.id.m2bilgi_txt);
         offer_tarih_txt = nview.findViewById(R.id.tekliftarihi_txt);
         offer_aciklama_txt = nview.findViewById(R.id.aciklama_txt);
+        offer_sehir1_txt = nview.findViewById(R.id.txt_sehircar1);
+        offer_sehir2_txt = nview.findViewById(R.id.txt_sehircar2);
+
         offer_fiyat_edt = nview.findViewById(R.id.fiyataraligi_edt);
-        offer_m2_edt = nview.findViewById(R.id.m2aralig_edt);
+        offer_model_edt = nview.findViewById(R.id.m2aralig_edt);
         offer_tarih_edt = nview.findViewById(R.id.tekliftarihi_edt);
+        offer_sehir_edt = nview.findViewById(R.id.edt_sehircar);
         offer_aciklama_edt = nview.findViewById(R.id.aciklama_edt);
         offersAd = nview.findViewById(R.id.teklifverenad_txt);
         imgbtn_offers = nview.findViewById(R.id.teklifveren_imgbtn);
@@ -262,20 +283,19 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
         offersAd.setText(offersname);
         Picasso.with(nview.getContext()).load(offersphoto).into(imgbtn_offers);
 
-        sehirlay = nview.findViewById(R.id.sehir_lay);
-        sehirlay.setVisibility(View.GONE);
-
-
         if (usersid.matches(offeruserid)) {
             offer_fiyat_txt.setText(fiyat);
-            offer_m2_txt.setText(m2);
+            offer_model1_txt.setText("Model");
+            offer_model2_txt.setText(model);
             offer_aciklama_txt.setText(aciklama);
             offer_tarih_txt.setText(date);
+            offer_sehir2_txt.setText(sehir);
 
 
             offer_fiyat_edt.setVisibility(View.GONE);
             offer_tarih_edt.setVisibility(View.GONE);
-            offer_m2_edt.setVisibility(View.GONE);
+            offer_model_edt.setVisibility(View.GONE);
+            offer_sehir_edt.setVisibility(View.GONE);
             offer_aciklama_edt.setVisibility(View.GONE);
 
             imgbtn_offersAra.setOnClickListener(new View.OnClickListener() {
@@ -317,13 +337,16 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
         } else if (offeruserid.matches(user)) {
 
             offer_fiyat_edt.setText(fiyat);
-            offer_m2_edt.setText(m2);
+            offer_model_edt.setText(model);
+            offer_model1_txt.setText("Model");
             offer_tarih_edt.setText(date);
+            offer_sehir_edt.setText(sehir);
             offer_aciklama_edt.setText(aciklama);
 
             offer_fiyat_txt.setVisibility(View.GONE);
-            offer_m2_txt.setVisibility(View.GONE);
+            offer_model2_txt.setVisibility(View.GONE);
             offer_tarih_txt.setVisibility(View.GONE);
+            offer_sehir2_txt.setVisibility(View.GONE);
             offer_aciklama_txt.setVisibility(View.GONE);
 
             imgbtn_offersAra.setVisibility(View.GONE);
@@ -350,33 +373,5 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
         mdialog.show();
         return dialog;
     }
-
-    public void bildirimYolla(String offerFiyat, String offerm2, String offeraciklma, String offerDate, String offersuserId, String offersilanId, int teklifId) {
-
-        String s = "notification";
-        NotificationManager noti = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        Intent intent = new Intent(this, AdvertActivity.class);
-        intent.putExtra("id", offersilanId);
-        intent.putExtra("teklifId", teklifId);
-        intent.putExtra("flag", s);
-        intent.putExtra("fiyat", offerFiyat);
-        intent.putExtra("m2", offerm2);
-        intent.putExtra("aciklama", offeraciklma);
-        intent.putExtra("date", offerDate);
-        intent.putExtra("userid", offersuserId);
-        PendingIntent launchIntent =
-                PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        Notification notif = new Notification.Builder(this)
-                .setSmallIcon(R.drawable.ic_gavel_black_24dp)
-                .setContentTitle("Yeni Bir Teklifiniz Var")
-                .setContentText(offerFiyat)
-                .setContentIntent(launchIntent)
-                .build();
-        notif.defaults |= Notification.DEFAULT_VIBRATE;
-        notif.defaults |= Notification.DEFAULT_SOUND;
-
-        noti.notify(0, notif);
-
-
-    }
 }
+

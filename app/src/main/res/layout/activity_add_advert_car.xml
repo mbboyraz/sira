@@ -29,13 +29,11 @@
                 android:layout_weight="1"
                 android:text="İlan Tipi" />
 
-            <EditText
-                android:id="@+id/ilan_baslik_car_edt"
+            <Spinner
+                android:id="@+id/car_ilantipi_spinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:ems="5"
-                android:inputType="text" />
+                android:layout_weight="0.5" />
         </LinearLayout>
 
         <LinearLayout

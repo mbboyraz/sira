@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/evilan"
+    android:id="@+id/activity_advert_car"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -21,7 +21,6 @@
                 android:orientation="vertical">
 
                 <LinearLayout
-
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/unselected_color"
@@ -105,7 +104,7 @@
                             android:layout_marginBottom="2dp"
                             android:layout_marginTop="2dp"
                             android:gravity="center"
-                            android:text="@string/m_aral" />
+                            android:text="@string/model_aral" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -121,7 +120,7 @@
                             android:layout_marginBottom="2dp"
                             android:layout_marginTop="2dp"
                             android:gravity="center"
-                            android:text="@string/oda_say_s" />
+                            android:text="@string/marka" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -129,7 +128,39 @@
                             android:layout_marginBottom="2dp"
                             android:layout_marginTop="2dp"
                             android:gravity="center"
-                            android:text="@string/krediye_uygun" />
+                            android:text="@string/yak_t" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="2dp"
+                            android:layout_marginTop="2dp"
+                            android:gravity="center"
+                            android:text="@string/vites" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="2dp"
+                            android:layout_marginTop="2dp"
+                            android:gravity="center"
+                            android:text="@string/kasa_tipi" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="2dp"
+                            android:layout_marginTop="2dp"
+                            android:gravity="center"
+                            android:text="@string/eki" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="2dp"
+                            android:layout_marginTop="2dp"
+                            android:gravity="center"
+                            android:text="@string/motor_hacmi" />
 
                     </LinearLayout>
 
@@ -141,7 +172,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/fiyataraligi"
+                            android:id="@+id/fiyataraligi_txt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="right"
@@ -150,7 +181,7 @@
                             android:gravity="center" />
 
                         <TextView
-                            android:id="@+id/m2araligi"
+                            android:id="@+id/modelaraligi_txt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="right"
@@ -159,7 +190,7 @@
                             android:gravity="center" />
 
                         <TextView
-                            android:id="@+id/emlaktipi"
+                            android:id="@+id/ilantipi_txt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="right"
@@ -168,7 +199,7 @@
                             android:gravity="center" />
 
                         <TextView
-                            android:id="@+id/odasayisi"
+                            android:id="@+id/marka_txt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="right"
@@ -177,7 +208,43 @@
                             android:gravity="center" />
 
                         <TextView
-                            android:id="@+id/krediuygun"
+                            android:id="@+id/yakıt_txt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:layout_marginBottom="2dp"
+                            android:layout_marginTop="2dp"
+                            android:gravity="center" />
+
+                        <TextView
+                            android:id="@+id/vites_txt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:layout_marginBottom="2dp"
+                            android:layout_marginTop="2dp"
+                            android:gravity="center" />
+
+                        <TextView
+                            android:id="@+id/kasatipi_txt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:layout_marginBottom="2dp"
+                            android:layout_marginTop="2dp"
+                            android:gravity="center" />
+
+                        <TextView
+                            android:id="@+id/cekis_txt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:layout_marginBottom="2dp"
+                            android:layout_marginTop="2dp"
+                            android:gravity="center" />
+
+                        <TextView
+                            android:id="@+id/motorhacmi_txt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="right"

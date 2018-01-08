@@ -3,6 +3,7 @@ package com.ecommerce.bitirme.ecommerce.Fragments;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +12,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ecommerce.bitirme.ecommerce.Activity.AdvertActivity;
+import com.ecommerce.bitirme.ecommerce.Activity.AdvertCarActivity;
 import com.ecommerce.bitirme.ecommerce.Activity.adapter;
 import com.ecommerce.bitirme.ecommerce.Activity.katagori;
+import com.ecommerce.bitirme.ecommerce.Classes.OfferCar;
 import com.ecommerce.bitirme.ecommerce.Classes.OfferHouse;
 import com.ecommerce.bitirme.ecommerce.R;
 import com.firebase.client.DataSnapshot;
@@ -29,12 +32,14 @@ public class OfferFragment extends Fragment implements ValueEventListener {
     ListView listoffer;
     adapter offeradap;
     String ilanIdOffer;
+    String s;
     List<katagori> offer = new ArrayList<>();
     Firebase mRef;
     TextView txtTitle;
     AlertDialog.Builder dialog;
 
     AdvertActivity advtactivity;
+    AdvertCarActivity advtcaractivity;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,8 +55,15 @@ public class OfferFragment extends Fragment implements ValueEventListener {
         txtTitle = mview.findViewById(R.id.txtTitle);
         listoffer = mview.findViewById(R.id.offerlist);
         txtTitle.setText("Teklifler");
+
         ilanIdOffer = getArguments().getString("ilanid");
-        advtactivity = (AdvertActivity) getActivity();
+        if (getArguments().getString("gelenact").matches("House")) {
+            advtactivity = (AdvertActivity) getActivity();
+            s = "house";
+        } else if (getArguments().getString("gelenact").matches("Car")) {
+            advtcaractivity = (AdvertCarActivity) getActivity();
+            s = "car";
+        }
         //// TODO: 5.01.2018 sorgu firebaseden offer doldurulacak
         Firebase.setAndroidContext(mview.getContext());
 
@@ -68,14 +80,23 @@ public class OfferFragment extends Fragment implements ValueEventListener {
         offer.clear();
         for (DataSnapshot gelenler : dataSnapshot.child("teklifler").child(ilanIdOffer).getChildren()) {
             try {
-                offersPhotoUrl = dataSnapshot.child("users")
-                        .child(gelenler.getValue(OfferHouse.class).getOfferUserId()).child("usersPhotourl").getValue().toString();
-                offer.add(new katagori("Teklif",
-                        gelenler.getValue(OfferHouse.class).getOfferFiyat()
-                                + " ,  " + gelenler.getValue(OfferHouse.class).getOfferm2()
-                        , gelenler.getValue(OfferHouse.class).getOfferDate(), offersPhotoUrl, "", gelenler.getKey()));
+                if (s.matches("house")) {
+                    offersPhotoUrl = dataSnapshot.child("users")
+                            .child(gelenler.getValue(OfferHouse.class).getOfferUserId()).child("usersPhotourl").getValue().toString();
+                    offer.add(new katagori("Teklif",
+                            gelenler.getValue(OfferHouse.class).getOfferFiyat()
+                                    + " ,  " + gelenler.getValue(OfferHouse.class).getOfferm2()
+                            , gelenler.getValue(OfferHouse.class).getOfferDate(), offersPhotoUrl, "", gelenler.getKey()));
+                } else if (s.matches("car")) {
+                    offersPhotoUrl = dataSnapshot.child("users")
+                            .child(gelenler.getValue(OfferCar.class).getOfferUserId()).child("usersPhotourl").getValue().toString();
+                    offer.add(new katagori("Teklif",
+                            gelenler.getValue(OfferCar.class).getOfferFiyat()
+                                    + " ,  " + gelenler.getValue(OfferCar.class).getOfferModel() + " , " + gelenler.getValue(OfferCar.class).getOfferSehir()
+                            , gelenler.getValue(OfferCar.class).getOfferDate(), offersPhotoUrl, "", gelenler.getKey()));
+                }
             } catch (Exception e) {
-
+                Log.e("", e.toString());
                 continue;
             }
 
@@ -87,14 +108,26 @@ public class OfferFragment extends Fragment implements ValueEventListener {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+
                 DataSnapshot data = dataSnapshot.child("teklifler").child(ilanIdOffer).child(offer.get(position).getId());
-                DataSnapshot data1 = dataSnapshot.child("users").child(data.getValue(OfferHouse.class).getOfferUserId());
+                if (s.matches("house")) {
+                    DataSnapshot data1 = dataSnapshot.child("users").child(data.getValue(OfferHouse.class).getOfferUserId());
 
-                advtactivity.tekliflerDialog(data.getValue(OfferHouse.class).getOfferFiyat(), data.getValue(OfferHouse.class).getOfferm2(),
-                        data.getValue(OfferHouse.class).getOfferAciklama(), data.getValue(OfferHouse.class).getOfferUserId(),
-                        data.getValue(OfferHouse.class).getOfferDate(), ilanIdOffer, offer.get(position).getId(), data1.child("usersName").getValue().toString(),
-                        data1.child("usersPhotourl").getValue().toString(), data1.child("usersTel").getValue().toString());
+                    advtactivity.tekliflerDialog(data.getValue(OfferHouse.class).getOfferFiyat(), data.getValue(OfferHouse.class).getOfferm2(),
+                            data.getValue(OfferHouse.class).getOfferAciklama(), data.getValue(OfferHouse.class).getOfferUserId(),
+                            data.getValue(OfferHouse.class).getOfferDate(), ilanIdOffer, offer.get(position).getId(), data1.child("usersName").getValue().toString(),
+                            data1.child("usersPhotourl").getValue().toString(), data1.child("usersTel").getValue().toString());
 
+                } else if (s.matches("car")) {
+
+                    DataSnapshot data1 = dataSnapshot.child("users").child(data.getValue(OfferCar.class).getOfferUserId());
+                    advtcaractivity.tekliflerDialog(data.getValue(OfferCar.class).getOfferFiyat(), data.getValue(OfferCar.class).getOfferModel(),
+                            data.getValue(OfferCar.class).getOfferAciklama(), data.getValue(OfferCar.class).getOfferUserId(),
+                            data.getValue(OfferCar.class).getOfferDate(), data.getValue(OfferCar.class).getOfferSehir(), ilanIdOffer, offer.get(position).getId(),
+                            data1.child("usersName").getValue().toString(),
+                            data1.child("usersPhotourl").getValue().toString(), data1.child("usersTel").getValue().toString());
+
+                }
             }
         });
     }

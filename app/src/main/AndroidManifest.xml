@@ -3,6 +3,7 @@
     package="com.ecommerce.bitirme.ecommerce">
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/wewe_72x72"
@@ -10,7 +11,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".Activity.DasboardActivity"
             android:label="@string/app_name"
@@ -37,8 +37,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.AdvertActivity"></activity>
-        <activity android:name=".Activity.AddAdvertCar"></activity>
+        <activity android:name=".Activity.AdvertActivity" />
+        <activity android:name=".Activity.AddAdvertCar" />
+        <activity
+            android:name=".Activity.AdvertCarActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
     </application>
 
 </manifest>

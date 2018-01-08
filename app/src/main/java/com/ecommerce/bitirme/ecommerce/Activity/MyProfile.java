@@ -20,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,6 +54,7 @@ public class MyProfile extends AppCompatActivity {
     AlertDialog.Builder dialog;
     TextView offer_fiyat_txt, offer_m2_txt, offer_tarih_txt, offer_aciklama_txt, offersAd;
     ImageButton imgbtn_offers, imgbtn_offersAra;
+    LinearLayout sehirlay;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -143,6 +145,8 @@ public class MyProfile extends AppCompatActivity {
         imgbtn_offers = nview.findViewById(R.id.teklifveren_imgbtn);
         imgbtn_offersAra = nview.findViewById(R.id.offersArama_imgbtn);
         offersAd.setText(offersname);
+        sehirlay = nview.findViewById(R.id.sehir_lay);
+        sehirlay.setVisibility(View.GONE);
         Picasso.with(nview.getContext()).load(offersphoto).into(imgbtn_offers);
         offer_fiyat_txt.setVisibility(View.GONE);
         offer_m2_txt.setVisibility(View.GONE);
@@ -267,7 +271,7 @@ public class MyProfile extends AppCompatActivity {
                                     data.getValue(Cars.class).getModelMin() + "-" +
                                     data.getValue(Cars.class).getModelMax() + " , " +
                                     data.getValue(Cars.class).getFiyatMin() + "-" +
-                                    data.getValue(Cars.class).getFiyatMax(), data.getValue(House.class).getDate(), "", "", data.getKey()));
+                                    data.getValue(Cars.class).getFiyatMax(), data.getValue(Cars.class).getDate(), "", "", data.getKey()));
                 }
 
 
@@ -278,10 +282,18 @@ public class MyProfile extends AppCompatActivity {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                        Intent intent = new Intent(getContext(), AdvertActivity.class);
-                        intent.putExtra("id", ilanlar.get(position).getId());
-                        intent.putExtra("userid", userid);
-                        startActivity(intent);
+                        if (ilanlar.get(position).getKatagoriName().matches("Ev")) {
+                            Intent intent = new Intent(getContext(), AdvertActivity.class);
+                            intent.putExtra("id", ilanlar.get(position).getId());
+                            intent.putExtra("userid", userid);
+                            startActivity(intent);
+                        } else if (ilanlar.get(position).getKatagoriName().matches("Araba")) {
+                            Intent intent = new Intent(getContext(), AdvertCarActivity.class);
+                            intent.putExtra("id", ilanlar.get(position).getId());
+                            intent.putExtra("userid", userid);
+                            startActivity(intent);
+                        }
+
                         // Toast.makeText(view.getContext(), "Uçuyozz", Toast.LENGTH_LONG).show();
                     }
                 });

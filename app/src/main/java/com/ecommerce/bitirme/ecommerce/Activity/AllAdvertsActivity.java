@@ -70,6 +70,23 @@ public class AllAdvertsActivity extends AppCompatActivity implements ValueEventL
                         gelenler.getValue(House.class).getSehir()
                                 + " , " + gelenler.getValue(House.class).getIlanTipi()
                                 + "->" + gelenler.getValue(House.class).getOdaSayisi(), gelenler.getValue(House.class).getDate(), "", "", gelenler.getKey()));
+
+                swipeRefreshLayout.setRefreshing(false);
+
+                Collections.reverse(ilanlar);
+                final adapter ilanadapter = new adapter(this, ilanlar);
+                ilanlarliste.setAdapter(ilanadapter);
+                ilanlarliste.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                        Intent intent = new Intent(AllAdvertsActivity.this, AdvertActivity.class);
+                        intent.putExtra("id", ilanlar.get(position).getId());
+                        intent.putExtra("userid", userid);
+                        startActivity(intent);
+                        // Toast.makeText(view.getContext(), "Uçuyozz", Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         } else if (ilanturu.matches("Araba_Ilani")) {
             setTitle("Araba İlanları");
@@ -80,6 +97,23 @@ public class AllAdvertsActivity extends AppCompatActivity implements ValueEventL
                                 + "-" + gelenler1.getValue(Cars.class).getModelMax()
                                 + " , " + gelenler1.getValue(Cars.class).getFiyatMin()
                                 + "-" + gelenler1.getValue(Cars.class).getFiyatMax(), gelenler1.getValue(Cars.class).getDate(), "", "", gelenler1.getKey()));
+
+                swipeRefreshLayout.setRefreshing(false);
+
+                Collections.reverse(ilanlar);
+                final adapter ilanadapter = new adapter(this, ilanlar);
+                ilanlarliste.setAdapter(ilanadapter);
+                ilanlarliste.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                        Intent intent = new Intent(AllAdvertsActivity.this, AdvertCarActivity.class);
+                        intent.putExtra("id", ilanlar.get(position).getId());
+                        intent.putExtra("userid", userid);
+                        startActivity(intent);
+                        // Toast.makeText(view.getContext(), "Uçuyozz", Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         }
         //house.ilanAciklama = dataSnapshot.child("ilanlar").child("ev").child("3").child("ilanAciklama").getValue().toString();
@@ -88,22 +122,7 @@ public class AllAdvertsActivity extends AppCompatActivity implements ValueEventL
 //            Toast.makeText(this,gelenler.getValue(House.class).ilanAciklama+"\n",Toast.LENGTH_SHORT);
 //        }
 
-        swipeRefreshLayout.setRefreshing(false);
 
-        Collections.reverse(ilanlar);
-        final adapter ilanadapter = new adapter(this, ilanlar);
-        ilanlarliste.setAdapter(ilanadapter);
-        ilanlarliste.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                Intent intent = new Intent(AllAdvertsActivity.this, AdvertActivity.class);
-                intent.putExtra("id", ilanlar.get(position).getId());
-                intent.putExtra("userid", userid);
-                startActivity(intent);
-                // Toast.makeText(view.getContext(), "Uçuyozz", Toast.LENGTH_LONG).show();
-            }
-        });
     }
 
     @Override
