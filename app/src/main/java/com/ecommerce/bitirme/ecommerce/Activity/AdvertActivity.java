@@ -9,12 +9,12 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -44,7 +44,7 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
     String usersid, lastoffer, offeruserid, offerUsersTel;
     int i = 0;
     TextView fiyat, m2, tip, oda, kredi, aciklama, konum, aliciadi, tel_txt;
-    FloatingActionButton fab;
+    Button fab;
     AlertDialog.Builder dialog;
 
     LinearLayout sehirlay;

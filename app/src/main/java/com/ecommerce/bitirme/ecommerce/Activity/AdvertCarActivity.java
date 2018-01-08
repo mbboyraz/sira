@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
@@ -14,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -44,7 +44,7 @@ public class AdvertCarActivity extends AppCompatActivity implements ValueEventLi
     String usersid, lastoffer, offeruserid, offerUsersTel;
     int i = 0;
     TextView fiyat, model, ilantip, marka, yakıt, vites, kasatipi, cekis, motorhacmi, aciklama, konum, aliciadi;
-    FloatingActionButton fab;
+    Button fab;
     AlertDialog.Builder dialog;
 
     String[] sehirler = new String[]{"Adana", "Adıyaman", "Afyon", "Ağrı", "Amasya", "Ankara", "Antalya", "Artvin",
@@ -109,7 +109,7 @@ public class AdvertCarActivity extends AppCompatActivity implements ValueEventLi
         aciklama = (TextView) findViewById(R.id.ilanaciklama);
         konum = (TextView) findViewById(R.id.ilankonum);
         aliciadi = (TextView) findViewById(R.id.aliciadi);
-        fab = (FloatingActionButton) findViewById(R.id.faballadvert);
+        fab = (Button) findViewById(R.id.faballadvert);
         imgview_adverts = (ImageView) findViewById(R.id.imgbtn);
         house = new House();
         Firebase.setAndroidContext(this);
