@@ -65,7 +65,13 @@ public class katagoriactivity extends AppCompatActivity {
                       //   s="Spor İlanı";
                   }
                   else if(i==3){
-                      // s="Teknoloji İlanı";
+                      Intent gecTelefonEkle = new Intent(katagoriactivity.this, AddAdvertTelephoneActivity.class);
+
+                      gecTelefonEkle.putExtra("username", username);
+                      gecTelefonEkle.putExtra("useremail", useremail);
+                      gecTelefonEkle.putExtra("usersid", userid);
+
+                      startActivity(gecTelefonEkle);
                   }
                 //else s="Taşıt ilanı";
              /*  s = categories.get(i).getKatagoriName();
