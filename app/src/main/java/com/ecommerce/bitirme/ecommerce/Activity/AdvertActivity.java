@@ -318,9 +318,10 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
 
             offer_fiyat_edt.setText(fiyat);
             offer_m2_edt.setText(m2);
-            offer_tarih_edt.setText(date);
+            offer_tarih_edt.setText(currentDate);
             offer_aciklama_edt.setText(aciklama);
 
+            offer_tarih_edt.setEnabled(false);
             offer_fiyat_txt.setVisibility(View.GONE);
             offer_m2_txt.setVisibility(View.GONE);
             offer_tarih_txt.setVisibility(View.GONE);

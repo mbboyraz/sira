@@ -86,14 +86,14 @@ public class OfferFragment extends Fragment implements ValueEventListener {
                     offer.add(new katagori("Teklif",
                             gelenler.getValue(OfferHouse.class).getOfferFiyat()
                                     + " ,  " + gelenler.getValue(OfferHouse.class).getOfferm2()
-                            , gelenler.getValue(OfferHouse.class).getOfferDate(), offersPhotoUrl, "", gelenler.getKey()));
+                            , gelenler.getValue(OfferHouse.class).getOfferDate(), offersPhotoUrl, "", gelenler.getKey(), ""));
                 } else if (s.matches("car")) {
                     offersPhotoUrl = dataSnapshot.child("users")
                             .child(gelenler.getValue(OfferCar.class).getOfferUserId()).child("usersPhotourl").getValue().toString();
                     offer.add(new katagori("Teklif",
                             gelenler.getValue(OfferCar.class).getOfferFiyat()
                                     + " ,  " + gelenler.getValue(OfferCar.class).getOfferModel() + " , " + gelenler.getValue(OfferCar.class).getOfferSehir()
-                            , gelenler.getValue(OfferCar.class).getOfferDate(), offersPhotoUrl, "", gelenler.getKey()));
+                            , gelenler.getValue(OfferCar.class).getOfferDate(), offersPhotoUrl, "", gelenler.getKey(), ""));
                 }
             } catch (Exception e) {
                 Log.e("", e.toString());

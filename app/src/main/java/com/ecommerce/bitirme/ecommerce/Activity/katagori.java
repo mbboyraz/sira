@@ -13,13 +13,17 @@ public class katagori {
     private String katagoriIlanid;
     private String id;
 
-    public katagori(String katagoriName, String katagoriAltName, String katagoriDate, String katagoriPhoto, String katagoriIlanid, String id) {
+
+    private String teklifTur;
+
+    public katagori(String katagoriName, String katagoriAltName, String katagoriDate, String katagoriPhoto, String katagoriIlanid, String id, String teklifTur) {
         this.katagoriName = katagoriName;
         this.katagoriAltName = katagoriAltName;
         this.katagoriDate = katagoriDate;
         this.katagoriPhoto = katagoriPhoto;
         this.katagoriIlanid = katagoriIlanid;
         this.id = id;
+        this.teklifTur = teklifTur;
     }
 
     public String getKatagoriName() {
@@ -36,6 +40,14 @@ public class katagori {
 
     public void setKatagoriAltName(String katagoriAltName) {
         this.katagoriAltName = katagoriAltName;
+    }
+
+    public String getTeklifTur() {
+        return teklifTur;
+    }
+
+    public void setTeklifTur(String teklifTur) {
+        this.teklifTur = teklifTur;
     }
 
     public String getKatagoriDate() {

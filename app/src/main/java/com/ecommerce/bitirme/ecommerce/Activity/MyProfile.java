@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.ecommerce.bitirme.ecommerce.Classes.Cars;
 import com.ecommerce.bitirme.ecommerce.Classes.House;
+import com.ecommerce.bitirme.ecommerce.Classes.OfferCar;
 import com.ecommerce.bitirme.ecommerce.Classes.OfferHouse;
 import com.ecommerce.bitirme.ecommerce.R;
 import com.firebase.client.DataSnapshot;
@@ -35,8 +36,11 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,11 +54,19 @@ public class MyProfile extends AppCompatActivity {
     Firebase mRef;
     String s;
     ArrayList<String> ilanno = new ArrayList<>();
-    EditText offer_fiyat_edt, offer_m2_edt, offer_tarih_edt, offer_aciklama_edt;
+    EditText offer_m2_edt;
     AlertDialog.Builder dialog;
-    TextView offer_fiyat_txt, offer_m2_txt, offer_tarih_txt, offer_aciklama_txt, offersAd;
+    TextView offer_m2_txt;
     ImageButton imgbtn_offers, imgbtn_offersAra;
     LinearLayout sehirlay;
+
+    DateFormat current;
+    Date currentTime;
+    String currentDate;
+
+    EditText offer_fiyat_edt, offer_model_edt, offer_tarih_edt, offer_aciklama_edt, offer_sehir_edt;
+    TextView offer_fiyat_txt, offer_model1_txt, offer_model2_txt, offer_tarih_txt, offer_aciklama_txt, offersAd, tel_txt, offer_sehir1_txt, offer_sehir2_txt;
+
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -81,6 +93,10 @@ public class MyProfile extends AppCompatActivity {
 
         Firebase.setAndroidContext(this);
 
+
+        currentTime = new Date();
+        current = new SimpleDateFormat("dd.MM.yyyy");
+        currentDate = current.format(currentTime);
 
         profilephotos = (ImageView) findViewById(R.id.profilphoto);
         Bundle extras = getIntent().getExtras();
@@ -128,7 +144,7 @@ public class MyProfile extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public AlertDialog.Builder tekliflerDialog(String fiyat, String m2, String aciklama, String user, String date, String ilanid, String teklifid, String offersname, String offersphoto, final String offerstel) {
+    public AlertDialog.Builder tekliflerEvDialog(String fiyat, String m2, String aciklama, String user, String date, String ilanid, String teklifid, String offersname, String offersphoto, final String offerstel) {
 
 
         dialog = new AlertDialog.Builder(MyProfile.this);
@@ -153,11 +169,13 @@ public class MyProfile extends AppCompatActivity {
         offer_tarih_txt.setVisibility(View.GONE);
         offer_aciklama_txt.setVisibility(View.GONE);
 
+
         imgbtn_offersAra.setVisibility(View.GONE);
 
         offer_fiyat_edt.setText(fiyat);
         offer_m2_edt.setText(m2);
-        offer_tarih_edt.setText(date);
+        offer_tarih_edt.setText(currentDate);
+        offer_tarih_edt.setEnabled(false);
         offer_aciklama_edt.setText(aciklama);
         dialog.setPositiveButton("Düzenle", new DialogInterface.OnClickListener() {
             @Override
@@ -182,6 +200,69 @@ public class MyProfile extends AppCompatActivity {
         return dialog;
     }
 
+    public AlertDialog.Builder tekliflerArabaDialog(String fiyat, String model, String aciklama, String user, String date, String sehir, String ilanid, String teklifid, String offersname, String offersphoto, final String offerstel) {
+
+
+        dialog = new AlertDialog.Builder(MyProfile.this);
+        View nview = getLayoutInflater().inflate(R.layout.show_offer_dialog, null);
+        offer_fiyat_txt = nview.findViewById(R.id.fiyatbilgi_txt);
+        offer_model1_txt = nview.findViewById(R.id.m2_txt);
+        offer_model2_txt = nview.findViewById(R.id.m2bilgi_txt);
+        offer_tarih_txt = nview.findViewById(R.id.tekliftarihi_txt);
+        offer_aciklama_txt = nview.findViewById(R.id.aciklama_txt);
+        offer_sehir1_txt = nview.findViewById(R.id.txt_sehircar1);
+        offer_sehir2_txt = nview.findViewById(R.id.txt_sehircar2);
+
+        offer_fiyat_edt = nview.findViewById(R.id.fiyataraligi_edt);
+        offer_model_edt = nview.findViewById(R.id.m2aralig_edt);
+        offer_tarih_edt = nview.findViewById(R.id.tekliftarihi_edt);
+        offer_sehir_edt = nview.findViewById(R.id.edt_sehircar);
+        offer_aciklama_edt = nview.findViewById(R.id.aciklama_edt);
+        offersAd = nview.findViewById(R.id.teklifverenad_txt);
+        imgbtn_offers = nview.findViewById(R.id.teklifveren_imgbtn);
+        imgbtn_offersAra = nview.findViewById(R.id.offersArama_imgbtn);
+        offersAd.setText(offersname);
+        Picasso.with(nview.getContext()).load(offersphoto).into(imgbtn_offers);
+
+
+        offer_fiyat_edt.setText(fiyat);
+        offer_model_edt.setText(model);
+        offer_model1_txt.setText("Model");
+        offer_tarih_edt.setText(currentDate);
+        offer_sehir_edt.setText(sehir);
+        offer_aciklama_edt.setText(aciklama);
+
+        offer_fiyat_txt.setVisibility(View.GONE);
+        offer_model2_txt.setVisibility(View.GONE);
+        offer_tarih_txt.setVisibility(View.GONE);
+        offer_sehir2_txt.setVisibility(View.GONE);
+        offer_aciklama_txt.setVisibility(View.GONE);
+
+        offer_tarih_edt.setEnabled(false);
+
+        imgbtn_offersAra.setVisibility(View.GONE);
+        dialog.setPositiveButton("Düzenle", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                //// TODO: 7.01.2018 Verilen teklif bilgileri burada edt text de hazır getirilip düzenlenecek
+
+            }
+        });
+        dialog.setNegativeButton("Sil", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //// TODO: 7.01.2018 teklif firebaseden silinecek
+            }
+        });
+        dialog.setNeutralButton("Kapat", null);
+
+
+        dialog.setView(nview);
+        AlertDialog mdialog = dialog.create();
+        mdialog.show();
+        return dialog;
+    }
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -260,7 +341,7 @@ public class MyProfile extends AppCompatActivity {
                     ilanlar.add(new katagori("Ev",
                             data.getValue(House.class).getSehir() + " , " +
                                     data.getValue(House.class).getIlanTipi() + "->" +
-                                    data.getValue(House.class).getOdaSayisi(), data.getValue(House.class).getDate(), "", "", data.getKey()));
+                                    data.getValue(House.class).getOdaSayisi(), data.getValue(House.class).getDate(), "", "", data.getKey(), ""));
                 }
                 for (DataSnapshot arabaid : dataSnapshot.child("users").child(userid).child("ilanlarım").child("araba").getChildren()) {
 
@@ -271,7 +352,7 @@ public class MyProfile extends AppCompatActivity {
                                     data.getValue(Cars.class).getModelMin() + "-" +
                                     data.getValue(Cars.class).getModelMax() + " , " +
                                     data.getValue(Cars.class).getFiyatMin() + "-" +
-                                    data.getValue(Cars.class).getFiyatMax(), data.getValue(Cars.class).getDate(), "", "", data.getKey()));
+                                    data.getValue(Cars.class).getFiyatMax(), data.getValue(Cars.class).getDate(), "", "", data.getKey(), ""));
                 }
 
 
@@ -306,7 +387,17 @@ public class MyProfile extends AppCompatActivity {
                     teklifler.add(new katagori("Teklif", "Fiyat -> " +
                             data.getValue(OfferHouse.class).getOfferFiyat()
                             + " , m² -> " + data.getValue(OfferHouse.class).getOfferm2()
-                            , data.getValue(OfferHouse.class).getOfferDate(), offersPhotoUrl, evid.getKey(), evid.getValue().toString()));
+                            , data.getValue(OfferHouse.class).getOfferDate(), offersPhotoUrl, evid.getKey(), evid.getValue().toString(), "ev"));
+                }
+                for (DataSnapshot arabaid : dataSnapshot.child("users").child(userid).child("tekliflerim").child("araba").getChildren()) {
+
+                    data = dataSnapshot.child("teklifler").child(arabaid.getKey()).child(arabaid.getValue().toString());
+
+                    offersPhotoUrl = dataSnapshot.child("users").child(data.getValue(OfferCar.class).getOfferUserId()).child("usersPhotourl").getValue().toString();
+                    teklifler.add(new katagori("Teklif", "Fiyat -> " +
+                            data.getValue(OfferCar.class).getOfferFiyat()
+                            + " , Model -> " + data.getValue(OfferCar.class).getOfferModel() + " , " + data.getValue(OfferCar.class).getOfferSehir()
+                            , data.getValue(OfferCar.class).getOfferDate(), offersPhotoUrl, arabaid.getKey(), arabaid.getValue().toString(), "araba"));
                 }
                 Collections.reverse(teklifler);
                 adapter ilanadapter = new adapter(this.getActivity(), teklifler);
@@ -316,10 +407,33 @@ public class MyProfile extends AppCompatActivity {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         DataSnapshot dataSnapshot1 = dataSnapshot.child("teklifler").child(teklifler.get(position).getKatagoriIlanid()).child(teklifler.get(position).getId());
                         DataSnapshot data1 = dataSnapshot.child("users").child(userid);
-                        activity.tekliflerDialog(dataSnapshot1.getValue(OfferHouse.class).getOfferFiyat(), dataSnapshot1.getValue(OfferHouse.class).getOfferm2(),
-                                dataSnapshot1.getValue(OfferHouse.class).getOfferAciklama(), dataSnapshot1.getValue(OfferHouse.class).getOfferUserId(),
-                                dataSnapshot1.getValue(OfferHouse.class).getOfferDate(), teklifler.get(position).getKatagoriIlanid(), teklifler.get(position).getId(), data1.child("usersName").getValue().toString(),
-                                data1.child("usersPhotourl").getValue().toString(), data1.child("usersTel").getValue().toString());
+                        if (teklifler.get(position).getTeklifTur().matches("ev")) {
+                            activity.tekliflerEvDialog(
+                                    dataSnapshot1.getValue(OfferHouse.class).getOfferFiyat(),
+                                    dataSnapshot1.getValue(OfferHouse.class).getOfferm2(),
+                                    dataSnapshot1.getValue(OfferHouse.class).getOfferAciklama(),
+                                    dataSnapshot1.getValue(OfferHouse.class).getOfferUserId(),
+                                    dataSnapshot1.getValue(OfferHouse.class).getOfferDate(),
+                                    teklifler.get(position).getKatagoriIlanid(),
+                                    teklifler.get(position).getId(),
+                                    data1.child("usersName").getValue().toString(),
+                                    data1.child("usersPhotourl").getValue().toString(),
+                                    data1.child("usersTel").getValue().toString());
+                        } else if (teklifler.get(position).getTeklifTur().matches("araba")) {
+                            activity.tekliflerArabaDialog(
+                                    dataSnapshot1.getValue(OfferCar.class).getOfferFiyat(),
+                                    dataSnapshot1.getValue(OfferCar.class).getOfferModel(),
+                                    dataSnapshot1.getValue(OfferCar.class).getOfferAciklama(),
+                                    dataSnapshot1.getValue(OfferCar.class).getOfferUserId(),
+                                    dataSnapshot1.getValue(OfferCar.class).getOfferDate(),
+                                    dataSnapshot1.getValue(OfferCar.class).getOfferSehir(),
+                                    teklifler.get(position).getKatagoriIlanid(),
+                                    teklifler.get(position).getId(),
+                                    data1.child("usersName").getValue().toString(),
+                                    data1.child("usersPhotourl").getValue().toString(),
+                                    data1.child("usersTel").getValue().toString());
+
+                        }
 
                     }
                 });

@@ -128,7 +128,7 @@ public class MyAdvertsFragment extends Fragment implements ValueEventListener {
                     gelenler.getValue(House.class).getSehir()
                             + " , " + gelenler.getValue(House.class).getIlanTipi()
                             + "->" + gelenler.getValue(House.class).getOdaSayisi(),
-                    "İlan Tarihi : " + gelenler.getValue(House.class).getDate(), "", "", gelenler.getKey()));
+                    "İlan Tarihi : " + gelenler.getValue(House.class).getDate(), "", "", gelenler.getKey(), ""));
         }
 
 

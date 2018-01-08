@@ -339,10 +339,11 @@ public class AdvertCarActivity extends AppCompatActivity implements ValueEventLi
             offer_fiyat_edt.setText(fiyat);
             offer_model_edt.setText(model);
             offer_model1_txt.setText("Model");
-            offer_tarih_edt.setText(date);
+            offer_tarih_edt.setText(currentDate);
             offer_sehir_edt.setText(sehir);
             offer_aciklama_edt.setText(aciklama);
 
+            offer_tarih_edt.setEnabled(false);
             offer_fiyat_txt.setVisibility(View.GONE);
             offer_model2_txt.setVisibility(View.GONE);
             offer_tarih_txt.setVisibility(View.GONE);
