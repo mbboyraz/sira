@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,7 +35,6 @@ public class Giris extends AppCompatActivity implements
     private static final String TAG = "SignInActivity";
     private static final int RC_SIGN_IN = 9001;
     Firebase mRef;
-    Button uyeliksiz;
     private GoogleSignInClient mGoogleSignInClient;
     private TextView mStatusTextView;
 
@@ -45,11 +43,9 @@ public class Giris extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_giris);
         Firebase.setAndroidContext(this);
-        // uyeliksiz=(Button)findViewById(R.id.uyeliksiz);
-        navi();
+
         // Views
         //mStatusTextView = findViewById(R.id.status);
-        uyeliksiz.setOnClickListener(this);
         // Button listeners
         findViewById(R.id.signIn).setOnClickListener(this);
         //   findViewById(R.id.uyeliksiz).setOnClickListener(this);
@@ -78,9 +74,7 @@ public class Giris extends AppCompatActivity implements
         // [END customize_button]
     }
 
-    public void navi() {
-        uyeliksiz = (Button) findViewById(R.id.uyeliksiz);
-    }
+
 
     @Override
     public void onStart() {
@@ -91,18 +85,7 @@ public class Giris extends AppCompatActivity implements
         // the GoogleSignInAccount will be non-null.
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         updateUI(account);
-
-        mRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
-        });
+        signIn();
         // [END on_start_sign_in]
     }
 
@@ -137,13 +120,9 @@ public class Giris extends AppCompatActivity implements
             intent1.putExtra("photourl", account.getPhotoUrl().toString());
             intent1.putExtra("usersid", account.getId());
 
-
-
-
-
-
             // intent.putExtra("photo", account.getPhotoUrl());
             startActivity(intent1);
+            finish();
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
@@ -171,12 +150,7 @@ public class Giris extends AppCompatActivity implements
 
     }
     // [END handleSignInResult]
-    private void uyeliksizGiris() {
-        Intent intent2 = new Intent(this, DasboardActivity.class);
-        intent2.putExtra("name", "Misafir Girişi");
-        intent2.putExtra("email", "");
-        startActivity(intent2);
-    }
+
     // [START signIn]
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
@@ -228,11 +202,6 @@ public class Giris extends AppCompatActivity implements
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.signIn) {
-
             signIn();
-        } else if (v.getId() == R.id.uyeliksiz) {
-            uyeliksizGiris();
-        }
     }
 }

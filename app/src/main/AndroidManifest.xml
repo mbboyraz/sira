@@ -3,46 +3,67 @@
     package="com.ecommerce.bitirme.ecommerce">
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/wewe_72x72"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".Activity.DasboardActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Activity.OfferActivity" />
-        <activity android:name=".Activity.AllAdvertsActivity" />
-        <activity android:name=".Activity.MakeOfferActivity" />
+        <activity
+            android:name=".Activity.OfferActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.AllAdvertsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.MakeOfferActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.MyProfile"
             android:label="Profilim"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activity.katagoriactivity"
-            android:label="İlan Ver" />
+            android:label="İlan Ver"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.AddAdvertHouse"
-            android:label="İlan Ver" />
+            android:label="İlan Ver"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.Giris"
-            android:label="Şirâ">
+            android:label="Şirâ"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.AdvertActivity" />
-        <activity android:name=".Activity.AddAdvertCar" />
+        <activity
+            android:name=".Activity.AdvertActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.AddAdvertCar"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.AdvertCarActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Activity.AddAdvertTelephoneActivity"></activity>
+        <activity
+            android:name=".Activity.AddAdvertTelephoneActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.AdvertTelephoneAcivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
