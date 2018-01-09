@@ -21,7 +21,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ecommerce.bitirme.ecommerce.Classes.Cars;
 import com.ecommerce.bitirme.ecommerce.Classes.House;
@@ -311,7 +310,7 @@ public class MyProfile extends AppCompatActivity {
             Firebase.setAndroidContext(this.getActivity());
             mRef = new Firebase("https://ecommerce-1-28620.firebaseio.com/");
             mRef.addValueEventListener(this);
-            Toast.makeText(getContext(), userid, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getContext(), userid, Toast.LENGTH_SHORT).show();
             return rootView;
         }
 
