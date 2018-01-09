@@ -1,8 +1,11 @@
 package com.ecommerce.bitirme.ecommerce.Activity;
 
 import android.Manifest;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInstaller;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -38,6 +41,9 @@ import java.util.Date;
 public class AdvertTelephoneAcivity extends AppCompatActivity implements ValueEventListener {
     int i = 0, count = 0;
     boolean isFirstTime = true;
+    PackageInstaller.Session session = null;
+    ProgressDialog pdialog = null;
+    Context context = null;
     private Firebase mRef;
     private DateFormat current;
     private Date currentTime;
@@ -70,6 +76,7 @@ public class AdvertTelephoneAcivity extends AppCompatActivity implements ValueEv
             txt_os_tel, txt_ram_tel, txt_bellek_tel, txt_on_tel,
             txt_arka_tel, txt_durum_tel, txt_renk_tel, txt_konum_tel,
             txt_tarih_tel, txt_ilansahip_tel, txt_aciklama_tel;
+    private String sendTo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,6 +180,19 @@ public class AdvertTelephoneAcivity extends AppCompatActivity implements ValueEv
                             mRef.child("users").child(offeruserid).child("tekliflerim").child("telefon").child(bundle.getString("id")).setValue(String.valueOf(i));
                             mRef.child("teklifler").child(bundle.getString("id")).child("lastoffer").setValue(String.valueOf(i));
 
+
+                            Intent intentsend = new Intent(Intent.ACTION_SEND);
+
+
+                            intentsend.putExtra(Intent.EXTRA_EMAIL, new String[]{sendTo});
+                            intentsend.putExtra(Intent.EXTRA_SUBJECT, "İlanınıza Gelen Yeni Bir Teklif Yaptım!!!");
+                            intentsend.putExtra(Intent.EXTRA_TEXT, "Merhabalar,\n Vermiş olduğunuz ilana yeni bir teklif yaptım.Teklif ayrıntıları aşağıda verilmiştir. Ayrıntılı bilgi için  http://www.my.sira.com/launch \n" +
+                                    "Fiyat : " + edt_fiyat.getText().toString() + "\n Model : " + edt_model.getText().toString() + "\n Şehir : " + sehirAl + "\n Açıklama : " + edt_aciklama.getText().toString());
+
+                            intentsend.setType("message/rfc822");
+
+                            startActivity(Intent.createChooser(intentsend, "Select Email Sending App :"));
+                            //startActivity(new Intent(Intent.ACTION_SENDTO, Uri.parse("mailfrom:sira.ecommerce@gmail.com"+"mailto:"+sendTo)));
                             //bildirimYolla(edt_fiyat.getText().toString(),edt_m2.getText().toString(),edt_aciklama.getText().toString(),currentDate.toString(),offeruserid,bundle.getString("id"),i);
 
                             if (offerUsersTel.matches("")) {
@@ -394,7 +414,7 @@ public class AdvertTelephoneAcivity extends AppCompatActivity implements ValueEv
         txt_tarih_tel.setText(dataSnapshot.child("ilanlar").child("telefon").child(bundle.getString("id")).getValue(Telephone.class).getTelDate());
         txt_ilansahip_tel.setText(dataSnapshot.child("users").child(usersid).child("usersName").getValue().toString());
         Picasso.with(this).load(dataSnapshot.child("users").child(usersid).child("usersPhotourl").getValue().toString()).into(imgview_adverts);
-
+        sendTo = dataSnapshot.child("users").child(usersid).child("usersEmail").getValue().toString();
 
         txt_aciklama_tel.setText("İlan Açıklama:   " + dataSnapshot.child("ilanlar").child("telefon").child(bundle.getString("id")).getValue(Telephone.class).getTelAciklama().toString());
 

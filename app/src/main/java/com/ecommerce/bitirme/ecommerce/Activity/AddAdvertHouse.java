@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ecommerce.bitirme.ecommerce.Classes.House;
 import com.ecommerce.bitirme.ecommerce.R;
@@ -175,8 +176,13 @@ public class AddAdvertHouse extends AppCompatActivity {
                 currentTime = new Date();
                 current = new SimpleDateFormat("dd.MM.yyyy");
                 currentDate = current.format(currentTime);
+                if (tipi.matches("") || sayi.matches("") || minmetre.matches("") || ilanyazi.matches("") || minfiy.matches("") || maxfiy.matches("")) {
+                    Toast.makeText(v.getContext(), "Lütfen Tüm Alanları Doldurunuz", Toast.LENGTH_SHORT).show();
+                    return;
+                } else {
+                    firebaseEvEkle(tipi, sayi, minmetre, maxmetre, yes, ilanyazi, sehiradi, minfiy, maxfiy, userid, currentDate);
+                }
 
-                firebaseEvEkle(tipi, sayi, minmetre, maxmetre, yes, ilanyazi, sehiradi, minfiy, maxfiy, userid, currentDate);
             }
         });
     }
