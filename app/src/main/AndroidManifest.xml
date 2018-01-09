@@ -33,7 +33,8 @@
         <activity
             android:name=".Activity.katagoriactivity"
             android:label="İlan Ver"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activity.AddAdvertHouse"
             android:label="İlan Ver"

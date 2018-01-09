@@ -83,10 +83,16 @@ public class AddAdvertCar extends AppCompatActivity implements AdapterView.OnIte
     private ArrayAdapter<String> cekisAdapter;
     private ArrayAdapter<String> ilantipAdapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_advert_car);
+
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         setTitle("İlan Ver");
         navi();
         initEvent();
@@ -245,5 +251,11 @@ public class AddAdvertCar extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

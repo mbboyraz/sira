@@ -1,9 +1,11 @@
 package com.ecommerce.bitirme.ecommerce.Activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -17,11 +19,20 @@ import java.util.List;
 public class katagoriactivity extends AppCompatActivity {
     List<katagori> categories = new ArrayList<katagori>();
     String username, useremail, userid;
+    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_katagoriactivity);
+
         TextView textView=(TextView)findViewById(R.id.textView);
+        toolbar = (Toolbar) findViewById(R.id.kategori_toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(Color.WHITE);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
         textView.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
         Bundle extras = getIntent().getExtras();
         username = extras.getString("username");
@@ -61,9 +72,6 @@ public class katagoriactivity extends AppCompatActivity {
                       startActivity(gecCarEkle);
                 }
                   else if(i==2){
-                      //   s="Spor İlanı";
-                  }
-                  else if(i==3){
                       Intent gecTelefonEkle = new Intent(katagoriactivity.this, AddAdvertTelephoneActivity.class);
 
                       gecTelefonEkle.putExtra("username", username);
@@ -72,11 +80,14 @@ public class katagoriactivity extends AppCompatActivity {
 
                       startActivity(gecTelefonEkle);
                   }
-                //else s="Taşıt ilanı";
-             /*  s = categories.get(i).getKatagoriName();
-                 gec.putExtra("session", s);
-                 startActivity(gec);*/
+
             }
         });
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

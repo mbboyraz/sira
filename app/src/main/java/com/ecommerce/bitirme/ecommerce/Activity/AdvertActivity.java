@@ -7,12 +7,14 @@ import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,7 +38,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class AdvertActivity extends FragmentActivity implements ValueEventListener {
+public class AdvertActivity extends FragmentActivity implements ValueEventListener, View.OnClickListener {
 
     Firebase mRef;
     Bundle bundle;
@@ -64,12 +66,17 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
     android.app.Fragment offerfragment;
 
     boolean isFirstTime = true;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.evilan);
 
+        toolbar = findViewById(R.id.kategori_toolbar);
+        toolbar.setTitleTextColor(Color.WHITE);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+        toolbar.setOnClickListener(this);
         bundle = getIntent().getExtras();
         offeruserid = bundle.getString("userid");
 
@@ -183,6 +190,7 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
             }
         });
     }
+
 
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -344,7 +352,23 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
             });
             dialog.setNeutralButton("Kapat", null);
 
+        } else {
+            offer_fiyat_txt.setText(fiyat);
+            offer_m2_txt.setText(m2);
+            offer_aciklama_txt.setText(aciklama);
+            offer_tarih_txt.setText(date);
+
+
+            offer_fiyat_edt.setVisibility(View.GONE);
+            offer_tarih_edt.setVisibility(View.GONE);
+            offer_m2_edt.setVisibility(View.GONE);
+            offer_aciklama_edt.setVisibility(View.GONE);
+
+            imgbtn_offersAra.setVisibility(View.GONE);
+
+            dialog.setNeutralButton("Kapat", null);
         }
+
 
         dialog.setView(nview);
         AlertDialog mdialog = dialog.create();
@@ -379,5 +403,10 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
         noti.notify(0, notif);
 
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        onBackPressed();
     }
 }

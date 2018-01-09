@@ -96,6 +96,12 @@ public class AddAdvertTelephoneActivity extends AppCompatActivity implements Vie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_advert_telephone);
+
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        setTitle("İlan Ver");
+
         navi();
         initEvent();
         bundle = getIntent().getExtras();
@@ -299,5 +305,11 @@ public class AddAdvertTelephoneActivity extends AppCompatActivity implements Vie
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

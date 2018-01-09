@@ -367,6 +367,24 @@ public class AdvertCarActivity extends AppCompatActivity implements ValueEventLi
             });
             dialog.setNeutralButton("Kapat", null);
 
+        } else {
+            offer_fiyat_txt.setText(fiyat);
+            offer_model1_txt.setText("Model");
+            offer_model2_txt.setText(model);
+            offer_aciklama_txt.setText(aciklama);
+            offer_tarih_txt.setText(date);
+            offer_sehir2_txt.setText(sehir);
+
+
+            offer_fiyat_edt.setVisibility(View.GONE);
+            offer_tarih_edt.setVisibility(View.GONE);
+            offer_model_edt.setVisibility(View.GONE);
+            offer_sehir_edt.setVisibility(View.GONE);
+            offer_aciklama_edt.setVisibility(View.GONE);
+
+            imgbtn_offersAra.setVisibility(View.GONE);
+
+            dialog.setNeutralButton("Kapat", null);
         }
 
         dialog.setView(nview);

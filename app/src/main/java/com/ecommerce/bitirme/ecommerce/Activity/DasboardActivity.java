@@ -13,19 +13,35 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ecommerce.bitirme.ecommerce.Classes.House;
 import com.ecommerce.bitirme.ecommerce.R;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class DasboardActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ValueEventListener {
     ImageView img_left_menu_photo;
     TextView txt_left_menu_user_name;
     TextView txt_left_menu_user_email;
     NavigationView nav_drawer;
     boolean isFirst = false;
     String photourl, username, useremail, userid;
+
+    ListView list_dashboardEv, list_dashboardAraba;
+
+    Firebase mRef;
+    List<katagori> Evilanlar = new ArrayList<katagori>();
+    List<katagori> Arabailanlar = new ArrayList<katagori>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +50,9 @@ public class DasboardActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         navi();
+        Firebase.setAndroidContext(this);
+        mRef = new Firebase("https://ecommerce-1-28620.firebaseio.com/");
+        mRef.addValueEventListener(this);
         Bundle extras = getIntent().getExtras();
         username = extras.getString("name");
         txt_left_menu_user_name.setText(username);
@@ -168,13 +187,31 @@ public class DasboardActivity extends AppCompatActivity
             startActivity(gec3);
         }
 
-
-
-     /*   gec1.putExtra("session", sayfaad);
-        startActivity(gec1);*/
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onDataChange(DataSnapshot dataSnapshot) {
+        list_dashboardAraba = (ListView) findViewById(R.id.dashboardaraba_listview);
+        list_dashboardEv = (ListView) findViewById(R.id.dashboardev_listview);
+        Evilanlar.clear();
+
+        for (DataSnapshot gelenler : dataSnapshot.child("ilanlar").child("ev").getChildren()) {
+            Evilanlar.add(new katagori("Ev",
+                    gelenler.getValue(House.class).getSehir()
+                            + " , " + gelenler.getValue(House.class).getIlanTipi()
+                            + "->" + gelenler.getValue(House.class).getOdaSayisi(), gelenler.getValue(House.class).getDate(), "", "", gelenler.getKey(), ""));
+
+        }
+        Collections.reverse(Evilanlar);
+        final adapter Evilanadapter = new adapter(this, Evilanlar.subList(0, 3));
+        list_dashboardEv.setAdapter(Evilanadapter);
+    }
+
+    @Override
+    public void onCancelled(FirebaseError firebaseError) {
+
     }
 }

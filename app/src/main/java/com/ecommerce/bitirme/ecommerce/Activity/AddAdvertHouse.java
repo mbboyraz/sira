@@ -3,6 +3,7 @@ package com.ecommerce.bitirme.ecommerce.Activity;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -57,6 +58,8 @@ public class AddAdvertHouse extends AppCompatActivity {
 
     String useremail, username, userid;
 
+    Toolbar toolbar;
+
 
 //    FirebaseDatabase database = FirebaseDatabase.getInstance();
 //    DatabaseReference myRef = database.getReference();
@@ -85,6 +88,12 @@ public class AddAdvertHouse extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_advert_house);
+
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+
         Firebase.setAndroidContext(this);
         degiskenHazirla();
         Bundle extras = getIntent().getExtras();
@@ -198,6 +207,11 @@ public class AddAdvertHouse extends AppCompatActivity {
         mRef.child("users").child(userid).child("ilanlarım").child("ev").child(String.valueOf(i)).setValue(String.valueOf(i));
 
 
+    }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }
