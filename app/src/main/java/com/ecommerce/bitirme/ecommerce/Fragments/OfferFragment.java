@@ -13,10 +13,12 @@ import android.widget.TextView;
 
 import com.ecommerce.bitirme.ecommerce.Activity.AdvertActivity;
 import com.ecommerce.bitirme.ecommerce.Activity.AdvertCarActivity;
+import com.ecommerce.bitirme.ecommerce.Activity.AdvertTelephoneAcivity;
 import com.ecommerce.bitirme.ecommerce.Activity.adapter;
 import com.ecommerce.bitirme.ecommerce.Activity.katagori;
 import com.ecommerce.bitirme.ecommerce.Classes.OfferCar;
 import com.ecommerce.bitirme.ecommerce.Classes.OfferHouse;
+import com.ecommerce.bitirme.ecommerce.Classes.OfferTelephone;
 import com.ecommerce.bitirme.ecommerce.R;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -40,7 +42,7 @@ public class OfferFragment extends Fragment implements ValueEventListener {
 
     AdvertActivity advtactivity;
     AdvertCarActivity advtcaractivity;
-
+    AdvertTelephoneAcivity advertTelephoneAcivity;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +65,9 @@ public class OfferFragment extends Fragment implements ValueEventListener {
         } else if (getArguments().getString("gelenact").matches("Car")) {
             advtcaractivity = (AdvertCarActivity) getActivity();
             s = "car";
+        } else if (getArguments().getString("gelenact").matches("Telefon")) {
+            advertTelephoneAcivity = (AdvertTelephoneAcivity) getActivity();
+            s = "telefon";
         }
         //// TODO: 5.01.2018 sorgu firebaseden offer doldurulacak
         Firebase.setAndroidContext(mview.getContext());
@@ -94,6 +99,13 @@ public class OfferFragment extends Fragment implements ValueEventListener {
                             gelenler.getValue(OfferCar.class).getOfferFiyat()
                                     + " ,  " + gelenler.getValue(OfferCar.class).getOfferModel() + " , " + gelenler.getValue(OfferCar.class).getOfferSehir()
                             , gelenler.getValue(OfferCar.class).getOfferDate(), offersPhotoUrl, "", gelenler.getKey(), ""));
+                } else if (s.matches("telefon")) {
+                    offersPhotoUrl = dataSnapshot.child("users")
+                            .child(gelenler.getValue(OfferCar.class).getOfferUserId()).child("usersPhotourl").getValue().toString();
+                    offer.add(new katagori("Teklif",
+                            gelenler.getValue(OfferTelephone.class).getOfferFiyat()
+                                    + " ,  " + gelenler.getValue(OfferTelephone.class).getOfferModel() + " , " + gelenler.getValue(OfferTelephone.class).getOfferSehir()
+                            , gelenler.getValue(OfferTelephone.class).getOfferDate(), offersPhotoUrl, "", gelenler.getKey(), ""));
                 }
             } catch (Exception e) {
                 Log.e("", e.toString());
@@ -124,6 +136,15 @@ public class OfferFragment extends Fragment implements ValueEventListener {
                     advtcaractivity.tekliflerDialog(data.getValue(OfferCar.class).getOfferFiyat(), data.getValue(OfferCar.class).getOfferModel(),
                             data.getValue(OfferCar.class).getOfferAciklama(), data.getValue(OfferCar.class).getOfferUserId(),
                             data.getValue(OfferCar.class).getOfferDate(), data.getValue(OfferCar.class).getOfferSehir(), ilanIdOffer, offer.get(position).getId(),
+                            data1.child("usersName").getValue().toString(),
+                            data1.child("usersPhotourl").getValue().toString(), data1.child("usersTel").getValue().toString());
+
+                } else if (s.matches("telefon")) {
+
+                    DataSnapshot data1 = dataSnapshot.child("users").child(data.getValue(OfferTelephone.class).getOfferUserId());
+                    advertTelephoneAcivity.tekliflerDialog(data.getValue(OfferTelephone.class).getOfferFiyat(), data.getValue(OfferTelephone.class).getOfferModel(),
+                            data.getValue(OfferTelephone.class).getOfferAciklama(), data.getValue(OfferTelephone.class).getOfferUserId(),
+                            data.getValue(OfferTelephone.class).getOfferDate(), data.getValue(OfferTelephone.class).getOfferSehir(), ilanIdOffer, offer.get(position).getId(),
                             data1.child("usersName").getValue().toString(),
                             data1.child("usersPhotourl").getValue().toString(), data1.child("usersTel").getValue().toString());
 

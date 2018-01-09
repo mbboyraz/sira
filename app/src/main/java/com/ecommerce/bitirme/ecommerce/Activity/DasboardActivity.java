@@ -77,7 +77,6 @@ public class DasboardActivity extends AppCompatActivity
                 Intent gec= new Intent(DasboardActivity.this,katagoriactivity.class);
                 gec.putExtra("useremail", useremail);
                 gec.putExtra("username", username);
-
                 gec.putExtra("usersid", userid);
                 startActivity(gec);
               // Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -168,6 +167,7 @@ public class DasboardActivity extends AppCompatActivity
         } else if (id == R.id.nav_teknoloji) {
             sayfaad = "Telefon_Ilani";
             gec1.putExtra("session", sayfaad);
+            gec1.putExtra("usersid", userid);
             startActivity(gec1);
 
         } else if (id == R.id.nav_share) {

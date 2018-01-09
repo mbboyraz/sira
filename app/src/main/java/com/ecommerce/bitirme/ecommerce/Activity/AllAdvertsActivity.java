@@ -32,6 +32,7 @@ public class AllAdvertsActivity extends AppCompatActivity implements ValueEventL
     SwipeRefreshLayout swipeRefreshLayout;
     String ilanturu;
     String userid;
+    Bundle extras;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +44,7 @@ public class AllAdvertsActivity extends AppCompatActivity implements ValueEventL
         Firebase.setAndroidContext(this);
         mRef = new Firebase("https://ecommerce-1-28620.firebaseio.com/");
         mRef.addValueEventListener(this);
-        Bundle extras = getIntent().getExtras();
+        extras = getIntent().getExtras();
         this.ilanturu = extras.get("session").toString();
         userid = extras.getString("usersid");
 
@@ -74,7 +75,6 @@ public class AllAdvertsActivity extends AppCompatActivity implements ValueEventL
                                 + " , " + gelenler.getValue(House.class).getIlanTipi()
                                 + "->" + gelenler.getValue(House.class).getOdaSayisi(), gelenler.getValue(House.class).getDate(), "", "", gelenler.getKey(), ""));
 
-
             }
         } else if (ilanturu.matches("Araba_Ilani")) {
             setTitle("Araba İlanları");
@@ -85,7 +85,6 @@ public class AllAdvertsActivity extends AppCompatActivity implements ValueEventL
                                 + "-" + gelenler1.getValue(Cars.class).getModelMax()
                                 + " , " + gelenler1.getValue(Cars.class).getFiyatMin()
                                 + "-" + gelenler1.getValue(Cars.class).getFiyatMax(), gelenler1.getValue(Cars.class).getDate(), "", "", gelenler1.getKey(), ""));
-
 
             }
         } else if (ilanturu.matches("Telefon_Ilani")) {
