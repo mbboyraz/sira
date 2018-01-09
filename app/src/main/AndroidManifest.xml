@@ -64,7 +64,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.AdvertTelephoneAcivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

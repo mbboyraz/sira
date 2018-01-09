@@ -44,9 +44,9 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
     Bundle bundle;
     House house;
     String usersid, lastoffer, offeruserid, offerUsersTel;
-    int i = 0;
+    int i = 0, count = 0;
     TextView fiyat, m2, tip, oda, kredi, aciklama, konum, aliciadi, tel_txt;
-    Button fab;
+    Button fab, fabdel, fabupdate;
     AlertDialog.Builder dialog;
 
     LinearLayout sehirlay;
@@ -100,6 +100,8 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
         konum = findViewById(R.id.ilankonum);
         aliciadi = findViewById(R.id.aliciadi);
         fab = findViewById(R.id.faballadvert);
+        fabdel = findViewById(R.id.fabdeladvert);
+        fabupdate = findViewById(R.id.fabupdateadvert);
         imgview_adverts = findViewById(R.id.imgbtn);
         house = new House();
         Firebase.setAndroidContext(this);
@@ -171,7 +173,7 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
                             if (offerUsersTel.matches("")) {
                                 mRef.child("users").child(offeruserid).child("usersTel").setValue(edt_telnumber.getText().toString());
                             }
-                            if (i >= 5) {
+                            if (count >= 6) {
                                 Toast.makeText(AdvertActivity.this, "Teklif Sınırına Ulaşıldı Teklif Veremezsiniz", Toast.LENGTH_LONG).show();
                                 fab.setVisibility(View.GONE);
                             }
@@ -189,23 +191,34 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
 
             }
         });
+
     }
 
 
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
 
+
+        count = 0;
         try {
             usersid = dataSnapshot.child("ilanlar").child("ev").child(bundle.getString("id")).getValue(House.class).getUserid();
 
             lastoffer = dataSnapshot.child("teklifler").child(bundle.getString("id")).child("lastoffer").getValue().toString();
 
+            for (DataSnapshot gelen : dataSnapshot.child("teklifler").child(bundle.getString("id")).getChildren()) {
+                count++;
+            }
+
 
             if (usersid.matches(offeruserid)) {
                 fab.setVisibility(View.GONE);
+                // fabdel.setVisibility(View.VISIBLE);
+                // fabupdate.setVisibility(View.VISIBLE);
+                // fabdel.setOnClickListener(this);
+                //  fabupdate.setOnClickListener(this);
             }
 
-            if (isFirstTime && Integer.parseInt(lastoffer) >= 5) {
+            if (isFirstTime && count >= 6) {
                 fab.setVisibility(View.GONE);
                 Toast.makeText(this, "Teklif Sınırına Ulaşıldı Teklif Veremezsiniz", Toast.LENGTH_LONG).show();
                 isFirstTime = false;
@@ -251,7 +264,7 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
 
     }
 
-    public AlertDialog.Builder tekliflerDialog(String fiyat, String m2, String aciklama, String user, String date, String ilanid, String teklifid, String offersname, String offersphoto, final String offerstel) {
+    public AlertDialog.Builder tekliflerDialog(final String fiyat, final String m2, final String aciklama, final String user, final String date, final String ilanid, final String teklifid, String offersname, String offersphoto, final String offerstel) {
 
 
         dialog = new AlertDialog.Builder(AdvertActivity.this);
@@ -312,6 +325,11 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
 
                     //// TODO: 7.01.2018 kabul edilen haricindeki diğer teklifler silinecek
 
+                    mRef.child("teklifler").child(ilanid).removeValue();
+                    OfferHouse offerhouse = new OfferHouse(fiyat, m2, aciklama, date, user);
+
+                    mRef.child("teklifler").child(ilanid).child("100").setValue(offerhouse);
+
 
                 }
             });
@@ -319,6 +337,11 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     //// TODO: 7.01.2018 sadece reddedilen teklif silinecek
+                    mRef.child("teklifler").child(ilanid).child(teklifid).removeValue();
+                    if (count == 2) {
+                        mRef.child("teklifler").child(ilanid).removeValue();
+                    }
+                    mRef.child("users").child(offeruserid).child("tekliflerim").child("ev").child(ilanid).removeValue();
                 }
             });
             dialog.setNeutralButton("Kapat", null);
@@ -341,6 +364,9 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
                 public void onClick(DialogInterface dialog, int which) {
 
                     //// TODO: 7.01.2018 Verilen teklif bilgileri burada edt text de hazır getirilip düzenlenecek
+                    OfferHouse offerhouse = new OfferHouse(offer_fiyat_edt.getText().toString(), offer_m2_edt.getText().toString(), offer_aciklama_edt.getText().toString(), offer_tarih_edt.getText().toString(), offeruserid);
+
+                    mRef.child("teklifler").child(ilanid).child(teklifid).setValue(offerhouse);
 
                 }
             });
@@ -348,6 +374,11 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     //// TODO: 7.01.2018 teklif firebaseden silinecek
+                    mRef.child("teklifler").child(ilanid).child(teklifid).removeValue();
+                    if (count == 2) {
+                        mRef.child("teklifler").child(ilanid).removeValue();
+                    }
+                    mRef.child("users").child(offeruserid).child("tekliflerim").child("ev").child(ilanid).removeValue();
                 }
             });
             dialog.setNeutralButton("Kapat", null);
@@ -393,7 +424,7 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
                 PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         Notification notif = new Notification.Builder(this)
                 .setSmallIcon(R.drawable.ic_gavel_black_24dp)
-                .setContentTitle("Yeni Bir Teklifiniz Var")
+                .setContentTitle("Yeni Bir Teklif Yaptınız")
                 .setContentText(offerFiyat)
                 .setContentIntent(launchIntent)
                 .build();
@@ -407,6 +438,45 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
 
     @Override
     public void onClick(View v) {
-        onBackPressed();
+        switch (v.getId()) {
+            case R.id.toolbar:
+                onBackPressed();
+                break;
+            case R.id.fabdeladvert:
+               /* AlertDialog.Builder alert=new AlertDialog.Builder(this);
+                alert.setTitle("Uyarı");
+                alert.setMessage("İlanı Silmek İStediğinizden Emin Misiniz?");
+                alert.setPositiveButton("Evet", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int which) {
+
+                        mRef.child("ilanlar").child("ev").child(bundle.getString("id")).removeValue();
+                        mRef.child("users").child(usersid).child("ilanlarım").child("ev").child(bundle.getString("id")).removeValue();
+                        mRef.child("teklifler").child(bundle.getString("id")).removeValue();
+                        Toast.makeText(getApplicationContext(), "İlan Silindi", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(AdvertActivity.this,DasboardActivity.class);
+                        intent.putExtra("userid",usersid);
+
+                        startActivity(intent);
+                        finish();
+
+
+                    }
+                });
+                alert.setNegativeButton("Hayır", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int which) {
+
+                    }
+                });
+                alert.show();
+                break;*/
+          /*  case R.id.fabupdateadvert:
+                Intent intent = new Intent(this,AddAdvertHouse.class);
+                intent.putExtra("userid",usersid);
+                intent.putExtra("ilanid",bundle.getString("id"));
+                startActivity(intent);
+                finish();
+                break;*/
+        }
+
     }
 }

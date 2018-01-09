@@ -42,7 +42,7 @@ public class AdvertCarActivity extends AppCompatActivity implements ValueEventLi
     Bundle bundle;
     House house;
     String usersid, lastoffer, offeruserid, offerUsersTel;
-    int i = 0;
+    int i = 0, count = 0;
     TextView fiyat, model, ilantip, marka, yakıt, vites, kasatipi, cekis, motorhacmi, aciklama, konum, aliciadi;
     Button fab;
     AlertDialog.Builder dialog;
@@ -182,7 +182,7 @@ public class AdvertCarActivity extends AppCompatActivity implements ValueEventLi
                             if (offerUsersTel.matches("")) {
                                 mRef.child("users").child(offeruserid).child("usersTel").setValue(edt_telnumber.getText().toString());
                             }
-                            if (i >= 5) {
+                            if (count >= 6) {
                                 Toast.makeText(AdvertCarActivity.this, "Teklif Sınırına Ulaşıldı Teklif Veremezsiniz", Toast.LENGTH_LONG).show();
                                 fab.setVisibility(View.GONE);
                             }
@@ -205,16 +205,20 @@ public class AdvertCarActivity extends AppCompatActivity implements ValueEventLi
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
         try {
+            count = 0;
             usersid = dataSnapshot.child("ilanlar").child("araba").child(bundle.getString("id")).getValue(Cars.class).getUserId();
 
             lastoffer = dataSnapshot.child("teklifler").child(bundle.getString("id")).child("lastoffer").getValue().toString();
 
 
+            for (DataSnapshot gelen : dataSnapshot.child("teklifler").child(bundle.getString("id")).getChildren()) {
+                count++;
+            }
             if (usersid.matches(offeruserid)) {
                 fab.setVisibility(View.GONE);
             }
 
-            if (isFirstTime && Integer.parseInt(lastoffer) >= 5) {
+            if (isFirstTime && count >= 6) {
                 fab.setVisibility(View.GONE);
                 Toast.makeText(this, "Teklif Sınırına Ulaşıldı Teklif Veremezsiniz", Toast.LENGTH_LONG).show();
                 isFirstTime = false;
@@ -259,7 +263,7 @@ public class AdvertCarActivity extends AppCompatActivity implements ValueEventLi
 
     }
 
-    public AlertDialog.Builder tekliflerDialog(String fiyat, String model, String aciklama, String user, String date, String sehir, String ilanid, String teklifid, String offersname, String offersphoto, final String offerstel) {
+    public AlertDialog.Builder tekliflerDialog(final String fiyat, final String model, final String aciklama, final String user, final String date, final String sehir, final String ilanid, final String teklifid, String offersname, String offersphoto, final String offerstel) {
 
 
         dialog = new AlertDialog.Builder(AdvertCarActivity.this);
@@ -323,6 +327,10 @@ public class AdvertCarActivity extends AppCompatActivity implements ValueEventLi
                 public void onClick(DialogInterface dialog, int which) {
 
                     //// TODO: 7.01.2018 kabul edilen haricindeki diğer teklifler silinecek
+                    mRef.child("teklifler").child(ilanid).removeValue();
+                    OfferCar offercar = new OfferCar(fiyat, model, sehir, aciklama, date, user);
+
+                    mRef.child("teklifler").child(ilanid).child("100").setValue(offercar);
 
 
                 }
@@ -331,6 +339,11 @@ public class AdvertCarActivity extends AppCompatActivity implements ValueEventLi
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     //// TODO: 7.01.2018 sadece reddedilen teklif silinecek
+                    mRef.child("teklifler").child(ilanid).child(teklifid).removeValue();
+                    if (count == 2) {
+                        mRef.child("teklifler").child(ilanid).removeValue();
+                    }
+                    mRef.child("users").child(offeruserid).child("tekliflerim").child("ev").child(ilanid).removeValue();
                 }
             });
             dialog.setNeutralButton("Kapat", null);
@@ -356,6 +369,9 @@ public class AdvertCarActivity extends AppCompatActivity implements ValueEventLi
                 public void onClick(DialogInterface dialog, int which) {
 
                     //// TODO: 7.01.2018 Verilen teklif bilgileri burada edt text de hazır getirilip düzenlenecek
+                    OfferCar offercar = new OfferCar(offer_fiyat_edt.getText().toString(), offer_model_edt.getText().toString(), offer_sehir_edt.getText().toString(), offer_aciklama_edt.getText().toString(), offer_tarih_edt.getText().toString(), offeruserid);
+
+                    mRef.child("teklifler").child(ilanid).child(teklifid).setValue(offercar);
 
                 }
             });
@@ -363,6 +379,11 @@ public class AdvertCarActivity extends AppCompatActivity implements ValueEventLi
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     //// TODO: 7.01.2018 teklif firebaseden silinecek
+                    mRef.child("teklifler").child(ilanid).child(teklifid).removeValue();
+                    if (count == 2) {
+                        mRef.child("teklifler").child(ilanid).removeValue();
+                    }
+                    mRef.child("users").child(offeruserid).child("tekliflerim").child("araba").child(ilanid).removeValue();
                 }
             });
             dialog.setNeutralButton("Kapat", null);

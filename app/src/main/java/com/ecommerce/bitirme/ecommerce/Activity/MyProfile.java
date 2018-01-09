@@ -12,8 +12,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -29,6 +27,8 @@ import com.ecommerce.bitirme.ecommerce.Classes.Cars;
 import com.ecommerce.bitirme.ecommerce.Classes.House;
 import com.ecommerce.bitirme.ecommerce.Classes.OfferCar;
 import com.ecommerce.bitirme.ecommerce.Classes.OfferHouse;
+import com.ecommerce.bitirme.ecommerce.Classes.OfferTelephone;
+import com.ecommerce.bitirme.ecommerce.Classes.Telephone;
 import com.ecommerce.bitirme.ecommerce.R;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -129,27 +129,9 @@ public class MyProfile extends AppCompatActivity {
         onBackPressed();
         return true;
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_my_profile, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
-        return super.onOptionsItemSelected(item);
-    }
 
     public AlertDialog.Builder tekliflerEvDialog(String fiyat, String m2, String aciklama, String user, String date, String ilanid, String teklifid, String offersname, String offersphoto, final String offerstel) {
 
@@ -341,6 +323,7 @@ public class MyProfile extends AppCompatActivity {
             String offersPhotoUrl;
 
             if (i == 1) {
+                ilanlar.clear();
                 for (DataSnapshot evid : dataSnapshot.child("users").child(userid).child("ilanlarım").child("ev").getChildren()) {
 
                     data = dataSnapshot.child("ilanlar").child("ev").child(evid.getValue().toString());
@@ -361,6 +344,17 @@ public class MyProfile extends AppCompatActivity {
                                     data.getValue(Cars.class).getFiyatMin() + "-" +
                                     data.getValue(Cars.class).getFiyatMax(), data.getValue(Cars.class).getDate(), "", "", data.getKey(), ""));
                 }
+                for (DataSnapshot telefonid : dataSnapshot.child("users").child(userid).child("ilanlarım").child("telefon").getChildren()) {
+
+                    data = dataSnapshot.child("ilanlar").child("telefon").child(telefonid.getValue().toString());
+
+                    ilanlar.add(new katagori("Telefon",
+                            data.getValue(Telephone.class).getTelMarka()
+                                    + " , " + data.getValue(Telephone.class).getTelModel()
+                                    + "-" + data.getValue(Telephone.class).getTelPriceMin()
+                                    + " , " + data.getValue(Telephone.class).getTelPriceMax(),
+                            data.getValue(Telephone.class).getTelDate(), "", "", data.getKey(), ""));
+                }
 
 
                 Collections.reverse(ilanlar);
@@ -380,31 +374,64 @@ public class MyProfile extends AppCompatActivity {
                             intent.putExtra("id", ilanlar.get(position).getId());
                             intent.putExtra("userid", userid);
                             startActivity(intent);
+                        } else if (ilanlar.get(position).getKatagoriName().matches("Telefon")) {
+                            Intent intent = new Intent(getContext(), AdvertTelephoneAcivity.class);
+                            intent.putExtra("id", ilanlar.get(position).getId());
+                            intent.putExtra("userid", userid);
+                            startActivity(intent);
                         }
 
                         // Toast.makeText(view.getContext(), "Uçuyozz", Toast.LENGTH_LONG).show();
                     }
                 });
             } else if (i == 2) {
+
+                teklifler.clear();
                 for (DataSnapshot evid : dataSnapshot.child("users").child(userid).child("tekliflerim").child("ev").getChildren()) {
 
-                    data = dataSnapshot.child("teklifler").child(evid.getKey()).child(evid.getValue().toString());
+                    try {
+                        data = dataSnapshot.child("teklifler").child(evid.getKey()).child(evid.getValue().toString());
 
-                    offersPhotoUrl = dataSnapshot.child("users").child(data.getValue(OfferHouse.class).getOfferUserId()).child("usersPhotourl").getValue().toString();
-                    teklifler.add(new katagori("Teklif", "Fiyat -> " +
-                            data.getValue(OfferHouse.class).getOfferFiyat()
-                            + " , m² -> " + data.getValue(OfferHouse.class).getOfferm2()
-                            , data.getValue(OfferHouse.class).getOfferDate(), offersPhotoUrl, evid.getKey(), evid.getValue().toString(), "ev"));
+                        offersPhotoUrl = dataSnapshot.child("users").child(data.getValue(OfferHouse.class).getOfferUserId()).child("usersPhotourl").getValue().toString();
+
+                        teklifler.add(new katagori("Teklif", "Fiyat -> " +
+                                data.getValue(OfferHouse.class).getOfferFiyat()
+                                + " , m² -> " + data.getValue(OfferHouse.class).getOfferm2()
+                                , data.getValue(OfferHouse.class).getOfferDate(), offersPhotoUrl, evid.getKey(), evid.getValue().toString(), "ev"));
+
+                    } catch (Exception e) {
+                        mRef.child("users").child(userid).child("tekliflerim").child("ev").child(evid.getKey()).removeValue();
+                    }
                 }
                 for (DataSnapshot arabaid : dataSnapshot.child("users").child(userid).child("tekliflerim").child("araba").getChildren()) {
 
-                    data = dataSnapshot.child("teklifler").child(arabaid.getKey()).child(arabaid.getValue().toString());
+                    try {
+                        data = dataSnapshot.child("teklifler").child(arabaid.getKey()).child(arabaid.getValue().toString());
 
-                    offersPhotoUrl = dataSnapshot.child("users").child(data.getValue(OfferCar.class).getOfferUserId()).child("usersPhotourl").getValue().toString();
-                    teklifler.add(new katagori("Teklif", "Fiyat -> " +
-                            data.getValue(OfferCar.class).getOfferFiyat()
-                            + " , Model -> " + data.getValue(OfferCar.class).getOfferModel() + " , " + data.getValue(OfferCar.class).getOfferSehir()
-                            , data.getValue(OfferCar.class).getOfferDate(), offersPhotoUrl, arabaid.getKey(), arabaid.getValue().toString(), "araba"));
+                        offersPhotoUrl = dataSnapshot.child("users").child(data.getValue(OfferCar.class).getOfferUserId()).child("usersPhotourl").getValue().toString();
+                        teklifler.add(new katagori("Teklif", "Fiyat -> " +
+                                data.getValue(OfferCar.class).getOfferFiyat()
+                                + " , Model -> " + data.getValue(OfferCar.class).getOfferModel() + " , " + data.getValue(OfferCar.class).getOfferSehir()
+                                , data.getValue(OfferCar.class).getOfferDate(), offersPhotoUrl, arabaid.getKey(), arabaid.getValue().toString(), "araba"));
+
+                    } catch (Exception e) {
+                        mRef.child("users").child(userid).child("tekliflerim").child("araba").child(arabaid.getKey()).removeValue();
+                    }
+                }
+                for (DataSnapshot telefonid : dataSnapshot.child("users").child(userid).child("tekliflerim").child("telefon").getChildren()) {
+
+                    try {
+                        data = dataSnapshot.child("teklifler").child(telefonid.getKey()).child(telefonid.getValue().toString());
+
+                        offersPhotoUrl = dataSnapshot.child("users").child(data.getValue(OfferTelephone.class).getOfferUserId()).child("usersPhotourl").getValue().toString();
+                        teklifler.add(new katagori("Teklif", "Fiyat -> " +
+                                data.getValue(OfferTelephone.class).getOfferFiyat()
+                                + " , Model -> " + data.getValue(OfferTelephone.class).getOfferModel() + " , " + data.getValue(OfferTelephone.class).getOfferSehir()
+                                , data.getValue(OfferTelephone.class).getOfferDate(), offersPhotoUrl, telefonid.getKey(), telefonid.getValue().toString(), "telefon"));
+
+                    } catch (Exception e) {
+                        mRef.child("users").child(userid).child("tekliflerim").child("telefon").child(telefonid.getKey()).removeValue();
+                    }
                 }
                 Collections.reverse(teklifler);
                 adapter ilanadapter = new adapter(this.getActivity(), teklifler);
@@ -440,6 +467,18 @@ public class MyProfile extends AppCompatActivity {
                                     data1.child("usersPhotourl").getValue().toString(),
                                     data1.child("usersTel").getValue().toString());
 
+                        } else if (teklifler.get(position).getTeklifTur().matches("telefon")) {
+                            activity.tekliflerArabaDialog(dataSnapshot1.getValue(OfferTelephone.class).getOfferFiyat(),
+                                    dataSnapshot1.getValue(OfferTelephone.class).getOfferModel(),
+                                    dataSnapshot1.getValue(OfferTelephone.class).getOfferAciklama(),
+                                    dataSnapshot1.getValue(OfferTelephone.class).getOfferUserId(),
+                                    dataSnapshot1.getValue(OfferTelephone.class).getOfferDate(),
+                                    dataSnapshot1.getValue(OfferTelephone.class).getOfferSehir(),
+                                    teklifler.get(position).getKatagoriIlanid(),
+                                    teklifler.get(position).getId(),
+                                    data1.child("usersName").getValue().toString(),
+                                    data1.child("usersPhotourl").getValue().toString(),
+                                    data1.child("usersTel").getValue().toString());
                         }
 
                     }
