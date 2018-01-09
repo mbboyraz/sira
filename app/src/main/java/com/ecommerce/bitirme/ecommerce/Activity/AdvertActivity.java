@@ -67,6 +67,7 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
 
     boolean isFirstTime = true;
     Toolbar toolbar;
+    String sendTo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,6 +169,18 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
                             mRef.child("users").child(offeruserid).child("tekliflerim").child("ev").child(bundle.getString("id")).setValue(String.valueOf(i));
                             mRef.child("teklifler").child(bundle.getString("id")).child("lastoffer").setValue(String.valueOf(i));
 
+                            Intent intentsend = new Intent(Intent.ACTION_SEND);
+
+
+                            intentsend.putExtra(Intent.EXTRA_EMAIL, new String[]{sendTo});
+                            intentsend.putExtra(Intent.EXTRA_SUBJECT, "İlanınıza Yeni Bir Teklif Var!!!");
+                            intentsend.putExtra(Intent.EXTRA_TEXT, "Merhabalar,\n Vermiş olduğunuz ilana yeni bir teklif yaptım.Teklif ayrıntıları aşağıda verilmiştir. Ayrıntılı bilgi için  http://www.my.sira.com/launch \n" +
+                                    "Fiyat : " + edt_fiyat.getText().toString() + "\n M2 : " + edt_m2.getText().toString() + "\n Açıklama : " + edt_aciklama.getText().toString());
+
+                            intentsend.setType("message/rfc822");
+
+                            startActivity(Intent.createChooser(intentsend, "Select Email Sending App :"));
+
                             bildirimYolla(edt_fiyat.getText().toString(), edt_m2.getText().toString(), edt_aciklama.getText().toString(), currentDate.toString(), offeruserid, bundle.getString("id"), i);
 
                             if (offerUsersTel.matches("")) {
@@ -242,6 +255,7 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
         oda.setText(dataSnapshot.child("ilanlar").child("ev").child(bundle.getString("id")).getValue(House.class).getOdaSayisi());
         aliciadi.setText(dataSnapshot.child("users").child(usersid).child("usersName").getValue().toString());
         Picasso.with(this).load(dataSnapshot.child("users").child(usersid).child("usersPhotourl").getValue().toString()).into(imgview_adverts);
+        sendTo = dataSnapshot.child("users").child(usersid).child("usersEmail").getValue().toString();
         String s = "Hayır";
         if (String.valueOf(dataSnapshot.child("ilanlar").child("ev").child(bundle.getString("id")).getValue(House.class).krediyeUygun).equals("true")) {
             s = "Evet";
@@ -425,7 +439,7 @@ public class AdvertActivity extends FragmentActivity implements ValueEventListen
         Notification notif = new Notification.Builder(this)
                 .setSmallIcon(R.drawable.ic_gavel_black_24dp)
                 .setContentTitle("Yeni Bir Teklif Yaptınız")
-                .setContentText(offerFiyat)
+                .setContentText("Teklif Fiyatı: " + offerFiyat + " TL")
                 .setContentIntent(launchIntent)
                 .build();
         notif.defaults |= Notification.DEFAULT_VIBRATE;

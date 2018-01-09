@@ -29,7 +29,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="103dp"
-            android:background="@color/unselected_color"
+            android:background="#fff"
             android:gravity="center"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay">
@@ -47,7 +47,7 @@
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorAccent"/>
+            android:background="@color/colorPrimary" />
 
     </android.support.design.widget.AppBarLayout>
 

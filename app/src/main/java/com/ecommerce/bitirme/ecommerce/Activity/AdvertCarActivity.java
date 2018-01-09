@@ -1,6 +1,9 @@
 package com.ecommerce.bitirme.ecommerce.Activity;
 
 import android.Manifest;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -46,6 +49,7 @@ public class AdvertCarActivity extends AppCompatActivity implements ValueEventLi
     TextView fiyat, model, ilantip, marka, yakıt, vites, kasatipi, cekis, motorhacmi, aciklama, konum, aliciadi;
     Button fab;
     AlertDialog.Builder dialog;
+    String sendTo;
 
     String[] sehirler = new String[]{"Adana", "Adıyaman", "Afyon", "Ağrı", "Amasya", "Ankara", "Antalya", "Artvin",
             "Aydın", "Balıkesir", "Bilecik", "Bingöl", "Bitlis", "Bolu", "Burdur", "Bursa", "Çanakkale",
@@ -177,7 +181,19 @@ public class AdvertCarActivity extends AppCompatActivity implements ValueEventLi
                             mRef.child("users").child(offeruserid).child("tekliflerim").child("araba").child(bundle.getString("id")).setValue(String.valueOf(i));
                             mRef.child("teklifler").child(bundle.getString("id")).child("lastoffer").setValue(String.valueOf(i));
 
-                            //bildirimYolla(edt_fiyat.getText().toString(),edt_m2.getText().toString(),edt_aciklama.getText().toString(),currentDate.toString(),offeruserid,bundle.getString("id"),i);
+
+                            Intent intentsend = new Intent(Intent.ACTION_SEND);
+
+
+                            intentsend.putExtra(Intent.EXTRA_EMAIL, new String[]{sendTo});
+                            intentsend.putExtra(Intent.EXTRA_SUBJECT, "İlanınıza Yeni Bir Teklif Var!!!");
+                            intentsend.putExtra(Intent.EXTRA_TEXT, "Merhabalar,\n Vermiş olduğunuz ilana yeni bir teklif yaptım.Teklif ayrıntıları aşağıda verilmiştir. Ayrıntılı bilgi için  http://www.my.sira.com/launch \n" +
+                                    "Fiyat : " + edt_fiyat.getText().toString() + "\n Model : " + edt_model.getText().toString() + "\n Şehir : " + sehirAl + "\n Açıklama : " + edt_aciklama.getText().toString());
+
+                            intentsend.setType("message/rfc822");
+
+                            startActivity(Intent.createChooser(intentsend, "Select Email Sending App :"));
+                            bildirimYolla(edt_fiyat.getText().toString(), offeruserid, bundle.getString("id"));
 
                             if (offerUsersTel.matches("")) {
                                 mRef.child("users").child(offeruserid).child("usersTel").setValue(edt_telnumber.getText().toString());
@@ -248,6 +264,8 @@ public class AdvertCarActivity extends AppCompatActivity implements ValueEventLi
 
         aliciadi.setText(dataSnapshot.child("users").child(usersid).child("usersName").getValue().toString());
         Picasso.with(this).load(dataSnapshot.child("users").child(usersid).child("usersPhotourl").getValue().toString()).into(imgview_adverts);
+
+        sendTo = dataSnapshot.child("users").child(usersid).child("usersEmail").getValue().toString();
 
 
         aciklama.setText("İlan Açıklama:   " + dataSnapshot.child("ilanlar").child("araba").child(bundle.getString("id")).getValue(Cars.class).getAciklama().toString());
@@ -412,6 +430,29 @@ public class AdvertCarActivity extends AppCompatActivity implements ValueEventLi
         AlertDialog mdialog = dialog.create();
         mdialog.show();
         return dialog;
+    }
+
+    public void bildirimYolla(String offerFiyat, String offersuserId, String offersilanId) {
+
+        String s = "notification";
+        NotificationManager noti = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        Intent intent = new Intent(this, AdvertCarActivity.class);
+        intent.putExtra("id", offersilanId);
+        intent.putExtra("userid", offersuserId);
+        PendingIntent launchIntent =
+                PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Notification notif = new Notification.Builder(this)
+                .setSmallIcon(R.drawable.ic_gavel_black_24dp)
+                .setContentTitle("Yeni Bir Teklif Yaptınız")
+                .setContentText("Teklif Fiyatı: " + offerFiyat + " TL")
+                .setContentIntent(launchIntent)
+                .build();
+        notif.defaults |= Notification.DEFAULT_VIBRATE;
+        notif.defaults |= Notification.DEFAULT_SOUND;
+
+        noti.notify(0, notif);
+
+
     }
 }
 

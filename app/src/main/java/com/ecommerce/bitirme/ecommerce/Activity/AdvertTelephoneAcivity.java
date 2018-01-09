@@ -1,6 +1,9 @@
 package com.ecommerce.bitirme.ecommerce.Activity;
 
 import android.Manifest;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -185,13 +188,14 @@ public class AdvertTelephoneAcivity extends AppCompatActivity implements ValueEv
 
 
                             intentsend.putExtra(Intent.EXTRA_EMAIL, new String[]{sendTo});
-                            intentsend.putExtra(Intent.EXTRA_SUBJECT, "İlanınıza Gelen Yeni Bir Teklif Yaptım!!!");
+                            intentsend.putExtra(Intent.EXTRA_SUBJECT, "İlanınıza Yeni Bir Teklif Var!!!");
                             intentsend.putExtra(Intent.EXTRA_TEXT, "Merhabalar,\n Vermiş olduğunuz ilana yeni bir teklif yaptım.Teklif ayrıntıları aşağıda verilmiştir. Ayrıntılı bilgi için  http://www.my.sira.com/launch \n" +
                                     "Fiyat : " + edt_fiyat.getText().toString() + "\n Model : " + edt_model.getText().toString() + "\n Şehir : " + sehirAl + "\n Açıklama : " + edt_aciklama.getText().toString());
 
                             intentsend.setType("message/rfc822");
 
                             startActivity(Intent.createChooser(intentsend, "Select Email Sending App :"));
+                            bildirimYolla(edt_fiyat.getText().toString(), offeruserid, bundle.getString("id"));
                             //startActivity(new Intent(Intent.ACTION_SENDTO, Uri.parse("mailfrom:sira.ecommerce@gmail.com"+"mailto:"+sendTo)));
                             //bildirimYolla(edt_fiyat.getText().toString(),edt_m2.getText().toString(),edt_aciklama.getText().toString(),currentDate.toString(),offeruserid,bundle.getString("id"),i);
 
@@ -422,6 +426,29 @@ public class AdvertTelephoneAcivity extends AppCompatActivity implements ValueEv
 
     @Override
     public void onCancelled(FirebaseError firebaseError) {
+
+    }
+
+    public void bildirimYolla(String offerFiyat, String offersuserId, String offersilanId) {
+
+        String s = "notification";
+        NotificationManager noti = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        Intent intent = new Intent(this, AdvertCarActivity.class);
+        intent.putExtra("id", offersilanId);
+        intent.putExtra("userid", offersuserId);
+        PendingIntent launchIntent =
+                PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Notification notif = new Notification.Builder(this)
+                .setSmallIcon(R.drawable.ic_gavel_black_24dp)
+                .setContentTitle("Yeni Bir Teklif Yaptınız")
+                .setContentText("Teklif Fiyatı: " + offerFiyat + " TL")
+                .setContentIntent(launchIntent)
+                .build();
+        notif.defaults |= Notification.DEFAULT_VIBRATE;
+        notif.defaults |= Notification.DEFAULT_SOUND;
+
+        noti.notify(0, notif);
+
 
     }
 }

@@ -217,7 +217,7 @@
                 android:name="com.ecommerce.bitirme.ecommerce.Fragments.OfferFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#ababab" />
+                android:background="@color/unselected_color" />
         </LinearLayout>
     </ScrollView>
 

@@ -181,6 +181,9 @@ public class AddAdvertHouse extends AppCompatActivity {
                     return;
                 } else {
                     firebaseEvEkle(tipi, sayi, minmetre, maxmetre, yes, ilanyazi, sehiradi, minfiy, maxfiy, userid, currentDate);
+                    onBackPressed();
+                    Toast.makeText(AddAdvertHouse.this, "İlan başarıyla eklendi", Toast.LENGTH_SHORT).show();
+                    onBackPressed();
                 }
 
             }
