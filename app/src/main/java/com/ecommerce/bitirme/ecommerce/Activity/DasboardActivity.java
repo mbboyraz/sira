@@ -11,12 +11,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ecommerce.bitirme.ecommerce.Classes.Cars;
 import com.ecommerce.bitirme.ecommerce.Classes.House;
+import com.ecommerce.bitirme.ecommerce.Classes.Telephone;
 import com.ecommerce.bitirme.ecommerce.R;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -29,7 +32,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class DasboardActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, ValueEventListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ValueEventListener, AdapterView.OnItemClickListener {
     ImageView img_left_menu_photo;
     TextView txt_left_menu_user_name;
     TextView txt_left_menu_user_email;
@@ -37,11 +40,13 @@ public class DasboardActivity extends AppCompatActivity
     boolean isFirst = false;
     String photourl, username, useremail, userid;
 
-    ListView list_dashboardEv, list_dashboardAraba;
+    ListView list_dashboardEv, list_dashboardAraba, list_dashboardTelefon;
 
     Firebase mRef;
     List<katagori> Evilanlar = new ArrayList<katagori>();
     List<katagori> Arabailanlar = new ArrayList<katagori>();
+    List<katagori> Telefonilanlar = new ArrayList<katagori>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -196,6 +201,8 @@ public class DasboardActivity extends AppCompatActivity
     public void onDataChange(DataSnapshot dataSnapshot) {
         list_dashboardAraba = (ListView) findViewById(R.id.dashboardaraba_listview);
         list_dashboardEv = (ListView) findViewById(R.id.dashboardev_listview);
+        list_dashboardTelefon = (ListView) findViewById(R.id.dashboardtelefon_listview);
+
         Evilanlar.clear();
 
         for (DataSnapshot gelenler : dataSnapshot.child("ilanlar").child("ev").getChildren()) {
@@ -208,10 +215,69 @@ public class DasboardActivity extends AppCompatActivity
         Collections.reverse(Evilanlar);
         final adapter Evilanadapter = new adapter(this, Evilanlar.subList(0, 3));
         list_dashboardEv.setAdapter(Evilanadapter);
+        list_dashboardEv.setOnItemClickListener(this);
+
+        Arabailanlar.clear();
+        for (DataSnapshot gelenler1 : dataSnapshot.child("ilanlar").child("araba").getChildren()) {
+            Arabailanlar.add(new katagori("Araba",
+                    gelenler1.getValue(Cars.class).getMarka()
+                            + " , " + gelenler1.getValue(Cars.class).getModelMin()
+                            + "-" + gelenler1.getValue(Cars.class).getModelMax()
+                            + " , " + gelenler1.getValue(Cars.class).getFiyatMin()
+                            + "-" + gelenler1.getValue(Cars.class).getFiyatMax(), gelenler1.getValue(Cars.class).getDate(), "", "", gelenler1.getKey(), ""));
+
+
+        }
+        Collections.reverse(Arabailanlar);
+        final adapter Arabailanadapter = new adapter(this, Arabailanlar.subList(0, 3));
+        list_dashboardAraba.setAdapter(Arabailanadapter);
+        list_dashboardAraba.setOnItemClickListener(this);
+
+        Telefonilanlar.clear();
+        for (DataSnapshot gelenler1 : dataSnapshot.child("ilanlar").child("telefon").getChildren()) {
+            Telefonilanlar.add(new katagori("Telefon",
+                    gelenler1.getValue(Telephone.class).getTelMarka()
+                            + " , " + gelenler1.getValue(Telephone.class).getTelModel()
+                            + "-" + gelenler1.getValue(Telephone.class).getTelPriceMin()
+                            + " , " + gelenler1.getValue(Telephone.class).getTelPriceMax(),
+                    gelenler1.getValue(Telephone.class).getTelDate(), "", "", gelenler1.getKey(), ""));
+
+
+        }
+        Collections.reverse(Telefonilanlar);
+        final adapter Telefonilanadapter = new adapter(this, Telefonilanlar.subList(0, 3));
+        list_dashboardTelefon.setAdapter(Telefonilanadapter);
+        list_dashboardTelefon.setOnItemClickListener(this);
     }
 
     @Override
     public void onCancelled(FirebaseError firebaseError) {
+
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        switch (parent.getId()) {
+            case R.id.dashboardev_listview:
+                Intent intent = new Intent(DasboardActivity.this, AdvertActivity.class);
+                intent.putExtra("id", Evilanlar.get(position).getId());
+                intent.putExtra("userid", userid);
+                startActivity(intent);
+                break;
+            case R.id.dashboardaraba_listview:
+                Intent intent1 = new Intent(DasboardActivity.this, AdvertCarActivity.class);
+                intent1.putExtra("id", Arabailanlar.get(position).getId());
+                intent1.putExtra("userid", userid);
+                startActivity(intent1);
+                break;
+            case R.id.dashboardtelefon_listview:
+                Intent intent2 = new Intent(DasboardActivity.this, AdvertTelephoneAcivity.class);
+                intent2.putExtra("id", Telefonilanlar.get(position).getId());
+                intent2.putExtra("userid", userid);
+                startActivity(intent2);
+
+        }
 
     }
 }

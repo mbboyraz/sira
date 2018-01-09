@@ -117,13 +117,13 @@ public class AllAdvertsActivity extends AppCompatActivity implements ValueEventL
                     intent.putExtra("id", ilanlar.get(position).getId());
                     intent.putExtra("userid", userid);
                     startActivity(intent);
-                } else if (ilanturu.matches("Telefon_Ilani")) {
+                } else if (ilanturu.matches("Araba_Ilani")) {
                     Intent intent = new Intent(AllAdvertsActivity.this, AdvertCarActivity.class);
                     intent.putExtra("id", ilanlar.get(position).getId());
                     intent.putExtra("userid", userid);
                     startActivity(intent);
                 } else if (ilanturu.matches("Telefon_Ilani")) {
-                    Intent intent = new Intent(AllAdvertsActivity.this, AdvertCarActivity.class);
+                    Intent intent = new Intent(AllAdvertsActivity.this, AdvertTelephoneAcivity.class);
                     intent.putExtra("id", ilanlar.get(position).getId());
                     intent.putExtra("userid", userid);
                     startActivity(intent);
